@@ -1,22 +1,22 @@
 "use client"
-
+import Link from "next/link"
 import { useState, useEffect } from "react"
 
 const APPS = [
-  { id: "connect", name: "CHNCAK Connect", url: "http://localhost:3001", icon: "🏥", desc: "Portail Patient & Télémédecine", hexColor: "#2563eb" },
-  { id: "predict", name: "Predict-IA", url: "http://localhost:3002", icon: "🧠", desc: "Tableau de Bord Direction & IA", hexColor: "#10b981" },
-  { id: "pharma", name: "SmartPharma", url: "http://localhost:3003", icon: "💊", desc: "Pharmacie, Stocks & Blockchain", hexColor: "#14b8a6" },
-  { id: "learn", name: "Med-Learn", url: "http://localhost:3004", icon: "🎓", desc: "Université & Staffs Médicaux", hexColor: "#6366f1" },
-  { id: "blood", name: "Blood-Sync", url: "http://localhost:3005", icon: "🩸", desc: "Banque de Sang Connectée", hexColor: "#ef4444" },
-  { id: "ambu", name: "Ambu-Track", url: "http://localhost:3006", icon: "🚑", desc: "Contrôle Aérien des Urgences", hexColor: "#f97316" },
-  { id: "neuro", name: "NeuroScan-IA", url: "http://localhost:3007", icon: "🧬", desc: "Assistant Radiologique par IA", hexColor: "#8b5cf6" },
-  { id: "touba", name: "Touba-Med-Care", url: "http://localhost:3008", icon: "🌟", desc: "Tourisme Médical VIP", hexColor: "#eab308" },
-  { id: "eco", name: "Eco-Hôpital", url: "http://localhost:3009", icon: "⚡", desc: "Smart Grid & Jumeau Énergétique", hexColor: "#84cc16" },
-  { id: "magal", name: "Magal-Surge", url: "http://localhost:3010", icon: "🕌", desc: "Gestion de Crise Grand Magal", hexColor: "#7c3aed" },
-  { id: "nutri", name: "Nutri-Care", url: "http://localhost:3011", icon: "🍽️", desc: "Suivi Nutritionnel Médical", hexColor: "#d97706" },
-  { id: "psych", name: "Psych-Care", url: "http://localhost:3012", icon: "🧘", desc: "Santé Mentale Anonyme & IA", hexColor: "#0891b2" },
-  { id: "rehab", name: "Rehab-Track", url: "http://localhost:3013", icon: "🦴", desc: "Rééducation Post-Opératoire", hexColor: "#16a34a" },
-  { id: "organes", name: "Don-Organes", url: "http://localhost:3014", icon: "❤️", desc: "Registre National Donneurs", hexColor: "#e11d48" },
+  { id: "connect", name: "CHNCAK Connect", href: "/connect", icon: "🏥", desc: "Portail Patient & Télémédecine", hexColor: "#2563eb" },
+  { id: "predict", name: "Predict-IA", href: "/predict", icon: "🧠", desc: "Tableau de Bord Direction & IA", hexColor: "#10b981" },
+  { id: "pharma", name: "SmartPharma", href: "/pharma", icon: "💊", desc: "Pharmacie, Stocks & Blockchain", hexColor: "#14b8a6" },
+  { id: "learn", name: "Med-Learn", href: "/learn", icon: "🎓", desc: "Université & Staffs Médicaux", hexColor: "#6366f1" },
+  { id: "blood", name: "Blood-Sync", href: "/blood", icon: "🩸", desc: "Banque de Sang Connectée", hexColor: "#ef4444" },
+  { id: "ambu", name: "Ambu-Track", href: "/ambu", icon: "🚑", desc: "Contrôle Aérien des Urgences", hexColor: "#f97316" },
+  { id: "neuro", name: "NeuroScan-IA", href: "/neuro", icon: "🧬", desc: "Assistant Radiologique par IA", hexColor: "#8b5cf6" },
+  { id: "touba", name: "Touba-Med-Care", href: "/touba", icon: "🌟", desc: "Tourisme Médical VIP", hexColor: "#eab308" },
+  { id: "eco", name: "Eco-Hôpital", href: "/eco", icon: "⚡", desc: "Smart Grid & Jumeau Énergétique", hexColor: "#84cc16" },
+  { id: "magal", name: "Magal-Surge", href: "/magal", icon: "🕌", desc: "Gestion de Crise Grand Magal", hexColor: "#7c3aed" },
+  { id: "nutri", name: "Nutri-Care", href: "/nutri", icon: "🍽️", desc: "Suivi Nutritionnel Médical", hexColor: "#d97706" },
+  { id: "psych", name: "Psych-Care", href: "/psych", icon: "🧘", desc: "Santé Mentale Anonyme & IA", hexColor: "#0891b2" },
+  { id: "rehab", name: "Rehab-Track", href: "/rehab", icon: "🦴", desc: "Rééducation Post-Opératoire", hexColor: "#16a34a" },
+  { id: "organes", name: "Don-Organes", href: "/organes", icon: "❤️", desc: "Registre National Donneurs", hexColor: "#e11d48" },
 ]
 
 const BG = "#0a1628"
@@ -52,26 +52,12 @@ export default function Home() {
       <style>{`
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Inter', system-ui, sans-serif; }
-        @keyframes twinkle {
-          0%, 100% { opacity: 0.2; transform: scale(1); }
-          50% { opacity: 1; transform: scale(1.5); }
-        }
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(24px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pulse-dot {
-          0%, 100% { opacity: 0.6; }
-          50% { opacity: 1; transform: scale(1.2); }
-        }
-        @keyframes scan-line {
-          0%   { top: 0; }
-          100% { top: 100%; }
-        }
-        .au1 { animation: fadeUp 0.7s 0.1s both; }
-        .au2 { animation: fadeUp 0.7s 0.25s both; }
-        .au3 { animation: fadeUp 0.7s 0.4s both; }
-        .au4 { animation: fadeUp 0.7s 0.55s both; }
+        @keyframes twinkle { 0%, 100% { opacity: 0.2; transform: scale(1); } 50% { opacity: 1; transform: scale(1.5); } }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse-dot { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; transform: scale(1.2); } }
+        @keyframes scan-line { 0% { top: 0; } 100% { top: 100%; } }
+        .au1 { animation: fadeUp 0.7s 0.1s both; } .au2 { animation: fadeUp 0.7s 0.25s both; }
+        .au3 { animation: fadeUp 0.7s 0.4s both; } .au4 { animation: fadeUp 0.7s 0.55s both; }
         .au5 { animation: fadeUp 0.7s 0.7s both; }
         .card-hover { transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
         .card-hover:hover { transform: translateY(-5px); }
@@ -221,8 +207,8 @@ export default function Home() {
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", gap: 14 }}>
-            {APPS.map((app, i) => (
-              <a key={app.id} href={app.url} target="_blank" rel="noopener noreferrer"
+            {APPS.map((app) => (
+              <Link key={app.id} href={app.href}
                 className="card-hover"
                 onMouseEnter={() => setHovered(app.id)}
                 onMouseLeave={() => setHovered(null)}
@@ -236,13 +222,11 @@ export default function Home() {
                   position: "relative", overflow: "hidden",
                   boxShadow: hovered === app.id ? `0 12px 40px ${app.hexColor}22` : "none",
                 }}>
-                {/* top accent line */}
                 <div style={{
                   position: "absolute", top: 0, left: 0, right: 0, height: 2,
                   background: `linear-gradient(90deg, ${app.hexColor}, transparent)`,
                   opacity: hovered === app.id ? 1 : 0.3, transition: "opacity 0.3s",
                 }} />
-                {/* scan fx */}
                 {hovered === app.id && (
                   <div style={{
                     position: "absolute", left: 0, right: 0, height: 40,
@@ -272,16 +256,16 @@ export default function Home() {
                     <div style={{ width: 5, height: 5, borderRadius: "50%",
                       background: app.hexColor, animation: "pulse-dot 2s infinite" }} />
                     <span style={{ fontSize: 11, color: "rgba(255,255,255,0.25)", fontFamily: "monospace" }}>
-                      chncak-{app.id}.vercel.app
+                      chncak/{app.id}
                     </span>
                   </div>
                   <span style={{ fontSize: 13, fontWeight: 700,
                     color: hovered === app.id ? app.hexColor : "rgba(255,255,255,0.2)",
                     transition: "color 0.3s" }}>
-                    Accéder →
+                    Ouvrir →
                   </span>
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
         </section>
