@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+:root {
+  --cnra-blue: #1A3A6B;
+  --cnra-gold: #C9A84C;
+  --cnra-green: #166534;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }

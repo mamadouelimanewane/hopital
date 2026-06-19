@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CNRA Suite — Prospectus Commercial 2025</title>
+<style>
+  :root {
+    --bleu: #1A3A6B;
+    --bleu-clair: #2A5299;
+    --bleu-fonce: #0D1F3C;
+    --bleu-pale: #EEF2F9;
+    --or: #C9A84C;
+    --or-clair: #E8C96A;
+    --or-fonce: #A07830;
+    --or-pale: #FBF5E6;
+    --blanc: #FFFFFF;
+    --gris: #F7F8FC;
+    --gris-bord: #E0E6F0;
+    --texte: #1A1F2E;
+    --texte-sec: #4A5568;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    background: #CBD5E0;
+    color: var(--texte);
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+
+  /* ===== PAGE A4 ===== */
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: var(--blanc);
+    margin: 20px auto;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.2);
+  }
+
+  /* ===== PRINT ===== */
+  @media print {
+    body { background: white; margin: 0; }
+    .page { margin: 0; box-shadow: none; width: 100%; min-height: auto; page-break-after: always; }
+    .page:last-child { page-break-after: avoid; }
+    .no-print { display: none !important; }
+    @page { size: A4; margin: 0; }
+  }
+
+  /* ===== BOUTON IMPRIMER ===== */
+  .print-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, var(--bleu), var(--bleu-clair));
+    color: white;
+    border: 2px solid var(--or);
+    padding: 12px 24px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 6px;
+    z-index: 999;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 20px rgba(26,58,107,0.4);
+    transition: all 0.3s;
+  }
+
+  .print-btn:hover {
+    background: linear-gradient(135deg, var(--or-fonce), var(--or));
+    color: var(--bleu-fonce);
+  }
+
+  /* ===== EN-TÊTE PAGE 1 ===== */
+  .header {
+    background: linear-gradient(135deg, var(--bleu-fonce) 0%, var(--bleu) 60%, var(--bleu-clair) 100%);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: rgba(201,168,76,0.08);
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(201,168,76,0.05);
+  }
+
+  /* Motif géométrique africain */
+  .header-pattern {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    opacity: 0.04;
+    background-image:
+      repeating-linear-gradient(45deg, var(--or) 0px, var(--or) 1px, transparent 1px, transparent 20px),
+      repeating-linear-gradient(-45deg, var(--or) 0px, var(--or) 1px, transparent 1px, transparent 20px);
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 32px 14px;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    position: relative;
+    z-index: 1;
+  }
+
+  .header-logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .logo-emblem {
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, var(--or), var(--or-clair));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--bleu-fonce);
+    flex-shrink: 0;
+    box-shadow: 0 4px 16px rgba(201,168,76,0.4);
+  }
+
+  .logo-text { color: white; }
+  .logo-text .org { font-size: 18px; font-weight: 900; letter-spacing: 3px; color: var(--or-clair); }
+  .logo-text .org-full { font-size: 9px; color: rgba(255,255,255,0.65); letter-spacing: 1px; margin-top: 2px; }
+
+  .header-flag {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+
+  .flag-stripes {
+    display: flex;
+    border-radius: 3px;
+    overflow: hidden;
+    width: 54px;
+    height: 32px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  .flag-v { flex: 1; }
+  .flag-v.green { background: #009A44; }
+  .flag-v.yellow { background: #FFCD00; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+  .flag-v.red { background: #E31837; }
+
+  .header-flag small {
+    font-size: 8px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* HERO SECTION */
+  .header-hero {
+    padding: 40px 32px 48px;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.5);
+    color: var(--or-clair);
+    padding: 5px 18px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+
+  .hero-title {
+    font-size: 42px;
+    font-weight: 900;
+    color: white;
+    line-height: 1.1;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+  }
+
+  .hero-title span {
+    background: linear-gradient(135deg, var(--or), var(--or-clair));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-subtitle {
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 1px;
+    margin-bottom: 28px;
+  }
+
+  .hero-baseline {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--or-clair);
+    letter-spacing: 2px;
+    padding: 10px 28px;
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  /* BANDE DÉCORATIVE */
+  .gold-band {
+    height: 5px;
+    background: linear-gradient(90deg, var(--or-fonce), var(--or), var(--or-clair), var(--or), var(--or-fonce));
+  }
+
+  /* ===== CHIFFRES GÉANTS ===== */
+  .kpi-section {
+    background: var(--bleu);
+    padding: 32px 32px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+
+  .kpi-item {
+    text-align: center;
+    padding: 8px 20px;
+    position: relative;
+  }
+
+  .kpi-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 10%; bottom: 10%;
+    width: 1px;
+    background: rgba(201,168,76,0.25);
+  }
+
+  .kpi-num {
+    font-size: 46px;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--or), var(--or-clair));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .kpi-lbl {
+    font-size: 10px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  /* ===== CORPS ===== */
+  .body-section {
+    padding: 28px 32px;
+  }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--bleu);
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(90deg, var(--or), transparent);
+  }
+
+  .section-intro {
+    font-size: 11px;
+    color: var(--texte-sec);
+    margin-bottom: 20px;
+    max-width: 85%;
+  }
+
+  /* ===== MODULES GRID ===== */
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 0;
+  }
+
+  .module-card {
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 8px;
+    padding: 16px 14px;
+    background: var(--gris);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .module-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--or), var(--or-clair));
+  }
+
+  .module-card-icon {
+    font-size: 26px;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .module-card-name {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--bleu);
+    margin-bottom: 4px;
+  }
+
+  .module-card-tag {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--or-fonce);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .module-card-desc {
+    font-size: 10px;
+    color: var(--texte-sec);
+    line-height: 1.6;
+  }
+
+  .module-card-features {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--gris-bord);
+    list-style: none;
+    font-size: 9.5px;
+    color: var(--texte-sec);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .module-card-features li::before { content: '◆ '; color: var(--or); font-size: 7px; }
+
+  /* ===== ARGUMENTS ===== */
+  .args-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .arg-card {
+    background: var(--bleu-pale);
+    border: 1px solid rgba(26,58,107,0.12);
+    border-left: 4px solid var(--or);
+    border-radius: 0 6px 6px 0;
+    padding: 14px 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .arg-icon { font-size: 22px; flex-shrink: 0; }
+
+  .arg-title {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--bleu);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .arg-text {
+    font-size: 10px;
+    color: var(--texte-sec);
+    line-height: 1.6;
+  }
+
+  /* ===== TABLEAU COMPARATIF ===== */
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    margin-top: 8px;
+  }
+
+  .comparison-table th {
+    background: var(--bleu);
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .comparison-table th.cnra {
+    background: linear-gradient(135deg, var(--or-fonce), var(--or));
+    color: var(--bleu-fonce);
+  }
+
+  .comparison-table td {
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--gris-bord);
+    vertical-align: middle;
+    color: var(--texte-sec);
+  }
+
+  .comparison-table tr:nth-child(even) td { background: var(--gris); }
+  .comparison-table td:first-child { font-weight: 600; color: var(--texte); font-size: 10px; }
+
+  .comparison-table td.cnra {
+    background: var(--or-pale) !important;
+    font-weight: 700;
+    color: var(--bleu);
+  }
+
+  .check { color: #22863A; font-weight: 800; font-size: 13px; }
+  .cross { color: #CB2431; font-weight: 800; font-size: 13px; }
+  .partial { color: #E36209; font-weight: 700; }
+
+  /* ===== PHASES DÉPLOIEMENT ===== */
+  .phases {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .phase {
+    background: var(--gris);
+    border: 1px solid var(--gris-bord);
+    border-radius: 6px;
+    padding: 14px 12px;
+    text-align: center;
+    position: relative;
+  }
+
+  .phase-num {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--or);
+    color: var(--bleu-fonce);
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(201,168,76,0.4);
+  }
+
+  .phase-year {
+    font-size: 14px;
+    font-weight: 900;
+    color: var(--bleu);
+    margin: 8px 0 6px;
+  }
+
+  .phase-name {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--or-fonce);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
+  .phase-items {
+    list-style: none;
+    font-size: 9px;
+    color: var(--texte-sec);
+    text-align: left;
+    line-height: 1.8;
+  }
+
+  .phase-items li::before { content: '· '; color: var(--or); font-weight: 900; }
+
+  /* ===== QR CODE SVG ===== */
+  .contact-section {
+    background: linear-gradient(135deg, var(--bleu-fonce), var(--bleu));
+    padding: 24px 32px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: center;
+  }
+
+  .contact-info h3 {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--or-clair);
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+  }
+
+  .contact-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .contact-item-icon {
+    width: 28px; height: 28px;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .contact-item strong { color: white; }
+
+  .qr-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .qr-label {
+    font-size: 8px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ===== PIED PAGE ===== */
+  .footer-band {
+    background: var(--bleu-fonce);
+    border-top: 3px solid var(--or);
+    padding: 10px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-band span {
+    font-size: 8.5px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 1px;
+  }
+
+  .footer-band .confidential {
+    color: var(--or);
+    font-weight: 700;
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+
+  /* ===== SEPARATEUR ===== */
+  .sep {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gris-bord), transparent);
+    margin: 20px 0;
+  }
+
+  /* ===== HIGHLIGHT BOX ===== */
+  .highlight-box {
+    background: linear-gradient(135deg, var(--or-pale), rgba(201,168,76,0.08));
+    border: 1.5px solid var(--or);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+
+  .highlight-box p {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--bleu);
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .highlight-box p span {
+    color: var(--or-fonce);
+    font-size: 16px;
+  }
+
+  /* ===== PAGE 2 HEADER ===== */
+  .page2-header {
+    background: linear-gradient(135deg, var(--bleu-fonce), var(--bleu));
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .page2-header .p2-logo {
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--or-clair);
+    letter-spacing: 2px;
+  }
+
+  .page2-header .p2-title {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 1px;
+  }
+
+  /* ===== CALLOUT ===== */
+  .callout {
+    border-left: 4px solid var(--bleu);
+    background: var(--bleu-pale);
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    margin: 16px 0;
+    font-size: 10.5px;
+    color: var(--bleu);
+    font-weight: 600;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">🖨 Imprimer / PDF</button>
+
+<!-- ==================== PAGE 1 ==================== -->
+<div class="page">
+
+  <!-- EN-TÊTE -->
+  <div class="header">
+    <div class="header-pattern"></div>
+    <div class="header-top">
+      <div class="header-logo">
+        <div class="logo-emblem">C</div>
+        <div class="logo-text">
+          <div class="org">CNRA</div>
+          <div class="org-full">Conseil National de Régulation de l'Audiovisuel</div>
+        </div>
+      </div>
+      <div class="header-flag">
+        <div class="flag-stripes">
+          <div class="flag-v green"></div>
+          <div class="flag-v yellow">★</div>
+          <div class="flag-v red"></div>
+        </div>
+        <small>République du Sénégal</small>
+      </div>
+    </div>
+
+    <div class="header-hero">
+      <div class="hero-badge">Document Commercial Confidentiel — 2025</div>
+      <div class="hero-title">CNRA Suite</div>
+      <div class="hero-title" style="font-size:24px; color:rgba(255,255,255,0.85); font-weight:400; margin-bottom:16px;">La Régulation Audiovisuelle à l'Ère Numérique</div>
+      <div class="hero-subtitle">Plateforme Souveraine de Régulation Audiovisuelle — République du Sénégal</div>
+      <div class="hero-baseline">6 modules · 1 plateforme · 54 pays africains</div>
+    </div>
+  </div>
+
+  <div class="gold-band"></div>
+
+  <!-- CHIFFRES GÉANTS -->
+  <div class="kpi-section">
+    <div class="kpi-item">
+      <div class="kpi-num">847</div>
+      <div class="kpi-lbl">Médias référencés</div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-num">94%</div>
+      <div class="kpi-lbl">Efficacité détection IA</div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-num">15</div>
+      <div class="kpi-lbl">Pays CEDEAO cibles</div>
+    </div>
+  </div>
+
+  <!-- INTRODUCTION -->
+  <div class="body-section" style="padding-bottom:16px;">
+    <div class="section-title">Présentation</div>
+    <p style="font-size:11px; color:var(--texte-sec); line-height:1.7; margin-bottom:12px;">
+      La <strong style="color:var(--bleu)">CNRA Suite</strong> est la première plateforme souveraine africaine de régulation audiovisuelle intégrée. Développée au Sénégal, elle réunit six modules complémentaires couvrant l'intégralité du spectre réglementaire — de la détection de deepfakes à la participation citoyenne, en passant par le monitoring électoral et la veille automatisée.
+    </p>
+    <div class="callout">
+      Dans un contexte de montée des deepfakes, de désinformation virale et de fragmentation des données médiatiques, la CNRA Suite offre aux régulateurs africains un outil clé-en-main, conforme aux standards ISO 27001, hébergé sur sol sénégalais.
+    </div>
+  </div>
+
+  <!-- 6 MODULES -->
+  <div class="body-section" style="padding-top:0;">
+    <div class="section-title">Les 6 Modules</div>
+    <div class="section-intro">Une solution intégrée couvrant tous les besoins de régulation audiovisuelle moderne</div>
+    <div class="modules-grid">
+
+      <div class="module-card">
+        <span class="module-card-icon">🛡️</span>
+        <div class="module-card-name">AntiDeep</div>
+        <span class="module-card-tag">Détection IA · Deepfakes</span>
+        <div class="module-card-desc">Identifie les contenus synthétiques malveillants avec 94% de précision grâce à des réseaux neuronaux convolutifs entraînés sur des milliers d'exemples africains.</div>
+        <ul class="module-card-features">
+          <li>Analyse vidéo, audio et images</li>
+          <li>Résultats en moins de 30 secondes</li>
+          <li>Rapports forensiques judiciaires</li>
+          <li>API d'intégration partenaires</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <span class="module-card-icon">📚</span>
+        <div class="module-card-name">EduMedia</div>
+        <span class="module-card-tag">Éducation · Fact-checking</span>
+        <div class="module-card-desc">Plateforme d'éducation aux médias en langues nationales (français, wolof, pulaar, sérère) ciblant les citoyens, écoles et universités.</div>
+        <ul class="module-card-features">
+          <li>Modules gamifiés 12-25 ans</li>
+          <li>200+ établissements partenaires</li>
+          <li>Certification media literacy</li>
+          <li>Bibliothèque ressources open</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <span class="module-card-icon">🗳️</span>
+        <div class="module-card-name">ElectroWatch</div>
+        <span class="module-card-tag">Équité · Monitoring Electoral</span>
+        <div class="module-card-desc">Chronométrage automatique du temps de parole électoral sur tous les médias audiovisuels, avec transcription multilingue et alertes légales.</div>
+        <ul class="module-card-features">
+          <li>Mesure à la seconde près</li>
+          <li>Dashboards publics en temps réel</li>
+          <li>Rapports CENA auto-générés</li>
+          <li>Archives électorales depuis 2024</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <span class="module-card-icon">🗂️</span>
+        <div class="module-card-name">MediaBase</div>
+        <span class="module-card-tag">Annuaire · Référentiel National</span>
+        <div class="module-card-desc">Registre certifié de 847 médias sénégalais (TV, radio, presse, web, podcasts) avec statuts de conformité mis à jour en temps réel.</div>
+        <ul class="module-card-features">
+          <li>Fiches détaillées licences/audience</li>
+          <li>API publique chercheurs/presse</li>
+          <li>Cartographie interactive</li>
+          <li>Historique sanctions intégré</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <span class="module-card-icon">👁️</span>
+        <div class="module-card-name">MediaWatch</div>
+        <span class="module-card-tag">Veille · 24h/24 · Alertes IA</span>
+        <div class="module-card-desc">Surveillance automatisée continue de l'ensemble des flux médias avec détection IA de contenus haineux, discriminatoires ou interdits.</div>
+        <ul class="module-card-features">
+          <li>847 flux surveillés simultanément</li>
+          <li>Alertes graduées automatiques</li>
+          <li>Rapports hebdo/mensuels auto</li>
+          <li>Dashboard exécutif DG CNRA</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <span class="module-card-icon">🤝</span>
+        <div class="module-card-name">Citoyen</div>
+        <span class="module-card-tag">Participation · Transparence</span>
+        <div class="module-card-desc">Portail numérique de participation citoyenne avec système de signalement, suivi de plaintes et consultations publiques sur la régulation.</div>
+        <ul class="module-card-features">
+          <li>3,2M citoyens enregistrés</li>
+          <li>45 000 signalements traités/an</li>
+          <li>App mobile iOS + Android</li>
+          <li>Statistiques transparence trimes.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PIED PAGE 1 -->
+  <div class="footer-band">
+    <span>CNRA Suite · Prospectus Commercial 2025 · République du Sénégal</span>
+    <span class="confidential">Document Confidentiel</span>
+    <span>Page 1 / 2</span>
+  </div>
+
+</div>
+
+<!-- ==================== PAGE 2 ==================== -->
+<div class="page">
+
+  <div class="page2-header">
+    <div class="p2-logo">CNRA Suite</div>
+    <div class="p2-title">Prospectus Commercial · Arguments, Comparatif & Déploiement</div>
+    <div style="font-size:9px; color:rgba(255,255,255,0.4);">2025 · Confidentiel</div>
+  </div>
+  <div class="gold-band"></div>
+
+  <!-- ARGUMENTS -->
+  <div class="body-section">
+    <div class="section-title">Pourquoi CNRA Suite</div>
+    <div class="section-intro">Quatre piliers stratégiques qui font la différence</div>
+    <div class="args-grid">
+      <div class="arg-card">
+        <div class="arg-icon">🇸🇳</div>
+        <div>
+          <div class="arg-title">Souveraineté Numérique</div>
+          <div class="arg-text">Données hébergées sur sol sénégalais. Aucune dépendance à des serveurs étrangers. Code source auditable. Conformité totale avec la loi 2008-12 sur les données personnelles et les recommandations de l'UA sur la souveraineté numérique africaine.</div>
+        </div>
+      </div>
+      <div class="arg-card">
+        <div class="arg-icon">🔒</div>
+        <div>
+          <div class="arg-title">Sécurité Certifiée</div>
+          <div class="arg-text">Architecture ISO 27001, chiffrement AES-256, audit logs immuables, authentification multi-facteurs pour tous les agents CNRA. Pénétration tests semestriels par cabinet indépendant agréé.</div>
+        </div>
+      </div>
+      <div class="arg-card">
+        <div class="arg-icon">⚡</div>
+        <div>
+          <div class="arg-title">Efficacité Opérationnelle</div>
+          <div class="arg-text">Gain de productivité documenté de 50× versus les processus manuels antérieurs. Réduction de 65% des coûts de veille, 90% de réduction du délai de production des rapports de conformité réglementaire.</div>
+        </div>
+      </div>
+      <div class="arg-card">
+        <div class="arg-icon">🌍</div>
+        <div>
+          <div class="arg-title">Exportabilité Pan-Africaine</div>
+          <div class="arg-text">Architecture SaaS multi-tenant permettant un déploiement clé-en-main dans tout autre pays en moins de 3 mois. Potentiel de revenus d'exportation estimé à 750M FCFA sur 5 ans pour 15 pays CEDEAO.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- TABLEAU COMPARATIF -->
+  <div class="body-section" style="padding-top:0;">
+    <div class="section-title">Comparatif Concurrentiel</div>
+    <div class="section-intro">CNRA Suite vs solutions étrangères disponibles sur le marché africain</div>
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th style="width:28%">Critère</th>
+          <th class="cnra" style="width:22%">✦ CNRA Suite</th>
+          <th style="width:17%">Media Monitor Pro (EU)</th>
+          <th style="width:16%">ContentWatch (US)</th>
+          <th style="width:17%">AfriReg (ZA)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Souveraineté des données</td>
+          <td class="cnra"><span class="check">✔</span> Sol sénégalais</td>
+          <td><span class="cross">✘</span> Serveurs EU</td>
+          <td><span class="cross">✘</span> Serveurs US</td>
+          <td><span class="partial">~ </span>Afrique du Sud</td>
+        </tr>
+        <tr>
+          <td>Détection deepfakes IA</td>
+          <td class="cnra"><span class="check">✔</span> 94% précision</td>
+          <td><span class="partial">~ </span>72% (pas africain)</td>
+          <td><span class="check">✔</span> 89% (US corpus)</td>
+          <td><span class="cross">✘</span> Non disponible</td>
+        </tr>
+        <tr>
+          <td>Monitoring électoral</td>
+          <td class="cnra"><span class="check">✔</span> Intégré natif</td>
+          <td><span class="partial">~ </span>Module payant</td>
+          <td><span class="cross">✘</span> Non disponible</td>
+          <td><span class="partial">~ </span>Basique</td>
+        </tr>
+        <tr>
+          <td>Langues africaines (NLP)</td>
+          <td class="cnra"><span class="check">✔</span> 4 langues SN</td>
+          <td><span class="cross">✘</span> Français seul</td>
+          <td><span class="cross">✘</span> Anglais seul</td>
+          <td><span class="partial">~ </span>Anglais + 2</td>
+        </tr>
+        <tr>
+          <td>Portail citoyen intégré</td>
+          <td class="cnra"><span class="check">✔</span> 3,2M users</td>
+          <td><span class="cross">✘</span> Non disponible</td>
+          <td><span class="cross">✘</span> Non disponible</td>
+          <td><span class="cross">✘</span> Non disponible</td>
+        </tr>
+        <tr>
+          <td>Conformité droit sénégalais</td>
+          <td class="cnra"><span class="check">✔</span> Native</td>
+          <td><span class="cross">✘</span> Adaptation requise</td>
+          <td><span class="cross">✘</span> Adaptation requise</td>
+          <td><span class="partial">~ </span>Partielle</td>
+        </tr>
+        <tr>
+          <td>Coût total annuel (USD)</td>
+          <td class="cnra"><strong>~80 000 $</strong></td>
+          <td>~240 000 $</td>
+          <td>~310 000 $</td>
+          <td>~130 000 $</td>
+        </tr>
+        <tr>
+          <td>Délai déploiement</td>
+          <td class="cnra"><span class="check">✔</span> Immédiat</td>
+          <td>6-12 mois</td>
+          <td>8-15 mois</td>
+          <td>4-6 mois</td>
+        </tr>
+        <tr>
+          <td>Support local (Dakar)</td>
+          <td class="cnra"><span class="check">✔</span> 24h/7j</td>
+          <td><span class="cross">✘</span> Fuseau EU</td>
+          <td><span class="cross">✘</span> Fuseau US</td>
+          <td><span class="partial">~ </span>Fuseau CAT</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="highlight-box" style="margin-top:16px;">
+      <p>CNRA Suite est <span>3× moins coûteux</span> que les solutions étrangères équivalentes, tout en offrant une couverture fonctionnelle supérieure, une conformité légale native et une souveraineté totale des données.</p>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- PHASES DÉPLOIEMENT -->
+  <div class="body-section" style="padding-top:0;">
+    <div class="section-title">Phases de Déploiement</div>
+    <div class="section-intro">Un calendrier maîtrisé, des jalons mesurables</div>
+    <div class="phases">
+      <div class="phase">
+        <div class="phase-num">1</div>
+        <div class="phase-year">2025</div>
+        <div class="phase-name">Fondation</div>
+        <ul class="phase-items">
+          <li>MediaBase v1 live</li>
+          <li>AntiDeep beta</li>
+          <li>Portail Citoyen</li>
+          <li>Certif. ISO 27001</li>
+          <li>50 agents formés</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="phase-num">2</div>
+        <div class="phase-year">2026</div>
+        <div class="phase-name">Expansion</div>
+        <ul class="phase-items">
+          <li>MediaWatch v2 IA</li>
+          <li>EduMedia 200 éc.</li>
+          <li>CI · ML · GN actifs</li>
+          <li>API publique v1</li>
+          <li>App mobile 1M dl</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="phase-num">3</div>
+        <div class="phase-year">2027</div>
+        <div class="phase-name">Consolidation</div>
+        <ul class="phase-items">
+          <li>8 pays CEDEAO</li>
+          <li>Centre IA Dakar</li>
+          <li>LLM wolof/pulaar</li>
+          <li>400M FCFA rev.</li>
+          <li>Summit régulateurs</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="phase-num">4</div>
+        <div class="phase-year">2028</div>
+        <div class="phase-name">Leadership</div>
+        <ul class="phase-items">
+          <li>15 pays CEDEAO</li>
+          <li>10M citoyens</li>
+          <li>750M FCFA export</li>
+          <li>Prix UNESCO</li>
+          <li>Hub africain IA</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT + QR -->
+  <div class="contact-section">
+    <div class="contact-info">
+      <h3>Contactez-nous · Engager un Partenariat</h3>
+      <div class="contact-items">
+        <div class="contact-item">
+          <div class="contact-item-icon">🌐</div>
+          <span><strong>www.cnra.sn</strong> · Plateforme officielle CNRA</span>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">✉</div>
+          <span><strong>suite@cnra.sn</strong> · Direction Technique & Partenariats</span>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📞</div>
+          <span><strong>+221 33 XXX XX XX</strong> · Siège CNRA, Dakar</span>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <span><strong>Dakar, Sénégal</strong> · Zone des Ambassades, Mermoz</span>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">🔗</div>
+          <span><strong>linkedin.com/company/cnra-senegal</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- QR CODE SVG stylisé -->
+    <div class="qr-wrapper">
+      <div class="qr-label">Scanner pour accéder</div>
+      <svg width="110" height="110" viewBox="0 0 110 110" xmlns="http://www.w3.org/2000/svg">
+        <!-- Fond -->
+        <rect width="110" height="110" rx="8" fill="white"/>
+        <!-- Bordure or -->
+        <rect x="2" y="2" width="106" height="106" rx="7" fill="none" stroke="#C9A84C" stroke-width="2"/>
+
+        <!-- Coin haut-gauche -->
+        <rect x="8" y="8" width="30" height="30" rx="3" fill="none" stroke="#1A3A6B" stroke-width="2.5"/>
+        <rect x="14" y="14" width="18" height="18" rx="2" fill="#1A3A6B"/>
+
+        <!-- Coin haut-droit -->
+        <rect x="72" y="8" width="30" height="30" rx="3" fill="none" stroke="#1A3A6B" stroke-width="2.5"/>
+        <rect x="78" y="14" width="18" height="18" rx="2" fill="#1A3A6B"/>
+
+        <!-- Coin bas-gauche -->
+        <rect x="8" y="72" width="30" height="30" rx="3" fill="none" stroke="#1A3A6B" stroke-width="2.5"/>
+        <rect x="14" y="78" width="18" height="18" rx="2" fill="#1A3A6B"/>
+
+        <!-- Motif central simulé -->
+        <rect x="46" y="8" width="4" height="4" fill="#1A3A6B"/>
+        <rect x="52" y="8" width="4" height="4" fill="#C9A84C"/>
+        <rect x="58" y="8" width="4" height="4" fill="#1A3A6B"/>
+        <rect x="46" y="14" width="4" height="8" fill="#C9A84C"/>
+        <rect x="52" y="14" width="8" height="4" fill="#1A3A6B"/>
+        <rect x="58" y="18" width="4" height="4" fill="#C9A84C"/>
+        <rect x="46" y="24" width="4" height="4" fill="#1A3A6B"/>
+        <rect x="54" y="22" width="8" height="4" fill="#C9A84C"/>
+        <rect x="46" y="30" width="10" height="4" fill="#C9A84C"/>
+        <rect x="58" y="28" width="4" height="8" fill="#1A3A6B"/>
+
+        <!-- Lignes centrales -->
+        <rect x="46" y="46" width="4" height="4" fill="#1A3A6B"/>
+        <rect x="52" y="46" width="8" height="4" fill="#C9A84C"/>
+        <rect x="62" y="46" width="4" height="4" fill="#1A3A6B"/>
+        <rect x="68" y="46" width="4" height="8" fill="#C9A84C"/>
+        <rect x="46" y="52" width="10" height="4" fill="#C9A84C"/>
+        <rect x="58" y="52" width="4" height="4" fill="#1A3A6B"/>
+        <rect x="46" y="58" width="4" height="4" fill="#1A3A6B"/>
+        <rect x="52" y="56" width="8" height="8" fill="#C9A84C"/>
+        <rect x="62" y="58" width="10" height="4" fill="#1A3A6B"/>
+
+        <rect x="8" y="46" width="4" height="4" fill="#C9A84C"/>
+        <rect x="14" y="46" width="8" height="4" fill="#1A3A6B"/>
+        <rect x="24" y="46" width="4" height="4" fill="#C9A84C"/>
+        <rect x="30" y="46" width="6" height="4" fill="#1A3A6B"/>
+        <rect x="8" y="52" width="10" height="4" fill="#1A3A6B"/>
+        <rect x="20" y="52" width="4" height="4" fill="#C9A84C"/>
+        <rect x="26" y="52" width="10" height="4" fill="#1A3A6B"/>
+        <rect x="8" y="58" width="4" height="4" fill="#C9A84C"/>
+        <rect x="14" y="58" width="8" height="4" fill="#C9A84C"/>
+        <rect x="24" y="58" width="12" height="4" fill="#1A3A6B"/>
+
+        <rect x="46" y="72" width="4" height="10" fill="#1A3A6B"/>
+        <rect x="52" y="72" width="8" height="4" fill="#C9A84C"/>
+        <rect x="62" y="72" width="4" height="4" fill="#1A3A6B"/>
+        <rect x="68" y="72" width="4" height="4" fill="#C9A84C"/>
+        <rect x="52" y="78" width="4" height="4" fill="#1A3A6B"/>
+        <rect x="58" y="76" width="14" height="4" fill="#C9A84C"/>
+        <rect x="46" y="84" width="10" height="4" fill="#C9A84C"/>
+        <rect x="58" y="82" width="4" height="8" fill="#1A3A6B"/>
+        <rect x="64" y="84" width="8" height="4" fill="#1A3A6B"/>
+        <rect x="46" y="90" width="4" height="10" fill="#1A3A6B"/>
+        <rect x="52" y="90" width="8" height="4" fill="#C9A84C"/>
+        <rect x="62" y="90" width="10" height="4" fill="#1A3A6B"/>
+        <rect x="68" y="96" width="4" height="4" fill="#C9A84C"/>
+
+        <!-- Logo centre -->
+        <rect x="44" y="44" width="22" height="22" rx="3" fill="white" stroke="#C9A84C" stroke-width="1.5"/>
+        <text x="55" y="59" text-anchor="middle" font-size="13" font-weight="900" fill="#1A3A6B" font-family="Arial">C</text>
+      </svg>
+      <div class="qr-label">cnra.sn/suite</div>
+    </div>
+  </div>
+
+  <!-- PIED PAGE 2 -->
+  <div class="footer-band">
+    <span>© 2025 CNRA — Conseil National de Régulation de l'Audiovisuel — République du Sénégal</span>
+    <span class="confidential">Document Confidentiel</span>
+    <span>Page 2 / 2</span>
+  </div>
+
+</div>
+
+</body>
+</html>

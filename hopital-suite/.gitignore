@@ -1,0 +1,11 @@
+node_modules/
+.next/
+.env.local
+*.log
+.DS_Store
+.vercel
+
+# Fichiers générés (lancer node docs/generate-pdfs.mjs / generate-pptx.mjs)
+docs/*.pdf
+docs/*.pptx
+
