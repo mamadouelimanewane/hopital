@@ -249,7 +249,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: 16 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: 16 }}>
             {APPS.map((app, i) => (
               <a key={app.id} href={app.url} target="_blank" rel="noopener noreferrer"
                 className={`card-hover grid-card-${i}`}
@@ -334,7 +334,7 @@ export default function Home() {
               position: "absolute", right: -40, top: -40, width: 200, height: 200, borderRadius: "50%",
               background: "radial-gradient(circle, rgba(201,168,76,0.08), transparent)", pointerEvents: "none",
             }} />
-            <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: "2rem", alignItems: "center" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "2rem", alignItems: "center" }}>
               <div>
                 <p style={{ fontSize: 13, color: "#C9A84C", fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 10 }}>
                   Notre mission
