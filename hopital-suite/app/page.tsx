@@ -12,7 +12,12 @@ const APPS = [
   { id: "neuro", name: "NeuroScan-IA", url: "http://localhost:3007", icon: "🧬", desc: "Assistant Radiologique par IA", color: "from-violet-600 to-violet-400", bg: "bg-violet-50" },
   { id: "touba", name: "Touba-Med-Care", url: "http://localhost:3008", icon: "🌟", desc: "Tourisme Médical VIP", color: "from-yellow-600 to-yellow-400", bg: "bg-yellow-50" },
   { id: "eco", name: "Eco-Hôpital", url: "http://localhost:3009", icon: "⚡", desc: "Smart Grid & Jumeau Énergétique", color: "from-lime-600 to-lime-400", bg: "bg-lime-50" },
-]
+  { id: "magal", name: "Magal-Surge", url: "http://localhost:3010", icon: "🕌", desc: "Gestion de Crise Grand Magal", color: "from-purple-600 to-purple-400", bg: "bg-purple-50" },
+  { id: "nutri", name: "Nutri-Care", url: "http://localhost:3011", icon: "🍽️", desc: "Suivi Nutritionnel Médical", color: "from-amber-600 to-amber-400", bg: "bg-amber-50" },
+  { id: "psych", name: "Psych-Care", url: "http://localhost:3012", icon: "🧘", desc: "Santé Mentale Anonyme & IA", color: "from-cyan-600 to-cyan-400", bg: "bg-cyan-50" },
+  { id: "rehab", name: "Rehab-Track", url: "http://localhost:3013", icon: "🦴", desc: "Rééducation Post-Opératoire", color: "from-green-600 to-green-400", bg: "bg-green-50" },
+  { id: "organes", name: "Don-Organes", url: "http://localhost:3014", icon: "❤️", desc: "Registre National Donneurs", color: "from-rose-600 to-rose-400", bg: "bg-rose-50" },
+];
 
 const BG = "#0f2d6b"
 const BG_HEADER = "rgba(15,45,107,0.92)"
@@ -249,7 +254,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: 16 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", gap: 16 }}>
             {APPS.map((app, i) => (
               <a key={app.id} href={app.url} target="_blank" rel="noopener noreferrer"
                 className={`card-hover grid-card-${i}`}
