@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+:root {
+  --cnra-blue: #1A3A6B;
+  --cnra-gold: #C9A84C;
+  --cnra-green: #166534;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-ring {
+  0%   { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(26,58,107,0.4); }
+  70%  { transform: scale(1);    box-shadow: 0 0 0 10px rgba(26,58,107,0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(26,58,107,0); }
+}
+
+.animate-fadeInUp { animation: fadeInUp 0.5s ease forwards; }
+.pulse-ring { animation: pulse-ring 2s infinite; }

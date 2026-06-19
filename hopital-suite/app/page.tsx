@@ -7,6 +7,11 @@ const APPS = [
   { id: "predict", name: "Predict-IA", url: "http://localhost:3002", icon: "🧠", desc: "Tableau de Bord Direction & IA", color: "from-emerald-600 to-emerald-400", bg: "bg-emerald-50" },
   { id: "pharma", name: "SmartPharma", url: "http://localhost:3003", icon: "💊", desc: "Pharmacie, Stocks & Blockchain", color: "from-teal-600 to-teal-400", bg: "bg-teal-50" },
   { id: "learn", name: "Med-Learn", url: "http://localhost:3004", icon: "🎓", desc: "Université & Staffs Médicaux", color: "from-indigo-600 to-indigo-400", bg: "bg-indigo-50" },
+  { id: "blood", name: "Blood-Sync", url: "http://localhost:3005", icon: "🩸", desc: "Banque de Sang Connectée", color: "from-red-600 to-red-400", bg: "bg-red-50" },
+  { id: "ambu", name: "Ambu-Track", url: "http://localhost:3006", icon: "🚑", desc: "Contrôle Aérien des Urgences", color: "from-orange-600 to-orange-400", bg: "bg-orange-50" },
+  { id: "neuro", name: "NeuroScan-IA", url: "http://localhost:3007", icon: "🧬", desc: "Assistant Radiologique par IA", color: "from-violet-600 to-violet-400", bg: "bg-violet-50" },
+  { id: "touba", name: "Touba-Med-Care", url: "http://localhost:3008", icon: "🌟", desc: "Tourisme Médical VIP", color: "from-yellow-600 to-yellow-400", bg: "bg-yellow-50" },
+  { id: "eco", name: "Eco-Hôpital", url: "http://localhost:3009", icon: "⚡", desc: "Smart Grid & Jumeau Énergétique", color: "from-lime-600 to-lime-400", bg: "bg-lime-50" },
 ]
 
 const BG = "#0f2d6b"
