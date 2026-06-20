@@ -1,9 +1,8 @@
 "use client"
 import { useState } from "react"
-import { Calendar, FileText, Video, MapPin, Activity, Pill, User, Bell, ChevronRight, Download } from "lucide-react"
+import { Calendar, FileText, Video, MapPin, Activity, Pill, User, Bell, ChevronRight } from "lucide-react"
 
 export default function PatientPortal() {
-  const [activeTab, setActiveTab] = useState('dashboard')
 
   return (
     <>
