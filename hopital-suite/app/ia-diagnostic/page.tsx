@@ -204,7 +204,7 @@ export default function IADiagnosticPage() {
                 <h3 className="font-semibold text-white">Analyses Récentes</h3>
                 <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>5 dernières analyses effectuées</p>
               </div>
-              <div className="divide-y" style={{ divideColor: border }}>
+              <div className="divide-y" style={{ borderColor: border }}>
                 {recentAnalyses.map((a) => {
                   const s = statutConfig[a.statut]
                   return (

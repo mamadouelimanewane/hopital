@@ -134,7 +134,7 @@ export default function EpidémioWatch() {
                       <g key={i}>
                         <circle cx={pos[i][0]} cy={pos[i][1]} r={r.niveau === "alerte" ? 14 : 10} fill={c.bg} stroke={c.text} strokeWidth={r.niveau === "alerte" ? 2 : 1} />
                         {r.niveau === "alerte" && <circle cx={pos[i][0]} cy={pos[i][1]} r={18} fill="none" stroke={c.text} strokeWidth="1" opacity="0.4" className="pulse" />}
-                        <text x={pos[i][0]} y={pos[i][1]+1} textAnchor="middle" dominantBaseline="middle" fontSize="7" fill={c.text} fontWeight="bold">{r.cas}</text>
+                        <text x={pos[i][0]} y={pos[i][1]+1} textAnchor="middle" dominantBaseline="middle" fontSize="7" fill={c.text} fontWeight="bold">{r.cases}</text>
                         <text x={pos[i][0]} y={pos[i][1]+16} textAnchor="middle" fontSize="6" fill="#94a3b8">{r.nom.split("/")[0]}</text>
                       </g>
                     )
