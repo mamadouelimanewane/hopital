@@ -17,6 +17,18 @@ const APPS = [
   { id: "psych", name: "Psych-Care", href: "/psych", icon: "🧘", desc: "Santé Mentale Anonyme & IA", hexColor: "#0891b2" },
   { id: "rehab", name: "Rehab-Track", href: "/rehab", icon: "🦴", desc: "Rééducation Post-Opératoire", hexColor: "#16a34a" },
   { id: "organes", name: "Don-Organes", href: "/organes", icon: "❤️", desc: "Registre National Donneurs", hexColor: "#e11d48" },
+  { id: "ia-diagnostic", name: "IA-Diagnostic", href: "/ia-diagnostic", icon: "🔬", desc: "Diagnostic Multi-Pathologies IA", hexColor: "#7c3aed" },
+  { id: "smart-beds", name: "Smart Beds", href: "/smart-beds", icon: "🛏️", desc: "Gestion Intelligente des Lits", hexColor: "#2563eb" },
+  { id: "factu-care", name: "FactuCare", href: "/factu-care", icon: "💳", desc: "Facturation & Assurance Maladie", hexColor: "#15803d" },
+  { id: "sante-reseau", name: "Réseau Santé SN", href: "/sante-reseau", icon: "🌐", desc: "Réseau Multi-Hôpitaux Sénégal", hexColor: "#0891b2" },
+  { id: "patient-mobile", name: "Patient Mobile", href: "/patient-mobile", icon: "📱", desc: "Application Mobile Patient PWA", hexColor: "#0284c7" },
+  { id: "qualite-accred", name: "Qualité-JCI", href: "/qualite-accred", icon: "🏆", desc: "Qualité & Accréditation JCI", hexColor: "#1d4ed8" },
+  { id: "lab-connect", name: "Lab Connect", href: "/lab-connect", icon: "🧪", desc: "Laboratoire Connecté Temps Réel", hexColor: "#0369a1" },
+  { id: "chatbot-triage", name: "Triage IA", href: "/chatbot-triage", icon: "💬", desc: "ChatBot Triage Wolof + Français", hexColor: "#065f46" },
+  { id: "rh-medical", name: "RH Médical", href: "/rh-medical", icon: "👥", desc: "Ressources Humaines Médicales", hexColor: "#4338ca" },
+  { id: "don-financement", name: "Don & Diaspora", href: "/don-financement", icon: "🌍", desc: "Financement & Dons Diaspora", hexColor: "#b45309" },
+  { id: "chncak-academy", name: "CHNCAK Academy", href: "/chncak-academy", icon: "🎓", desc: "Formation & Simulation Médicale", hexColor: "#6d28d9" },
+  { id: "epidemio-watch", name: "Épidémio-Watch", href: "/epidemio-watch", icon: "🦠", desc: "Surveillance Épidémique Sénégal", hexColor: "#991b1b" },
 ]
 
 const BG = "#0a1628"
