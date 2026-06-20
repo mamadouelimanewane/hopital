@@ -1,128 +1,131 @@
 "use client"
+import { useState } from "react"
 import Link from "next/link"
 
-export default function DonOrganesPage() {
+const FEATURES = [
+  { icon: "📢", title: "Signalement d'infractions", desc: "1er registre biométrique de donneurs d'organes au Sénégal.s constatée sur les médias sénégalais." },
+  { icon: "🗳️", title: "Consultations publiques", desc: "Participez aux consultations du CHNCAK et faites entendre votre voix dans la régulation des médias." },
+  { icon: "📋", title: "Suivi des décisions", desc: "Consultez les décisions officielles, sanctions et mises en demeure rendues par le Conseil." },
+  { icon: "📊", title: "Observatoire citoyen", desc: "Accédez aux statistiques de temps de parole et aux données du paysage audiovisuel national." },
+]
+
+const COLOR = "#3b82f6"
+const GLOW = "rgba(59,130,246,0.18)"
+
+export default function LandingPage() {
+  const [hovered, setHovered] = useState<number | null>(null)
+
   return (
     <>
       <style>{`
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', system-ui, sans-serif; background: #0a1628; color: #fff; }
-        @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-        .au1{animation:fadeUp .6s .1s both} .au2{animation:fadeUp .6s .2s both}
-        .au3{animation:fadeUp .6s .3s both} .au4{animation:fadeUp .6s .4s both}
-        .stat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 1.5rem; text-align: center; transition: all 0.3s; }
-        .stat-card:hover { border-color: #e11d4844; background: rgba(255,255,255,0.05); transform: translateY(-3px); }
-        .feat-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1.25rem; transition: all 0.3s; }
-        .feat-card:hover { border-color: #e11d4844; background: rgba(255,255,255,0.04); }
-        .back-btn { display: inline-flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.5); text-decoration: none; font-size: 14px; font-weight: 600; transition: color 0.2s; }
-        .back-btn:hover { color: #fff; }
+        @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes pulse { 0%,100%{opacity:.6} 50%{opacity:1} }
+        .au1{animation:fadeUp .6s .1s both} .au2{animation:fadeUp .6s .25s both}
+        .au3{animation:fadeUp .6s .4s both}  .au4{animation:fadeUp .6s .55s both}
+        .fc{animation:fadeUp .5s both} .fc1{animation-delay:.7s} .fc2{animation-delay:.8s} .fc3{animation-delay:.9s} .fc4{animation-delay:1s}
+        .card{transition:all .3s cubic-bezier(.4,0,.2,1)} .card:hover{transform:translateY(-4px)}
+        .pulse{animation:pulse 2s infinite} a{text-decoration:none}
       `}</style>
 
-      {/* Header */}
-      <header style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(10,22,40,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "0 1.5rem", height: 60, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <Link href="/" className="back-btn">← Retour au Portail CHNCAK</Link>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#e11d48" }} />
-          <span style={{ fontSize: 12, color: "#e11d48", fontWeight: 700, letterSpacing: "0.1em" }}>SYSTÈME ACTIF</span>
-        </div>
-      </header>
+      {/* BACK NAV */}
+      <div style={{ position:"sticky", top:0, zIndex:100, background:"rgba(10,22,40,0.95)", backdropFilter:"blur(20px)", borderBottom:"1px solid rgba(255,255,255,0.08)", padding:"0 1.5rem", height:52, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.6)", textDecoration:"none", fontSize:13, fontWeight:600 }}>
+          ← Retour au Portail CHNCAK
+        </a>
+        <span style={{ fontSize:11, color:"rgba(255,255,255,0.3)", fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase" }}>CHNCAK Suite</span>
+      </div>
 
-      <main style={{ maxWidth: 1200, margin: "0 auto", padding: "3rem 1.5rem" }}>
+      <div style={{ minHeight:"100vh", background:"#080f20", color:"#fff", fontFamily:"system-ui,sans-serif", position:"relative", overflow:"hidden" }}>
 
-        {/* HERO */}
-        <div className="au1" style={{ display: "flex", alignItems: "flex-start", gap: 20, marginBottom: "3rem" }}>
-          <div style={{ width: 72, height: 72, borderRadius: 18, background: "#e11d4820", border: "2px solid #e11d4840", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 36, flexShrink: 0, boxShadow: "0 0 30px #e11d4830" }}>
-            ❤️
-          </div>
-          <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-              <span style={{ fontSize: 11, color: "#e11d48", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", background: "#e11d4815", padding: "3px 10px", borderRadius: 6, border: "1px solid #e11d4830" }}>
-                Application Hospitalière
-              </span>
+        <div style={{ position:"fixed", inset:0, pointerEvents:"none",
+          background:`radial-gradient(ellipse 80% 60% at 50% -10%, rgba(59,130,246,0.12), transparent)` }} />
+        <div style={{ position:"fixed", inset:0, pointerEvents:"none",
+          background:"radial-gradient(ellipse 50% 50% at 90% 90%, rgba(26,58,107,0.15), transparent)" }} />
+
+        <header style={{ position:"sticky", top:52, zIndex:50, borderBottom:"1px solid rgba(255,255,255,0.06)",
+          background:"rgba(8,15,32,0.88)", backdropFilter:"blur(20px)" }}>
+          <div style={{ maxWidth:1100, margin:"0 auto", padding:"0 2rem", height:60, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+            <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+              <div style={{ width:32, height:32, borderRadius:8, background:"linear-gradient(135deg,#1e3a8a,#2563eb)",
+                border:`1px solid rgba(59,130,246,0.4)`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:16 }}>🏛️</div>
+              <div>
+                <p style={{ fontSize:13, fontWeight:700, color:"#fff", margin:0 }}>Don-Organes</p>
+                <p style={{ fontSize:9, color:COLOR, fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase", margin:0 }}>CHNCAK · Participation Don-Organesne</p>
+              </div>
             </div>
-            <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 900, lineHeight: 1.1, marginBottom: 10 }}>
-              <span style={{ background: "linear-gradient(135deg, #fff, #e11d48)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+            <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+              <div className="pulse" style={{ width:6, height:6, borderRadius:"50%", background:"#10b981" }} />
+              <span style={{ fontSize:11, color:"#10b981", fontWeight:600 }}>PORTAIL ACTIF</span>
+            </div>
+          </div>
+        </header>
+
+        <section style={{ maxWidth:1100, margin:"0 auto", padding:"5rem 2rem 4rem", textAlign:"center" }}>
+          <div className="au1" style={{ display:"inline-flex", alignItems:"center", gap:6,
+            background:"rgba(59,130,246,0.08)", border:`1px solid rgba(59,130,246,0.25)`,
+            borderRadius:100, padding:"5px 14px", marginBottom:"2rem" }}>
+            <span style={{ fontSize:10 }}>🇸🇳</span>
+            <span style={{ fontSize:10, color:COLOR, fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase" }}>
+              Conseil National de Régulation de l&apos;Audiovisuel
+            </span>
+          </div>
+
+          <div className="au2">
+            <h1 style={{ fontSize:"clamp(2.2rem,5vw,4rem)", fontWeight:900, lineHeight:1.05, letterSpacing:"-0.03em", margin:"0 0 1.25rem" }}>
+              <span style={{ display:"block", color:"rgba(255,255,255,0.45)", fontSize:".42em", fontWeight:500, letterSpacing:".15em", textTransform:"uppercase", marginBottom:".5rem" }}>
+                Application
+              </span>
+              <span style={{ background:`linear-gradient(135deg,#fff 0%,#bfdbfe 50%,${COLOR} 100%)`,
+                WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text" }}>
                 Don-Organes
               </span>
             </h1>
-            <p style={{ fontSize: "clamp(0.95rem, 2vw, 1.15rem)", color: "rgba(255,255,255,0.55)", lineHeight: 1.7, maxWidth: 600 }}>
-              Gestion sécurisée, éthique et transparente des dons et transplantations d'organes.
-            </p>
           </div>
-        </div>
 
-        {/* STATS */}
-        <div className="au2" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 12, marginBottom: "3rem" }}>
-          <div className="stat-card">
-            <p style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", fontWeight: 900, color: "#e11d48", marginBottom: 4 }}>10K+</p>
-            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>Inscrits</p>
-          </div>
-          <div className="stat-card">
-            <p style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", fontWeight: 900, color: "#e11d48", marginBottom: 4 }}>100%</p>
-            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>Transparent</p>
-          </div>
-          <div className="stat-card">
-            <p style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", fontWeight: 900, color: "#e11d48", marginBottom: 4 }}>National</p>
-            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>Couverture</p>
-          </div>
-        </div>
+          <p className="au3" style={{ fontSize:"clamp(1rem,2vw,1.2rem)", color:"rgba(255,255,255,0.5)",
+            maxWidth:560, margin:"0 auto 2.5rem", lineHeight:1.8 }}>
+            Le portail officiel du CHNCAK pour <strong style={{ color:"rgba(255,255,255,0.85)" }}>la participation citoyenne</strong> —
+            signalez, consultez, suivez les décisions et contribuez à un audiovisuel sénégalais de qualité.
+          </p>
 
-        {/* FEATURES */}
-        <div className="au3" style={{ marginBottom: "3rem" }}>
-          <h2 style={{ fontSize: "clamp(1.3rem, 2.5vw, 1.8rem)", fontWeight: 800, marginBottom: "1.5rem" }}>Fonctionnalités Clés</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: 12 }}>
-            <div className="feat-card">
-              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-                <div style={{ width: 40, height: 40, borderRadius: 10, background: "#e11d4818", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>📝</div>
-                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>Registre</h3>
-              </div>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>Inscription des volontaires</p>
-            </div>
-            <div className="feat-card">
-              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-                <div style={{ width: 40, height: 40, borderRadius: 10, background: "#e11d4818", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>🧬</div>
-                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>Matching</h3>
-              </div>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>Algorithme de compatibilité HLA</p>
-            </div>
-            <div className="feat-card">
-              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-                <div style={{ width: 40, height: 40, borderRadius: 10, background: "#e11d4818", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>⏱️</div>
-                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>Logistique</h3>
-              </div>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>Coordination des greffes</p>
-            </div>
-            <div className="feat-card">
-              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-                <div style={{ width: 40, height: 40, borderRadius: 10, background: "#e11d4818", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>🔒</div>
-                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>Éthique</h3>
-              </div>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>Traçabilité et anonymat</p>
-            </div>
-          </div>
-        </div>
-
-        {/* CTA */}
-        <div className="au4" style={{ background: "#e11d4810", border: "1px solid #e11d4825", borderRadius: 16, padding: "2rem", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "1.5rem" }}>
-          <div>
-            <h3 style={{ fontSize: "clamp(1.1rem, 2vw, 1.4rem)", fontWeight: 800, marginBottom: 8 }}>Prêt à intégrer ce module ?</h3>
-            <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)" }}>Contactez Processingenierie pour déployer Don-Organes dans votre infrastructure.</p>
-          </div>
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <a href="mailto:contact@processingenierie.sn" style={{ background: "#e11d48", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}>
-              ✉️ Nous contacter
-            </a>
-            <Link href="/" style={{ background: "rgba(255,255,255,0.05)", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", border: "1px solid rgba(255,255,255,0.1)" }}>
-              ← Retour Portail
+          <div className="au4" style={{ display:"flex", gap:12, justifyContent:"center", flexWrap:"wrap" }}>
+            <Link href="/accueil" style={{
+              display:"inline-flex", alignItems:"center", gap:8,
+              background:`linear-gradient(135deg,#1e3a8a,${COLOR})`,
+              border:`1px solid rgba(59,130,246,0.5)`,
+              color:"#fff", padding:"13px 32px", borderRadius:12, fontSize:15, fontWeight:700,
+              boxShadow:`0 8px 30px rgba(59,130,246,0.3)`,
+            }}>
+              Accéder au portail →
             </Link>
           </div>
-        </div>
+        </section>
 
-      </main>
+        <section style={{ maxWidth:1100, margin:"0 auto", padding:"2rem 2rem 5rem" }}>
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(240px,1fr))", gap:16 }}>
+            {FEATURES.map((f, i) => (
+              <div key={i} className={`card fc fc${i+1}`}
+                onMouseEnter={() => setHovered(i)} onMouseLeave={() => setHovered(null)}
+                style={{
+                  background: hovered===i ? `linear-gradient(135deg,rgba(255,255,255,0.05),${GLOW})` : "rgba(255,255,255,0.03)",
+                  border: `1px solid ${hovered===i ? "rgba(59,130,246,0.3)" : "rgba(255,255,255,0.07)"}`,
+                  borderRadius:16, padding:"1.5rem",
+                  boxShadow: hovered===i ? `0 16px 40px ${GLOW}` : "none",
+                }}>
+                <div style={{ fontSize:28, marginBottom:12 }}>{f.icon}</div>
+                <h3 style={{ fontSize:15, fontWeight:700, color:"#fff", margin:"0 0 8px" }}>{f.title}</h3>
+                <p style={{ fontSize:13, color:"rgba(255,255,255,0.45)", lineHeight:1.7, margin:0 }}>{f.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
 
-      <footer style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "1.5rem", marginTop: "3rem", textAlign: "center" }}>
-        <p style={{ fontSize: 11, color: "rgba(255,255,255,0.3)" }}>Développé par <span style={{ color: "#e11d48", fontWeight: 700 }}>Processingenierie</span> · Hôpital CHNCAK Touba 🇸🇳</p>
-      </footer>
+        <footer style={{ borderTop:"1px solid rgba(255,255,255,0.06)", padding:"1.5rem 2rem", textAlign:"center" }}>
+          <p style={{ fontSize:11, color:"rgba(255,255,255,0.2)", margin:0 }}>
+            © 2025 CHNCAK · Don-Organes · Développé par <span style={{ color:"rgba(255,255,255,0.4)", fontWeight:600 }}>Processingenierie</span>
+          </p>
+        </footer>
+      </div>
     </>
   )
 }

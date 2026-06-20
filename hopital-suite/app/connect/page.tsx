@@ -1,128 +1,212 @@
 "use client"
-import Link from "next/link"
+import { useState } from "react"
+import { Calendar, FileText, Video, MapPin, Activity, Pill, User, Bell, ChevronRight, Download } from "lucide-react"
 
-export default function CHNCAKConnectPage() {
+export default function PatientPortal() {
+  const [activeTab, setActiveTab] = useState('dashboard')
+
   return (
     <>
       <style>{`
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', system-ui, sans-serif; background: #0a1628; color: #fff; }
-        @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-        .au1{animation:fadeUp .6s .1s both} .au2{animation:fadeUp .6s .2s both}
-        .au3{animation:fadeUp .6s .3s both} .au4{animation:fadeUp .6s .4s both}
-        .stat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 1.5rem; text-align: center; transition: all 0.3s; }
-        .stat-card:hover { border-color: #2563eb44; background: rgba(255,255,255,0.05); transform: translateY(-3px); }
-        .feat-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1.25rem; transition: all 0.3s; }
-        .feat-card:hover { border-color: #2563eb44; background: rgba(255,255,255,0.04); }
-        .back-btn { display: inline-flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.5); text-decoration: none; font-size: 14px; font-weight: 600; transition: color 0.2s; }
-        .back-btn:hover { color: #fff; }
+        body { margin: 0; background: #f8fafc; color: #1e293b; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
+
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; opacity: 0; transform: translateY(10px); }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+
+        @keyframes fadeIn {
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        .glass-card {
+          background: rgba(255, 255, 255, 0.9);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(226, 232, 240, 0.8);
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+          border-radius: 16px;
+          transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .glass-card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+        }
       `}</style>
 
-      {/* Header */}
-      <header style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(10,22,40,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "0 1.5rem", height: 60, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <Link href="/" className="back-btn">← Retour au Portail CHNCAK</Link>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#2563eb" }} />
-          <span style={{ fontSize: 12, color: "#2563eb", fontWeight: 700, letterSpacing: "0.1em" }}>SYSTÈME ACTIF</span>
-        </div>
-      </header>
+      {/* BACK NAV */}
+      <div style={{ position:"sticky", top:0, zIndex:100, background:"rgba(10,22,40,0.95)", backdropFilter:"blur(20px)", borderBottom:"1px solid rgba(255,255,255,0.08)", padding:"0 1.5rem", height:52, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.6)", textDecoration:"none", fontSize:13, fontWeight:600 }}>
+          ← Retour au Portail CHNCAK
+        </a>
+        <span style={{ fontSize:11, color:"rgba(255,255,255,0.3)", fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase" }}>CHNCAK Suite</span>
+      </div>
 
-      <main style={{ maxWidth: 1200, margin: "0 auto", padding: "3rem 1.5rem" }}>
-
-        {/* HERO */}
-        <div className="au1" style={{ display: "flex", alignItems: "flex-start", gap: 20, marginBottom: "3rem" }}>
-          <div style={{ width: 72, height: 72, borderRadius: 18, background: "#2563eb20", border: "2px solid #2563eb40", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 36, flexShrink: 0, boxShadow: "0 0 30px #2563eb30" }}>
-            🏥
-          </div>
-          <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-              <span style={{ fontSize: 11, color: "#2563eb", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", background: "#2563eb15", padding: "3px 10px", borderRadius: 6, border: "1px solid #2563eb30" }}>
-                Application Hospitalière
-              </span>
+      {/* HEADER PATIENT */}
+      <div className="bg-blue-600 pb-24 pt-6 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 20% 150%, #ffffff 0%, transparent 50%)' }}></div>
+        <div className="max-w-7xl mx-auto">
+          <div className="flex justify-between items-center mb-8 relative z-10">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                <Activity className="text-white w-6 h-6" />
+              </div>
+              <span className="text-white font-bold text-xl tracking-tight">CHNCAK <span className="font-light">Connect</span></span>
             </div>
-            <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 900, lineHeight: 1.1, marginBottom: 10 }}>
-              <span style={{ background: "linear-gradient(135deg, #fff, #2563eb)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-                CHNCAK Connect
-              </span>
-            </h1>
-            <p style={{ fontSize: "clamp(0.95rem, 2vw, 1.15rem)", color: "rgba(255,255,255,0.55)", lineHeight: 1.7, maxWidth: 600 }}>
-              L'application centrale pour tous les patients de l'hôpital CHNCAK de Touba.
-            </p>
+            <div className="flex items-center gap-4">
+              <button className="relative p-2 text-blue-100 hover:text-white transition">
+                <Bell className="w-6 h-6" />
+                <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-blue-600"></span>
+              </button>
+              <div className="flex items-center gap-2 bg-white/10 py-1.5 px-3 rounded-full backdrop-blur-md cursor-pointer hover:bg-white/20 transition">
+                <div className="w-7 h-7 bg-white text-blue-600 rounded-full flex items-center justify-center font-bold text-sm">
+                  AD
+                </div>
+                <span className="text-white text-sm font-medium hidden sm:block">Awa Diop</span>
+              </div>
+            </div>
           </div>
-        </div>
 
-        {/* STATS */}
-        <div className="au2" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 12, marginBottom: "3rem" }}>
-          <div className="stat-card">
-            <p style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", fontWeight: 900, color: "#2563eb", marginBottom: 4 }}>10K+</p>
-            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>Patients Actifs</p>
-          </div>
-          <div className="stat-card">
-            <p style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", fontWeight: 900, color: "#2563eb", marginBottom: 4 }}>24/7</p>
-            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>Disponibilité</p>
-          </div>
-          <div className="stat-card">
-            <p style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", fontWeight: 900, color: "#2563eb", marginBottom: 4 }}>100%</p>
-            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>Sécurisé</p>
+          <div className="relative z-10 fade-in">
+            <h1 className="text-3xl font-bold text-white mb-2">Bonjour, Awa 👋</h1>
+            <p className="text-blue-100 max-w-xl">Bienvenue sur votre portail santé CHNCAK. Votre prochain rendez-vous est dans <strong className="text-white">3 jours</strong>.</p>
           </div>
         </div>
+      </div>
 
-        {/* FEATURES */}
-        <div className="au3" style={{ marginBottom: "3rem" }}>
-          <h2 style={{ fontSize: "clamp(1.3rem, 2.5vw, 1.8rem)", fontWeight: 800, marginBottom: "1.5rem" }}>Fonctionnalités Clés</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: 12 }}>
-            <div className="feat-card">
-              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-                <div style={{ width: 40, height: 40, borderRadius: 10, background: "#2563eb18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>📅</div>
-                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>Prise de RDV</h3>
+      {/* MAIN DASHBOARD */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-20 pb-12">
+
+        {/* CARTE PROCHAIN RDV */}
+        <div className="glass-card p-6 mb-8 fade-in delay-1 bg-white">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div className="flex gap-4">
+              <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-xl flex flex-col items-center justify-center flex-shrink-0">
+                <span className="text-xs font-bold uppercase">Juin</span>
+                <span className="text-xl font-black">18</span>
               </div>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>Consultations en ligne</p>
+              <div>
+                <span className="inline-block px-2 py-1 bg-amber-100 text-amber-700 text-xs font-bold rounded-md mb-1 uppercase tracking-wide">À venir</span>
+                <h2 className="text-lg font-bold text-gray-900">Consultation Cardiologie</h2>
+                <p className="text-sm text-gray-500 flex items-center gap-1 mt-1">
+                  <User className="w-4 h-4" /> Dr. Ousmane Ndiaye (Chef de Clinique)
+                </p>
+                <p className="text-sm text-gray-500 flex items-center gap-1 mt-1">
+                  <MapPin className="w-4 h-4" /> Bâtiment B - Étage 2 - Salle 204
+                </p>
+              </div>
             </div>
-            <div className="feat-card">
-              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-                <div style={{ width: 40, height: 40, borderRadius: 10, background: "#2563eb18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>📄</div>
-                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>Résultats</h3>
-              </div>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>Analyses et radiologies</p>
-            </div>
-            <div className="feat-card">
-              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-                <div style={{ width: 40, height: 40, borderRadius: 10, background: "#2563eb18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>📞</div>
-                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>Téléconsultation</h3>
-              </div>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>Vidéo avec les médecins</p>
-            </div>
-            <div className="feat-card">
-              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-                <div style={{ width: 40, height: 40, borderRadius: 10, background: "#2563eb18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>💳</div>
-                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>Paiement</h3>
-              </div>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>Factures en ligne</p>
+            <div className="flex flex-col gap-2 w-full sm:w-auto">
+              <button className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition flex items-center justify-center gap-2">
+                <MapPin className="w-4 h-4" /> GPS Interne
+              </button>
+              <button className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 py-2.5 rounded-lg text-sm font-semibold transition">
+                Modifier / Annuler
+              </button>
             </div>
           </div>
         </div>
 
-        {/* CTA */}
-        <div className="au4" style={{ background: "#2563eb10", border: "1px solid #2563eb25", borderRadius: 16, padding: "2rem", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "1.5rem" }}>
-          <div>
-            <h3 style={{ fontSize: "clamp(1.1rem, 2vw, 1.4rem)", fontWeight: 800, marginBottom: 8 }}>Prêt à intégrer ce module ?</h3>
-            <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)" }}>Contactez Processingenierie pour déployer CHNCAK Connect dans votre infrastructure.</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+
+          {/* QUICK ACTIONS */}
+          <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <button className="glass-card p-5 text-left flex flex-col justify-between h-36 group fade-in delay-2">
+              <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                <Calendar className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-bold text-gray-900 mb-1">Nouveau Rendez-vous</h3>
+                <p className="text-xs text-gray-500">Prendre RDV avec un spécialiste</p>
+              </div>
+            </button>
+
+            <button className="glass-card p-5 text-left flex flex-col justify-between h-36 group fade-in delay-2 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-50 rounded-bl-full -z-10 group-hover:scale-150 transition-transform duration-500"></div>
+              <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mb-4 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                <Video className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-bold text-gray-900 mb-1">Téléconsultation</h3>
+                <p className="text-xs text-gray-500">Consulter depuis votre domicile</p>
+              </div>
+            </button>
+
+            <button className="glass-card p-5 text-left flex flex-col justify-between h-36 group fade-in delay-2">
+              <div className="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mb-4 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                <FileText className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-bold text-gray-900 mb-1">Dossier Médical</h3>
+                <p className="text-xs text-gray-500">Historique et documents</p>
+              </div>
+            </button>
+
+            <button className="glass-card p-5 text-left flex flex-col justify-between h-36 group fade-in delay-2">
+              <div className="w-10 h-10 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center mb-4 group-hover:bg-teal-600 group-hover:text-white transition-colors">
+                <Pill className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-bold text-gray-900 mb-1">Ordonnances (SmartPharma)</h3>
+                <p className="text-xs text-gray-500">Traçabilité de vos traitements</p>
+              </div>
+            </button>
           </div>
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <a href="mailto:contact@processingenierie.sn" style={{ background: "#2563eb", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}>
-              ✉️ Nous contacter
-            </a>
-            <Link href="/" style={{ background: "rgba(255,255,255,0.05)", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", border: "1px solid rgba(255,255,255,0.1)" }}>
-              ← Retour Portail
-            </Link>
+
+          {/* DERNIERS RÉSULTATS */}
+          <div className="glass-card p-0 flex flex-col fade-in delay-3 bg-white h-full">
+            <div className="p-5 border-b border-gray-100 flex justify-between items-center">
+              <h3 className="font-bold text-gray-900 flex items-center gap-2">
+                <Activity className="w-4 h-4 text-blue-600" /> Récents
+              </h3>
+              <button className="text-blue-600 text-xs font-semibold hover:underline">Tout voir</button>
+            </div>
+            <div className="p-2 flex-1">
+              {[
+                { type: 'Prise de sang', date: 'Il y a 2 jours', status: 'Disponible', urgent: false },
+                { type: 'Radiographie Thorax', date: '12 Mai 2026', status: 'Visualisé', urgent: false },
+                { type: 'Ordonnance', date: '05 Avril 2026', status: 'Archivé', urgent: false },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition group">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded bg-blue-50 text-blue-600 flex items-center justify-center">
+                      <FileText className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-gray-900">{item.type}</p>
+                      <p className="text-xs text-gray-500">{item.date}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    {item.status === 'Disponible' && <span className="w-2 h-2 rounded-full bg-emerald-500"></span>}
+                    <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-blue-600 transition" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+
+        {/* INFO PRATIQUE */}
+        <div className="glass-card p-6 bg-gradient-to-r from-slate-800 to-slate-900 text-white fade-in delay-3">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-md">
+                <MapPin className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h3 className="font-bold text-lg">Comment se repérer au CHNCAK ?</h3>
+                <p className="text-slate-300 text-sm max-w-xl">Le complexe hospitalier de Touba est immense. Utilisez notre navigateur GPS 3D pour trouver votre chambre ou votre pavillon de consultation instantanément.</p>
+              </div>
+            </div>
+            <button className="w-full md:w-auto bg-white text-slate-900 hover:bg-blue-50 px-6 py-3 rounded-lg text-sm font-bold transition whitespace-nowrap shadow-lg shadow-black/20">
+              Lancer le Navigateur
+            </button>
           </div>
         </div>
 
       </main>
-
-      <footer style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "1.5rem", marginTop: "3rem", textAlign: "center" }}>
-        <p style={{ fontSize: 11, color: "rgba(255,255,255,0.3)" }}>Développé par <span style={{ color: "#2563eb", fontWeight: 700 }}>Processingenierie</span> · Hôpital CHNCAK Touba 🇸🇳</p>
-      </footer>
     </>
   )
 }
