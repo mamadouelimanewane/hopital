@@ -2,34 +2,68 @@
 import Link from "next/link"
 import { useState, useEffect } from "react"
 
-const APPS = [
-  { id: "connect", name: "CHNCAK Connect", href: "/connect", icon: "🏥", desc: "Portail Patient & Télémédecine", hexColor: "#2563eb" },
-  { id: "predict", name: "Predict-IA", href: "/predict", icon: "🧠", desc: "Tableau de Bord Direction & IA", hexColor: "#10b981" },
-  { id: "pharma", name: "SmartPharma", href: "/pharma", icon: "💊", desc: "Pharmacie, Stocks & Blockchain", hexColor: "#14b8a6" },
-  { id: "learn", name: "Med-Learn", href: "/learn", icon: "🎓", desc: "Université & Staffs Médicaux", hexColor: "#6366f1" },
-  { id: "blood", name: "Blood-Sync", href: "/blood", icon: "🩸", desc: "Banque de Sang Connectée", hexColor: "#ef4444" },
-  { id: "ambu", name: "Ambu-Track", href: "/ambu", icon: "🚑", desc: "Contrôle Aérien des Urgences", hexColor: "#f97316" },
-  { id: "neuro", name: "NeuroScan-IA", href: "/neuro", icon: "🧬", desc: "Assistant Radiologique par IA", hexColor: "#8b5cf6" },
-  { id: "touba", name: "Touba-Med-Care", href: "/touba", icon: "🌟", desc: "Tourisme Médical VIP", hexColor: "#eab308" },
-  { id: "eco", name: "Eco-Hôpital", href: "/eco", icon: "⚡", desc: "Smart Grid & Jumeau Énergétique", hexColor: "#84cc16" },
-  { id: "magal", name: "Magal-Surge", href: "/magal", icon: "🕌", desc: "Gestion de Crise Grand Magal", hexColor: "#7c3aed" },
-  { id: "nutri", name: "Nutri-Care", href: "/nutri", icon: "🍽️", desc: "Suivi Nutritionnel Médical", hexColor: "#d97706" },
-  { id: "psych", name: "Psych-Care", href: "/psych", icon: "🧘", desc: "Santé Mentale Anonyme & IA", hexColor: "#0891b2" },
-  { id: "rehab", name: "Rehab-Track", href: "/rehab", icon: "🦴", desc: "Rééducation Post-Opératoire", hexColor: "#16a34a" },
-  { id: "organes", name: "Don-Organes", href: "/organes", icon: "❤️", desc: "Registre National Donneurs", hexColor: "#e11d48" },
-  { id: "ia-diagnostic", name: "IA-Diagnostic", href: "/ia-diagnostic", icon: "🔬", desc: "Diagnostic Multi-Pathologies IA", hexColor: "#7c3aed" },
-  { id: "smart-beds", name: "Smart Beds", href: "/smart-beds", icon: "🛏️", desc: "Gestion Intelligente des Lits", hexColor: "#2563eb" },
-  { id: "factu-care", name: "FactuCare", href: "/factu-care", icon: "💳", desc: "Facturation & Assurance Maladie", hexColor: "#15803d" },
-  { id: "sante-reseau", name: "Réseau Santé SN", href: "/sante-reseau", icon: "🌐", desc: "Réseau Multi-Hôpitaux Sénégal", hexColor: "#0891b2" },
-  { id: "patient-mobile", name: "Patient Mobile", href: "/patient-mobile", icon: "📱", desc: "Application Mobile Patient PWA", hexColor: "#0284c7" },
-  { id: "qualite-accred", name: "Qualité-JCI", href: "/qualite-accred", icon: "🏆", desc: "Qualité & Accréditation JCI", hexColor: "#1d4ed8" },
-  { id: "lab-connect", name: "Lab Connect", href: "/lab-connect", icon: "🧪", desc: "Laboratoire Connecté Temps Réel", hexColor: "#0369a1" },
-  { id: "chatbot-triage", name: "Triage IA", href: "/chatbot-triage", icon: "💬", desc: "ChatBot Triage Wolof + Français", hexColor: "#065f46" },
-  { id: "rh-medical", name: "RH Médical", href: "/rh-medical", icon: "👥", desc: "Ressources Humaines Médicales", hexColor: "#4338ca" },
-  { id: "don-financement", name: "Don & Diaspora", href: "/don-financement", icon: "🌍", desc: "Financement & Dons Diaspora", hexColor: "#b45309" },
-  { id: "chncak-academy", name: "CHNCAK Academy", href: "/chncak-academy", icon: "🎓", desc: "Formation & Simulation Médicale", hexColor: "#6d28d9" },
-  { id: "epidemio-watch", name: "Épidémio-Watch", href: "/epidemio-watch", icon: "🦠", desc: "Surveillance Épidémique Sénégal", hexColor: "#991b1b" },
+const SECTIONS = [
+  {
+    id: "clinique",
+    label: "Soins & Gestion Clinique",
+    desc: "Les fondamentaux du quotidien hospitalier",
+    icon: "🏥",
+    apps: [
+      { id: "connect",       name: "CHNCAK Connect",   href: "/connect",       icon: "🏥", desc: "Portail Patient & Télémédecine",         hexColor: "#2563eb" },
+      { id: "pharma",        name: "SmartPharma",       href: "/pharma",        icon: "💊", desc: "Pharmacie, Stocks & Ordonnances",         hexColor: "#14b8a6" },
+      { id: "blood",         name: "BloodSync",         href: "/blood",         icon: "🩸", desc: "Banque de Sang Connectée",               hexColor: "#ef4444" },
+      { id: "ambu",          name: "AmbuTrack",         href: "/ambu",          icon: "🚑", desc: "Suivi & Dispatch des Ambulances",         hexColor: "#f97316" },
+      { id: "lab-connect",   name: "Lab Connect",       href: "/lab-connect",   icon: "🧪", desc: "Laboratoire Connecté Temps Réel",         hexColor: "#0369a1" },
+      { id: "smart-beds",    name: "Smart Beds",        href: "/smart-beds",    icon: "🛏️", desc: "Gestion Intelligente des Lits",           hexColor: "#2563eb" },
+      { id: "factu-care",    name: "FactuCare",         href: "/factu-care",    icon: "💳", desc: "Facturation & Assurance Maladie",         hexColor: "#15803d" },
+      { id: "rh-medical",    name: "RH Médical",        href: "/rh-medical",    icon: "👥", desc: "Ressources Humaines Médicales",           hexColor: "#4338ca" },
+    ],
+  },
+  {
+    id: "admin",
+    label: "Administration, Qualité & Réseau",
+    desc: "Pilotage, conformité et coordination inter-établissements",
+    icon: "📋",
+    apps: [
+      { id: "qualite-accred", name: "Qualité-JCI",      href: "/qualite-accred", icon: "🏆", desc: "Qualité & Accréditation JCI",           hexColor: "#1d4ed8" },
+      { id: "sante-reseau",  name: "Réseau Santé SN",   href: "/sante-reseau",  icon: "🌐", desc: "Réseau Multi-Hôpitaux Sénégal",          hexColor: "#0891b2" },
+      { id: "nutri",         name: "NutriCare",         href: "/nutri",         icon: "🍽️", desc: "Suivi Nutritionnel Médical",              hexColor: "#d97706" },
+      { id: "rehab",         name: "RehabTrack",        href: "/rehab",         icon: "🦴", desc: "Rééducation & Kinésithérapie",            hexColor: "#16a34a" },
+      { id: "psych",         name: "PsychCare",         href: "/psych",         icon: "🧘", desc: "Psychiatrie & Santé Mentale",             hexColor: "#0891b2" },
+      { id: "organes",       name: "DonOrganes",        href: "/organes",       icon: "❤️", desc: "Registre National Don d'Organes",         hexColor: "#e11d48" },
+      { id: "epidemio-watch",name: "Épidémio-Watch",    href: "/epidemio-watch",icon: "🦠", desc: "Surveillance Épidémique Sénégal",         hexColor: "#991b1b" },
+      { id: "don-financement",name: "Don & Diaspora",   href: "/don-financement",icon:"🌍", desc: "Financement & Dons Diaspora",             hexColor: "#b45309" },
+    ],
+  },
+  {
+    id: "event",
+    label: "Événementiel, Mobilité & Durabilité",
+    desc: "Gestion de crise, grands rassemblements et développement durable",
+    icon: "🌟",
+    apps: [
+      { id: "touba",         name: "Touba MedCare",     href: "/touba",         icon: "🕌", desc: "Médecine Grand Magal de Touba",           hexColor: "#eab308" },
+      { id: "magal",         name: "Magal Surge",       href: "/magal",         icon: "🚨", desc: "Cellule de Crise & Montée en Charge",     hexColor: "#f97316" },
+      { id: "eco",           name: "Éco-Hôpital",       href: "/eco",           icon: "⚡", desc: "Gestion Énergétique & Durabilité",         hexColor: "#22c55e" },
+      { id: "patient-mobile",name: "Patient Mobile",    href: "/patient-mobile",icon: "📱", desc: "Application Mobile Patient PWA",           hexColor: "#0284c7" },
+    ],
+  },
+  {
+    id: "ia",
+    label: "Intelligence Artificielle & Formation",
+    desc: "Innovations IA pour le diagnostic, la prédiction et l'apprentissage médical",
+    icon: "🤖",
+    apps: [
+      { id: "chatbot-triage",name: "Triage IA",         href: "/chatbot-triage",icon: "💬", desc: "ChatBot Triage Wolof + Français",          hexColor: "#065f46" },
+      { id: "neuro",         name: "NeuroScan IA",      href: "/neuro",         icon: "🧬", desc: "Assistant Radiologique par IA",            hexColor: "#8b5cf6" },
+      { id: "ia-diagnostic", name: "IA-Diagnostic",     href: "/ia-diagnostic", icon: "🔬", desc: "Diagnostic Multi-Pathologies IA",          hexColor: "#7c3aed" },
+      { id: "predict",       name: "Predict IA",        href: "/predict",       icon: "🧠", desc: "Prédictions & Tableau de Bord IA",         hexColor: "#6366f1" },
+      { id: "chncak-academy",name: "CHNCAK Academy",    href: "/chncak-academy",icon: "🎓", desc: "Formation & Simulation Médicale",          hexColor: "#6d28d9" },
+      { id: "learn",         name: "MedLearn",          href: "/learn",         icon: "📚", desc: "E-Learning Médical & Certifications",      hexColor: "#f59e0b" },
+    ],
+  },
 ]
+
+const APPS = SECTIONS.flatMap(s => s.apps)
 
 const BG = "#0a1628"
 const ACCENT = "#10b981"
@@ -173,7 +207,7 @@ export default function Home() {
               fontSize: 16, fontWeight: 700, textDecoration: "none",
               boxShadow: "0 0 30px rgba(16,185,129,0.3)", transition: "all 0.2s",
             }}>
-              Voir les 14 applications ↓
+              Découvrir les 26 applications ↓
             </a>
           </div>
 
@@ -188,7 +222,7 @@ export default function Home() {
             </p>
             <p style={{ fontSize: "clamp(1rem, 2vw, 1.2rem)", color: "rgba(255,255,255,0.7)", lineHeight: 1.8 }}>
               Le CHNCAK de Touba est une infrastructure de référence nationale.
-              Cet écosystème digital de <strong style={{ color: "#fff" }}>14 applications d'avant-garde</strong> place
+              Cet écosystème digital de <strong style={{ color: "#fff" }}>26 applications d'avant-garde</strong> place
               l'excellence médicale au cœur de la transformation numérique sénégalaise.
             </p>
           </div>
@@ -205,21 +239,37 @@ export default function Home() {
 
         {/* APPS GRID */}
         <section id="applications" style={{ maxWidth: 1300, margin: "0 auto", padding: "4rem 1.5rem 2rem" }}>
-          <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
+          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
             <p style={{ fontSize: 12, color: ACCENT, fontWeight: 700,
               letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 8 }}>
               — Portail d'accès —
             </p>
             <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.5rem)", fontWeight: 800, color: "#fff" }}>
-              14 Applications Médicales d'État
+              26 Applications Médicales d'État
             </h2>
             <p style={{ fontSize: 16, color: "rgba(255,255,255,0.45)", marginTop: 8 }}>
-              Cliquez pour accéder à chaque application
+              4 domaines · Du soin quotidien à l'intelligence artificielle
             </p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", gap: 14 }}>
-            {APPS.map((app) => (
+          {SECTIONS.map((section, si) => (
+            <div key={section.id} style={{ marginBottom: "3.5rem" }}>
+              {/* Section header */}
+              <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: "1.5rem", paddingBottom: 14, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                <div style={{ width: 36, height: 36, borderRadius: 10, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18 }}>{section.icon}</div>
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <span style={{ fontSize: 11, color: ACCENT, fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase" }}>Étape {si + 1} / 4</span>
+                    <span style={{ width: 4, height: 4, borderRadius: "50%", background: "rgba(255,255,255,0.2)", display: "inline-block" }} />
+                    <span style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", fontWeight: 600 }}>{section.apps.length} applications</span>
+                  </div>
+                  <h3 style={{ margin: "2px 0 0", fontSize: "clamp(1rem, 2vw, 1.25rem)", fontWeight: 800, color: "#fff" }}>{section.label}</h3>
+                  <p style={{ margin: 0, fontSize: 13, color: "rgba(255,255,255,0.4)" }}>{section.desc}</p>
+                </div>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", gap: 14 }}>
+            {section.apps.map((app) => (
               <Link key={app.id} href={app.href}
                 className="card-hover"
                 onMouseEnter={() => setHovered(app.id)}
@@ -279,7 +329,9 @@ export default function Home() {
                 </div>
               </Link>
             ))}
-          </div>
+              </div>
+            </div>
+          ))}
         </section>
 
         {/* MISSION BLOCK */}
@@ -306,7 +358,7 @@ export default function Home() {
                 </p>
               </div>
               <div style={{ textAlign: "center", padding: "0 1.5rem" }}>
-                <p style={{ fontSize: 52, fontWeight: 900, color: ACCENT, lineHeight: 1 }}>14</p>
+                <p style={{ fontSize: 52, fontWeight: 900, color: ACCENT, lineHeight: 1 }}>26</p>
                 <p style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginTop: 4,
                   letterSpacing: "0.1em", textTransform: "uppercase" }}>Applications</p>
               </div>
