@@ -1,313 +1,291 @@
-"use client"
-import { useState, useEffect } from "react"
-import { Activity, ShieldAlert, Zap, Globe, BarChart4, Target, Cpu, Radio } from "lucide-react"
+"use client";
+import { useState, useEffect } from "react";
 
-// --- Données Mockées pour l'effet "Temps Réel" ---
-const AI_ALERTS = [
-  "🚨 [IA-DETECT] Pic de temps de parole non déclaré (RTS1) - +45% (12:00)",
-  "⚠️ [DEEPFAKE] Contenu suspect détecté sur TikTok (Score: 89%) - Source: DakarLive",
-  "🛡️ [KIDS-PROTECT] Programme inadapté signalé sur SenTV à 14h30",
-  "📊 [AD-WATCH] Infraction: Dépassement volume publicitaire TFM (+12 min)",
-  "🤖 [IA-PREDICT] Risque de désinformation élevé (Secteur Nord) - Mots clés: 'Fraude'",
-  "📡 [STREAM-REGUL] 3 nouvelles Web-TVs non déclarées détectées sur YouTube",
-]
+const ACCENT = "#22c55e";
+const BG = "#050d1a";
+const CARD = "#0a1628";
+const BORDER = "1px solid rgba(255,255,255,0.06)";
+const TEXT = "#e2e8f0";
+const MUTED = "#64748b";
 
-const STATS = [
-  { label: "Heures TV Analysées (24h)", value: 1420, suffix: "h", color: "#14b8a6" },
-  { label: "Deepfakes Bloqués", value: 47, suffix: "", color: "#a855f7" },
-  { label: "Alertes Pluralisme", value: 12, suffix: "", color: "#eab308" },
-  { label: "Fiabilité Globale", value: 98, suffix: "%", color: "#10b981" },
-]
+const ENERGIE_SEMAINE = [312, 298, 341, 287, 329, 318, 247];
+const ENERGIE_MOIS = [8820, 9140, 8650, 9320, 8910, 9480, 8730, 9100, 8820, 9250, 8660, 9310, 8940, 9080, 8750, 9420, 9010, 8830, 9260, 8710, 9390, 8940, 9130, 8780, 9470, 9020, 8650, 9310, 8880, 1247];
+const JOURS = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
 
-export default function CommandCenter() {
-  const [mounted, setMounted] = useState(false)
-  const [alertIndex, setAlertIndex] = useState(0)
-  const [randomData, setRandomData] = useState<number[]>([40, 60, 45, 80, 55, 90, 65, 85, 50, 75])
+const CERTIFICATIONS = [
+  { name: "ISO 14001", desc: "Système de management environnemental", status: "En cours", progress: 67, icon: "🌍" },
+  { name: "HEQ® Niveau 1", desc: "Haute Exigence Qualité Environnementale", status: "Obtenu", progress: 100, icon: "🏆" },
+  { name: "Zéro Carbone 2030", desc: "Neutralité carbone objectif horizon 2030", status: "Planifié", progress: 23, icon: "🌿" },
+  { name: "Label BioNettoyage", desc: "Produits d'entretien biodégradables", status: "Obtenu", progress: 100, icon: "✅" },
+];
 
-  // Simulation Temps Réel
-  useEffect(() => {
-    setMounted(true)
-    const alertInterval = setInterval(() => {
-      setAlertIndex(prev => (prev + 1) % AI_ALERTS.length)
-    }, 4500)
+const OBJECTIFS = [
+  { label: "Réduction consommation énergie", actuel: 73, cible: 85, unite: "%" },
+  { label: "Couverture solaire", actuel: 34, cible: 60, unite: "%" },
+  { label: "Tri sélectif des déchets", actuel: 82, cible: 95, unite: "%" },
+  { label: "Récupération eau de pluie", actuel: 18, cible: 40, unite: "%" },
+];
 
-    const chartInterval = setInterval(() => {
-      setRandomData(prev => prev.map(v => Math.max(20, Math.min(100, v + (Math.random() * 20 - 10)))))
-    }, 2000)
+export default function EcoPage() {
+  const [vue, setVue] = useState<"semaine" | "mois">("semaine");
+  const [animIn, setAnimIn] = useState(false);
+  const [score] = useState(73);
 
-    return () => {
-      clearInterval(alertInterval)
-      clearInterval(chartInterval)
-    }
-  }, [])
+  useEffect(() => { setAnimIn(true); }, []);
+
+  const data = vue === "semaine" ? ENERGIE_SEMAINE : ENERGIE_MOIS.slice(-14);
+  const labels = vue === "semaine" ? JOURS : Array.from({ length: data.length }, (_, i) => `J${i+1}`);
+  const maxVal = Math.max(...data);
+  const minVal = Math.min(...data);
+
+  const polylinePoints = data.map((v, i) => {
+    const x = 30 + (i / (data.length - 1)) * 560;
+    const y = 170 - ((v - minVal) / (maxVal - minVal)) * 140;
+    return `${x},${y}`;
+  }).join(" ");
+
+  const areaPoints = `30,175 ${polylinePoints} ${30 + 560},175`;
+
+  const statusColor = (s: string) => s === "Obtenu" ? ACCENT : s === "En cours" ? "#f59e0b" : MUTED;
 
   return (
-    <>
+    <div style={{ minHeight:"100vh", background:BG, color:TEXT, fontFamily:"'Inter', system-ui, sans-serif" }}>
       <style>{`
-        body { margin: 0; background: #030712; color: #fff; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
-
-        /* Animations CSS pures */
-        @keyframes scanline {
-          0% { transform: translateY(-100%); }
-          100% { transform: translateY(100vh); }
-        }
-        @keyframes pulse-glow {
-          0%, 100% { box-shadow: 0 0 15px rgba(20, 184, 166, 0.2); }
-          50% { box-shadow: 0 0 35px rgba(20, 184, 166, 0.6); }
-        }
-        @keyframes typing {
-          from { width: 0; opacity: 0; }
-          to { width: 100%; opacity: 1; }
-        }
-        @keyframes blink-caret {
-          from, to { border-color: transparent }
-          50% { border-color: #14b8a6; }
-        }
-        @keyframes radar-spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        @keyframes floatUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        .grid-bg {
-          background-size: 40px 40px;
-          background-image:
-            linear-gradient(to right, rgba(20, 184, 166, 0.05) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(20, 184, 166, 0.05) 1px, transparent 1px);
-        }
-
-        .glass-panel {
-          background: rgba(17, 24, 39, 0.7);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          border: 1px solid rgba(20, 184, 166, 0.15);
-          border-radius: 16px;
-        }
-
-        .cyber-text {
-          color: #5eead4;
-          text-shadow: 0 0 10px rgba(94, 234, 212, 0.5);
-        }
-
-        .typewriter {
-          overflow: hidden;
-          border-right: .15em solid #14b8a6;
-          white-space: nowrap;
-          margin: 0 auto;
-          letter-spacing: .05em;
-          animation:
-            typing 3s steps(40, end),
-            blink-caret .75s step-end infinite;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #030712; }
-        ::-webkit-scrollbar-thumb { background: #14b8a6; border-radius: 10px; }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+        @keyframes grow { from{width:0} to{width:100%} }
+        ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-track{background:#050d1a} ::-webkit-scrollbar-thumb{background:#22c55e30;border-radius:4px}
       `}</style>
 
-      {/* BACK NAV */}
-      <div style={{ position:"sticky", top:0, zIndex:100, background:"rgba(10,22,40,0.95)", backdropFilter:"blur(20px)", borderBottom:"1px solid rgba(255,255,255,0.08)", padding:"0 1.5rem", height:52, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.6)", textDecoration:"none", fontSize:13, fontWeight:600 }}>
-          ← Retour au Portail CHNCAK
-        </a>
+      {/* Nav */}
+      <div style={{ position:"sticky", top:0, zIndex:200, background:"rgba(5,13,26,0.96)", backdropFilter:"blur(20px)", borderBottom:"1px solid rgba(14,165,233,0.12)", padding:"0 1.5rem", height:52, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.5)", textDecoration:"none", fontSize:13, fontWeight:600 }}>← Portail CHNCAK</a>
         <span style={{ fontSize:11, color:"rgba(255,255,255,0.3)", fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase" }}>CHNCAK Suite</span>
       </div>
 
-      <div className="min-h-screen relative grid-bg">
-        {/* Ligne de scan radar style matrice */}
-        <div
-          className="absolute inset-0 pointer-events-none opacity-20"
-          style={{
-            background: 'linear-gradient(to bottom, transparent, #14b8a6, transparent)',
-            height: '2px',
-            animation: 'scanline 8s linear infinite'
-          }}
-        />
+      <div style={{ maxWidth:1100, margin:"0 auto", padding:"2rem 1.5rem" }}>
 
-        {/* Effet lueur radiale globale */}
-        <div className="absolute inset-0 pointer-events-none" style={{
-          background: "radial-gradient(circle at 50% 30%, rgba(20,184,166,0.1), transparent 60%)"
-        }} />
-
-        {/* --- HEADER --- */}
-        <header className="glass-panel sticky top-[52px] z-50 flex items-center justify-between px-6 py-4 mx-4 mt-4 border-b-0 rounded-2xl">
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <Cpu className="w-8 h-8 text-teal-400" />
-              <div className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full animate-ping" />
-            </div>
-            <div>
-              <h1 className="text-xl font-black text-white tracking-widest">
-                CHNCAK <span className="cyber-text">ANALYTICS</span>
-              </h1>
-              <p className="text-[10px] text-teal-500 tracking-[0.2em] uppercase font-bold">
-                Jumeau Énergétique
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2">
-              <Radio className="w-4 h-4 text-emerald-400 animate-pulse" />
-              <span className="text-xs text-emerald-400 font-mono">SYSTEM ONLINE</span>
-            </div>
-            <div className="px-3 py-1 rounded bg-teal-500/10 border border-teal-500/30 text-teal-400 font-mono text-xs">
-              v2.0.4-AI-CORE
-            </div>
-          </div>
-        </header>
-
-        {/* --- MAIN CONTENT --- */}
-        <main className="max-w-[1400px] mx-auto p-4 md:p-6 mt-4 grid gap-6 grid-cols-1 lg:grid-cols-12 relative z-10">
-
-          {/* Section 1 : Flux d'alerte IA & Radar (Top Left) */}
-          <div className="lg:col-span-8 flex flex-col gap-6">
-
-            {/* Terminal AI Feed */}
-            <div className="glass-panel p-6 border-l-4 border-l-red-500 flex flex-col" style={{ animation: "floatUp 0.6s ease-out" }}>
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="flex items-center gap-2 text-sm font-bold text-gray-300 uppercase tracking-wider">
-                  <Activity className="w-4 h-4 text-red-400" />
-                  Flux Cerveau IA - Temps Réel
-                </h2>
-                <span className="text-xs font-mono text-red-400 bg-red-500/10 px-2 py-1 rounded">LIVE SECURE</span>
-              </div>
-              <div className="bg-gray-950/80 rounded-xl p-4 min-h-[80px] flex items-center font-mono text-sm border border-gray-800 relative overflow-hidden">
-                {mounted && (
-                  <p key={alertIndex} className="text-red-400 typewriter m-0">
-                    {AI_ALERTS[alertIndex]}
-                  </p>
-                )}
+        {/* Header */}
+        <div style={{ animation: animIn ? "fadeUp 0.5s ease both" : "none", marginBottom:"2rem" }}>
+          <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:16, marginBottom:20 }}>
+            <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+              <div style={{ width:48, height:48, borderRadius:14, background:`${ACCENT}15`, border:`1px solid ${ACCENT}30`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:24 }}>🌿</div>
+              <div>
+                <h1 style={{ margin:0, fontSize:26, fontWeight:700, color:TEXT }}>Éco-Hôpital CHNCAK</h1>
+                <p style={{ margin:0, fontSize:13, color:MUTED }}>Gestion Environnementale & Développement Durable</p>
               </div>
             </div>
+            <div style={{ background:`${ACCENT}10`, border:`1px solid ${ACCENT}30`, borderRadius:14, padding:"12px 20px", textAlign:"center" }}>
+              <div style={{ fontSize:36, fontWeight:700, color:ACCENT }}>{score}/100</div>
+              <div style={{ fontSize:12, color:MUTED }}>Score Global</div>
+              <div style={{ fontSize:13, fontWeight:700, color:ACCENT, marginTop:2 }}>Niveau B+</div>
+            </div>
+          </div>
 
-            {/* Statistiques Clés Dynamiques */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {STATS.map((stat, i) => (
-                <div key={i} className="glass-panel p-5 relative overflow-hidden group" style={{ animation: `floatUp 0.6s ${i * 0.1}s ease-out both` }}>
-                  <div className="absolute -right-4 -top-4 w-16 h-16 rounded-full opacity-20" style={{ background: stat.color, filter: 'blur(15px)' }} />
-                  <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">{stat.label}</p>
-                  <div className="flex items-baseline gap-1">
-                    {mounted ? (
-                      <span className="text-3xl font-black text-white" style={{ textShadow: `0 0 20px ${stat.color}` }}>
-                        <AnimatedNumber value={stat.value} />
-                      </span>
-                    ) : (
-                      <span className="text-3xl font-black text-white">0</span>
-                    )}
-                    <span className="text-sm font-bold" style={{ color: stat.color }}>{stat.suffix}</span>
+          {/* 3 sections grid */}
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:14 }}>
+
+            {/* Énergie */}
+            <div style={{ background:CARD, border:BORDER, borderRadius:14, padding:"1.25rem", animation:"fadeUp 0.4s ease both" }}>
+              <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:14 }}>
+                <span style={{ fontSize:18 }}>⚡</span>
+                <span style={{ fontWeight:700, fontSize:14, color:TEXT }}>Énergie</span>
+                <span style={{ marginLeft:"auto", padding:"2px 8px", background:`${ACCENT}15`, border:`1px solid ${ACCENT}25`, borderRadius:10, fontSize:10, color:ACCENT, fontWeight:700 }}>ACTIF</span>
+              </div>
+              <div style={{ fontSize:28, fontWeight:700, color:"#fbbf24", marginBottom:2 }}>1,247 <span style={{ fontSize:14, fontWeight:400, color:MUTED }}>kWh/jour</span></div>
+              <div style={{ fontSize:12, color:MUTED, marginBottom:14 }}>Consommation moyenne journalière</div>
+
+              <div style={{ marginBottom:12 }}>
+                <div style={{ display:"flex", justifyContent:"space-between", fontSize:12, color:MUTED, marginBottom:4 }}>
+                  <span>Panneaux solaires</span><span style={{ color:ACCENT, fontWeight:600 }}>34%</span>
+                </div>
+                <div style={{ height:5, background:"rgba(255,255,255,0.06)", borderRadius:3 }}>
+                  <div style={{ height:5, width:"34%", background:ACCENT, borderRadius:3 }}></div>
+                </div>
+              </div>
+              <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
+                {[
+                  { label:"Économies ce mois", val:"€ 3,240", color:ACCENT },
+                  { label:"Objectif couverture", val:"60% à 2030", color:MUTED },
+                  { label:"CO₂ évité", val:"4.2 tonnes", color:ACCENT },
+                ].map((m, i) => (
+                  <div key={i} style={{ display:"flex", justifyContent:"space-between", fontSize:12 }}>
+                    <span style={{ color:MUTED }}>{m.label}</span>
+                    <span style={{ color:m.color, fontWeight:600 }}>{m.val}</span>
                   </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Eau */}
+            <div style={{ background:CARD, border:BORDER, borderRadius:14, padding:"1.25rem", animation:"fadeUp 0.5s ease both" }}>
+              <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:14 }}>
+                <span style={{ fontSize:18 }}>💧</span>
+                <span style={{ fontWeight:700, fontSize:14, color:TEXT }}>Eau</span>
+                <span style={{ marginLeft:"auto", padding:"2px 8px", background:"rgba(59,130,246,0.15)", border:"1px solid rgba(59,130,246,0.25)", borderRadius:10, fontSize:10, color:"#60a5fa", fontWeight:700 }}>SUIVI</span>
+              </div>
+              <div style={{ fontSize:28, fontWeight:700, color:"#60a5fa", marginBottom:2 }}>48 <span style={{ fontSize:14, fontWeight:400, color:MUTED }}>m³/jour</span></div>
+              <div style={{ fontSize:12, color:MUTED, marginBottom:14 }}>Consommation moyenne journalière</div>
+
+              <div style={{ marginBottom:12 }}>
+                <div style={{ display:"flex", justifyContent:"space-between", fontSize:12, color:MUTED, marginBottom:4 }}>
+                  <span>Récupération pluie</span><span style={{ color:"#60a5fa", fontWeight:600 }}>18%</span>
+                </div>
+                <div style={{ height:5, background:"rgba(255,255,255,0.06)", borderRadius:3 }}>
+                  <div style={{ height:5, width:"18%", background:"#60a5fa", borderRadius:3 }}></div>
+                </div>
+              </div>
+              <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
+                {[
+                  { label:"Fuites détectées", val:"2 actives", color:"#f59e0b" },
+                  { label:"Économies eau", val:"8.6 m³/jour", color:"#60a5fa" },
+                  { label:"Objectif récupération", val:"40% à 2028", color:MUTED },
+                ].map((m, i) => (
+                  <div key={i} style={{ display:"flex", justifyContent:"space-between", fontSize:12 }}>
+                    <span style={{ color:MUTED }}>{m.label}</span>
+                    <span style={{ color:m.color, fontWeight:600 }}>{m.val}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Déchets */}
+            <div style={{ background:CARD, border:BORDER, borderRadius:14, padding:"1.25rem", animation:"fadeUp 0.6s ease both" }}>
+              <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:14 }}>
+                <span style={{ fontSize:18 }}>♻️</span>
+                <span style={{ fontWeight:700, fontSize:14, color:TEXT }}>Déchets</span>
+                <span style={{ marginLeft:"auto", padding:"2px 8px", background:`${ACCENT}15`, border:`1px solid ${ACCENT}25`, borderRadius:10, fontSize:10, color:ACCENT, fontWeight:700 }}>82%</span>
+              </div>
+              <div style={{ fontSize:28, fontWeight:700, color:"#a78bfa", marginBottom:2 }}>127 <span style={{ fontSize:14, fontWeight:400, color:MUTED }}>kg/jour</span></div>
+              <div style={{ fontSize:12, color:MUTED, marginBottom:14 }}>Déchets médicaux traités</div>
+
+              <div style={{ marginBottom:12 }}>
+                <div style={{ display:"flex", justifyContent:"space-between", fontSize:12, color:MUTED, marginBottom:4 }}>
+                  <span>Tri sélectif</span><span style={{ color:ACCENT, fontWeight:600 }}>82%</span>
+                </div>
+                <div style={{ height:5, background:"rgba(255,255,255,0.06)", borderRadius:3 }}>
+                  <div style={{ height:5, width:"82%", background:ACCENT, borderRadius:3 }}></div>
+                </div>
+              </div>
+              <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
+                {[
+                  { label:"Incinérateur", val:"Opérationnel ✓", color:ACCENT },
+                  { label:"Recyclage plastique", val:"41 kg/jour", color:"#a78bfa" },
+                  { label:"Déchets dangereux", val:"Traçabilité 100%", color:ACCENT },
+                ].map((m, i) => (
+                  <div key={i} style={{ display:"flex", justifyContent:"space-between", fontSize:12 }}>
+                    <span style={{ color:MUTED }}>{m.label}</span>
+                    <span style={{ color:m.color, fontWeight:600 }}>{m.val}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Graphique consommation */}
+        <div style={{ background:CARD, border:BORDER, borderRadius:16, padding:"1.5rem", marginBottom:16 }}>
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
+            <h2 style={{ margin:0, fontSize:15, fontWeight:700, color:TEXT }}>📈 Consommation Énergétique</h2>
+            <div style={{ display:"flex", gap:4, background:"rgba(255,255,255,0.04)", border:BORDER, borderRadius:8, padding:3 }}>
+              {(["semaine", "mois"] as const).map((v) => (
+                <button key={v} onClick={() => setVue(v)} style={{
+                  padding:"5px 14px", borderRadius:6, border:"none", cursor:"pointer", fontSize:12, fontWeight:600, transition:"all 0.2s",
+                  background: vue===v ? `${ACCENT}20` : "transparent",
+                  color: vue===v ? ACCENT : MUTED,
+                }}>{v === "semaine" ? "Semaine" : "Mois"}</button>
+              ))}
+            </div>
+          </div>
+          <svg width="100%" height="200" viewBox="0 0 620 200">
+            {/* Grille */}
+            {[0, 50, 100, 150].map((y) => (
+              <line key={y} x1={20} y1={y+10} x2={610} y2={y+10} stroke="rgba(255,255,255,0.04)" strokeWidth={1} />
+            ))}
+            {/* Zone remplie */}
+            <polygon points={areaPoints} fill={`${ACCENT}08`} />
+            {/* Courbe */}
+            <polyline points={polylinePoints} fill="none" stroke={ACCENT} strokeWidth={2.5} strokeLinejoin="round" strokeLinecap="round" />
+            {/* Points */}
+            {data.map((v, i) => {
+              const x = 30 + (i / (data.length - 1)) * 560;
+              const y = 170 - ((v - minVal) / (maxVal - minVal)) * 140;
+              return <circle key={i} cx={x} cy={y} r={4} fill={ACCENT} fillOpacity={0.8} />;
+            })}
+            {/* Labels */}
+            {vue === "semaine" && labels.map((l, i) => {
+              const x = 30 + (i / (data.length - 1)) * 560;
+              return <text key={i} x={x} y={195} textAnchor="middle" fill={MUTED} fontSize={10}>{l}</text>;
+            })}
+          </svg>
+          <div style={{ display:"flex", gap:20, marginTop:8 }}>
+            <span style={{ fontSize:12, color:MUTED }}>Min: <span style={{ color:ACCENT, fontWeight:600 }}>{minVal} kWh</span></span>
+            <span style={{ fontSize:12, color:MUTED }}>Max: <span style={{ color:"#fbbf24", fontWeight:600 }}>{maxVal} kWh</span></span>
+            <span style={{ fontSize:12, color:MUTED }}>Moy: <span style={{ color:TEXT, fontWeight:600 }}>{Math.round(data.reduce((a,b)=>a+b)/data.length)} kWh</span></span>
+          </div>
+        </div>
+
+        {/* Certifications & Objectifs */}
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:14 }}>
+          <div style={{ background:CARD, border:BORDER, borderRadius:16, padding:"1.5rem" }}>
+            <h2 style={{ margin:"0 0 1rem", fontSize:15, fontWeight:700, color:TEXT }}>🏅 Certifications Environnementales</h2>
+            <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
+              {CERTIFICATIONS.map((c, i) => (
+                <div key={i} style={{ background:"rgba(34,197,94,0.04)", border:`1px solid rgba(34,197,94,0.1)`, borderRadius:12, padding:"12px 14px" }}>
+                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:6 }}>
+                    <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+                      <span style={{ fontSize:16 }}>{c.icon}</span>
+                      <span style={{ fontWeight:700, fontSize:13, color:TEXT }}>{c.name}</span>
+                    </div>
+                    <span style={{ padding:"2px 8px", borderRadius:10, fontSize:10, fontWeight:700, background:`${statusColor(c.status)}20`, color:statusColor(c.status) }}>{c.status}</span>
+                  </div>
+                  <div style={{ fontSize:11, color:MUTED, marginBottom:6 }}>{c.desc}</div>
+                  <div style={{ height:4, background:"rgba(255,255,255,0.06)", borderRadius:2 }}>
+                    <div style={{ height:4, width:`${c.progress}%`, background:statusColor(c.status), borderRadius:2 }}></div>
+                  </div>
+                  <div style={{ fontSize:10, color:MUTED, marginTop:3 }}>{c.progress}%</div>
                 </div>
               ))}
             </div>
+          </div>
 
-            {/* Graphique Big Data Simulé */}
-            <div className="glass-panel p-6 flex-1 min-h-[300px]" style={{ animation: "floatUp 0.6s 0.5s ease-out both" }}>
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="flex items-center gap-2 text-sm font-bold text-gray-300 uppercase tracking-wider">
-                  <BarChart4 className="w-4 h-4 text-teal-400" />
-                  Densité de Flux Audiovisuel (Toute Bande)
-                </h2>
-              </div>
-
-              <div className="h-48 flex items-end gap-2 justify-between px-2">
-                {randomData.map((val, idx) => (
-                  <div key={idx} className="relative w-full bg-teal-950/40 rounded-t-sm group">
-                    <div
-                      className="absolute bottom-0 w-full bg-gradient-to-t from-teal-600 to-teal-300 rounded-t-sm transition-all duration-700 ease-out"
-                      style={{
-                        height: `${val}%`,
-                        boxShadow: '0 0 10px rgba(20,184,166,0.3)'
-                      }}
-                    />
-                    <div className="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 text-xs font-mono bg-teal-900 px-2 py-1 rounded text-teal-300 transition-opacity">
-                      {Math.round(val)}%
-                    </div>
+          <div style={{ background:CARD, border:BORDER, borderRadius:16, padding:"1.5rem" }}>
+            <h2 style={{ margin:"0 0 1rem", fontSize:15, fontWeight:700, color:TEXT }}>🎯 Objectifs 2030</h2>
+            <div style={{ display:"flex", flexDirection:"column", gap:14 }}>
+              {OBJECTIFS.map((o, i) => (
+                <div key={i}>
+                  <div style={{ display:"flex", justifyContent:"space-between", fontSize:13, marginBottom:6 }}>
+                    <span style={{ color:TEXT }}>{o.label}</span>
+                    <span style={{ color:MUTED, fontSize:12 }}>{o.actuel}{o.unite} / <span style={{ color:ACCENT }}>{o.cible}{o.unite}</span></span>
                   </div>
-                ))}
-              </div>
-            </div>
-
-          </div>
-
-          {/* Section 2 : Analyse Sectorielle & Radar (Right Sidebar) */}
-          <div className="lg:col-span-4 flex flex-col gap-6">
-
-            {/* Composant Radar Visuel */}
-            <div className="glass-panel p-6 flex flex-col items-center justify-center relative overflow-hidden" style={{ animation: "pulse-glow 4s infinite" }}>
-              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay" />
-              <h2 className="text-sm font-bold text-teal-400 uppercase tracking-widest mb-6 w-full flex items-center gap-2">
-                <Globe className="w-4 h-4" />
-                Cartographie Réseau
-              </h2>
-
-              {/* Cercle Radar */}
-              <div className="relative w-48 h-48 rounded-full border border-teal-500/30 flex items-center justify-center">
-                <div className="absolute inset-2 rounded-full border border-teal-500/20" />
-                <div className="absolute inset-8 rounded-full border border-teal-500/10" />
-                <div className="absolute w-full h-full rounded-full border-t border-teal-400" style={{ animation: "radar-spin 4s linear infinite" }}>
-                  <div className="absolute top-0 left-1/2 w-1/2 h-full bg-gradient-to-r from-transparent to-teal-500/20 origin-left" />
+                  <div style={{ height:8, background:"rgba(255,255,255,0.06)", borderRadius:4, overflow:"hidden" }}>
+                    <div style={{ height:8, width:`${(o.actuel/o.cible)*100}%`, background:`linear-gradient(90deg, ${ACCENT}80, ${ACCENT})`, borderRadius:4, transition:"width 1s" }}></div>
+                  </div>
+                  <div style={{ display:"flex", justifyContent:"space-between", fontSize:10, color:MUTED, marginTop:3 }}>
+                    <span>Actuel: {o.actuel}{o.unite}</span>
+                    <span>{Math.round((o.actuel/o.cible)*100)}% de l'objectif</span>
+                  </div>
                 </div>
-                {/* Blips */}
-                <div className="absolute top-[20%] left-[30%] w-2 h-2 bg-red-500 rounded-full animate-ping" />
-                <div className="absolute bottom-[40%] right-[20%] w-2 h-2 bg-teal-400 rounded-full animate-ping" style={{ animationDelay: "1s" }} />
-                <div className="absolute top-[60%] left-[70%] w-2 h-2 bg-yellow-400 rounded-full animate-ping" style={{ animationDelay: "2s" }} />
-                <Target className="w-6 h-6 text-teal-500/50 absolute z-10" />
-              </div>
+              ))}
 
-              <div className="mt-6 w-full space-y-2 font-mono text-xs">
-                <div className="flex justify-between text-gray-400"><span>Canaux Numériques:</span><span className="text-teal-400">42 Actifs</span></div>
-                <div className="flex justify-between text-gray-400"><span>Charge Serveurs IA:</span><span className="text-yellow-400">78%</span></div>
-                <div className="flex justify-between text-gray-400"><span>Dernier Scan:</span><span className="text-white">Il y a 0.4s</span></div>
-              </div>
-            </div>
-
-            {/* Modules d'action rapide */}
-            <div className="glass-panel p-6 flex-1">
-               <h2 className="text-sm font-bold text-gray-300 uppercase tracking-wider mb-4 border-b border-gray-800 pb-2">
-                Modules Sous-Systèmes
-              </h2>
-              <div className="space-y-3">
-                {['ElectroWatch', 'MediaWatch', 'AntiDeep', 'KidsProtect', 'AdWatch'].map((sys, idx) => (
-                  <button key={idx} className="w-full text-left px-4 py-3 rounded-xl bg-gray-900/50 border border-gray-800 hover:border-teal-500/50 hover:bg-teal-900/20 transition-all flex justify-between items-center group">
-                    <span className="text-sm font-bold text-gray-400 group-hover:text-white transition-colors">{sys}</span>
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
-                  </button>
-                ))}
+              <div style={{ marginTop:4, background:`${ACCENT}08`, border:`1px solid ${ACCENT}20`, borderRadius:12, padding:"12px 14px" }}>
+                <div style={{ fontSize:12, color:MUTED, marginBottom:4 }}>Score environnemental global</div>
+                <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+                  <div style={{ fontSize:32, fontWeight:700, color:ACCENT }}>73</div>
+                  <div>
+                    <div style={{ fontSize:13, fontWeight:700, color:TEXT }}>Niveau B+</div>
+                    <div style={{ fontSize:11, color:MUTED }}>Objectif: 90/100 en 2030</div>
+                  </div>
+                </div>
+                <div style={{ height:6, background:"rgba(255,255,255,0.06)", borderRadius:3, marginTop:8 }}>
+                  <div style={{ height:6, width:"73%", background:`linear-gradient(90deg, ${ACCENT}60, ${ACCENT})`, borderRadius:3 }}></div>
+                </div>
               </div>
             </div>
-
           </div>
-        </main>
+        </div>
+
       </div>
-    </>
-  )
-}
-
-// Composant pour animer les nombres
-function AnimatedNumber({ value }: { value: number }) {
-  const [displayValue, setDisplayValue] = useState(0)
-
-  useEffect(() => {
-    let start = 0
-    const end = value
-    const duration = 1500
-    const increment = end / (duration / 16)
-
-    const timer = setInterval(() => {
-      start += increment
-      if (start >= end) {
-        setDisplayValue(end)
-        clearInterval(timer)
-      } else {
-        setDisplayValue(Math.floor(start))
-      }
-    }, 16)
-    return () => clearInterval(timer)
-  }, [value])
-
-  return <>{displayValue}</>
+    </div>
+  );
 }

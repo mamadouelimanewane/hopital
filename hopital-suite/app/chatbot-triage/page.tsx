@@ -1,6 +1,5 @@
 "use client"
 import { useState, useRef, useEffect } from "react"
-import { Send, Phone, Calendar, MapPin, Mic, AlertTriangle, CheckCircle, Clock } from "lucide-react"
 
 type Langue = "fr" | "wo" | "pu"
 type Urgence = "P1" | "P2" | "P3" | "Non urgent" | null
@@ -33,14 +32,24 @@ const suggestions = {
   pu: ["🤒 Yidde", "💔 Heɓɓere yiite", "🤕 Mberlere", "👶 Sukaabe"],
 }
 
-const langueLabel = { fr: "Français 🇫🇷", wo: "Wolof 🇸🇳", pu: "Pulaar" }
+const langueLabel: Record<Langue, string> = { fr: "Français 🇫🇷", wo: "Wolof 🇸🇳", pu: "Pulaar" }
+
+const urgenceConfig = {
+  P1: { color: "#ef4444", bg:"rgba(239,68,68,0.15)", label: "🚨 URGENCE P1", text: "Danger immédiat — Appel 15" },
+  P2: { color: "#f59e0b", bg:"rgba(245,158,11,0.15)", label: "⚠️ URGENCE P2", text: "Consultation rapide requise" },
+  P3: { color: "#eab308", bg:"rgba(234,179,8,0.15)", label: "🔔 URGENCE P3", text: "Consultation dans la journée" },
+  "Non urgent": { color: "#22c55e", bg:"rgba(34,197,94,0.15)", label: "✅ Non urgent", text: "Prendre rendez-vous" },
+}
+
+const card = "#0a1628"
+const border = "rgba(255,255,255,0.06)"
+const accent = "#065f46"
 
 export default function ChatbotTriage() {
   const [langue, setLangue] = useState<Langue>("fr")
   const [messages, setMessages] = useState<Message[]>(conversationFr)
   const [input, setInput] = useState("")
   const [urgence, setUrgence] = useState<Urgence>("P1")
-  const [service, setService] = useState("Urgences Cardiologie")
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -69,48 +78,38 @@ export default function ChatbotTriage() {
     }, 1000)
   }
 
-  const urgenceConfig = {
-    P1: { color: "bg-red-600", label: "🚨 URGENCE P1", text: "Danger immédiat — Appel 15" },
-    P2: { color: "bg-orange-500", label: "⚠️ URGENCE P2", text: "Consultation rapide requise" },
-    P3: { color: "bg-yellow-500", label: "🔔 URGENCE P3", text: "Consultation dans la journée" },
-    "Non urgent": { color: "bg-green-500", label: "✅ Non urgent", text: "Prendre rendez-vous" },
-  }
-
   const uc = urgence ? urgenceConfig[urgence] : null
 
   return (
-    <>
+    <div style={{ background:"#050d1a", minHeight:"100vh", color:"#e2e8f0", fontFamily:"'Inter',system-ui,sans-serif" }}>
       <style>{`
-        body { margin:0; background:#f8fafc; color:#1e293b; font-family:'Inter',system-ui,sans-serif; }
-        .msg-bot { background:#dcfce7; border-radius:0 12px 12px 12px; }
-        .msg-user { background:#2563eb; color:white; border-radius:12px 12px 0 12px; }
-        .chat-area { overflow-y:auto; scroll-behavior:smooth; }
-        .pulse { animation:pulse 2s infinite; }
-        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
       `}</style>
 
       {/* BACK NAV */}
-      <div style={{ position:"sticky", top:0, zIndex:100, background:"rgba(10,22,40,0.95)", backdropFilter:"blur(20px)", borderBottom:"1px solid rgba(255,255,255,0.08)", padding:"0 1.5rem", height:52, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.6)", textDecoration:"none", fontSize:13, fontWeight:600 }}>
-          ← Retour au Portail CHNCAK
-        </a>
+      <div style={{ position:"sticky", top:0, zIndex:200, background:"rgba(5,13,26,0.96)", backdropFilter:"blur(20px)", borderBottom:"1px solid rgba(14,165,233,0.12)", padding:"0 1.5rem", height:52, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.5)", textDecoration:"none", fontSize:13, fontWeight:600 }}>← Portail CHNCAK</a>
         <span style={{ fontSize:11, color:"rgba(255,255,255,0.3)", fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase" }}>CHNCAK Suite</span>
       </div>
 
       {/* HEADER */}
-      <div style={{ background: "linear-gradient(135deg,#065f46,#0f766e)" }} className="text-white px-4 py-4">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-xl">🏥</div>
+      <div style={{ background:"linear-gradient(135deg,rgba(6,95,70,0.2),rgba(6,95,70,0.05))", borderBottom:"1px solid rgba(6,95,70,0.3)", padding:"1rem 1.5rem" }}>
+        <div style={{ maxWidth:1200, margin:"0 auto", display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:12 }}>
+          <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+            <div style={{ width:44, height:44, background:"rgba(6,95,70,0.3)", border:"1px solid rgba(6,95,70,0.5)", borderRadius:12, display:"flex", alignItems:"center", justifyContent:"center", fontSize:22 }}>🏥</div>
             <div>
-              <h1 className="font-black text-lg">Assistant Triage CHNCAK</h1>
-              <p className="text-green-200 text-xs">IA de triage médical 24h/7j</p>
+              <h1 style={{ fontWeight:800, fontSize:18, color:"#e2e8f0", margin:0 }}>Assistant Triage CHNCAK</h1>
+              <p style={{ color:"#64748b", fontSize:12, margin:0 }}>IA de triage médical 24h/7j — Trilingue</p>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div style={{ display:"flex", gap:8 }}>
             {(["fr", "wo", "pu"] as Langue[]).map(l => (
-              <button key={l} onClick={() => handleLangue(l)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${langue === l ? "bg-white text-green-800" : "bg-white/20 hover:bg-white/30"}`}>
+              <button key={l} onClick={() => handleLangue(l)} style={{
+                padding:"6px 14px", borderRadius:8, fontSize:12, fontWeight:700, cursor:"pointer", border:"none", transition:"all 0.2s",
+                background: langue === l ? "rgba(6,95,70,0.5)" : "rgba(255,255,255,0.06)",
+                color: langue === l ? "#6ee7b7" : "rgba(255,255,255,0.5)"
+              }}>
                 {langueLabel[l]}
               </button>
             ))}
@@ -119,45 +118,49 @@ export default function ChatbotTriage() {
       </div>
 
       {/* MAIN */}
-      <div className="max-w-6xl mx-auto p-4 grid grid-cols-1 md:grid-cols-3 gap-4" style={{ height: "calc(100vh - 140px)" }}>
+      <div style={{ maxWidth:1200, margin:"0 auto", padding:"1.5rem", display:"grid", gridTemplateColumns:"280px 1fr", gap:20, minHeight:"calc(100vh - 140px)" }}>
 
         {/* SIDEBAR */}
-        <div className="space-y-4">
-          {/* NIVEAU URGENCE */}
+        <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+          {/* URGENCE */}
           {uc && (
-            <div className={`${uc.color} text-white rounded-xl p-4`}>
-              <div className="font-black text-lg">{uc.label}</div>
-              <div className="text-sm opacity-90 mt-1">{uc.text}</div>
-              <div className="mt-3 text-sm font-semibold">→ {service}</div>
+            <div style={{ background:uc.bg, border:`1px solid ${uc.color}44`, borderRadius:14, padding:"1.25rem" }}>
+              <div style={{ fontWeight:800, fontSize:18, color:uc.color }}>{uc.label}</div>
+              <div style={{ fontSize:13, color:"rgba(255,255,255,0.7)", marginTop:6 }}>{uc.text}</div>
+              <div style={{ marginTop:10, fontSize:12, fontWeight:600, color:"#e2e8f0" }}>→ Service Urgences Cardiologie</div>
             </div>
           )}
 
           {/* ACTIONS */}
-          <div className="bg-white rounded-xl border border-gray-100 p-4 space-y-2">
-            <h3 className="font-bold text-gray-800 text-sm mb-3">Actions recommandées</h3>
-            <button className="w-full flex items-center gap-3 bg-red-600 text-white rounded-lg px-3 py-2.5 text-sm font-semibold hover:bg-red-700 transition">
-              <Phone className="w-4 h-4" /> Appeler le 15 (SAMU)
-            </button>
-            <button className="w-full flex items-center gap-3 bg-blue-600 text-white rounded-lg px-3 py-2.5 text-sm font-semibold hover:bg-blue-700 transition">
-              <MapPin className="w-4 h-4" /> Aller aux Urgences
-            </button>
-            <button className="w-full flex items-center gap-3 bg-gray-100 text-gray-700 rounded-lg px-3 py-2.5 text-sm font-semibold hover:bg-gray-200 transition">
-              <Calendar className="w-4 h-4" /> Prendre un RDV
-            </button>
+          <div style={{ background:card, border:`1px solid ${border}`, borderRadius:14, padding:"1.25rem" }}>
+            <h3 style={{ color:"#e2e8f0", fontWeight:700, fontSize:13, margin:"0 0 12px" }}>Actions recommandées</h3>
+            <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+              <button style={{ width:"100%", display:"flex", alignItems:"center", gap:10, background:"rgba(239,68,68,0.8)", color:"white", border:"none", borderRadius:10, padding:"10px 14px", fontSize:13, fontWeight:700, cursor:"pointer" }}>
+                📞 Appeler le 15 (SAMU)
+              </button>
+              <button style={{ width:"100%", display:"flex", alignItems:"center", gap:10, background:"rgba(59,130,246,0.6)", color:"white", border:"none", borderRadius:10, padding:"10px 14px", fontSize:13, fontWeight:700, cursor:"pointer" }}>
+                📍 Aller aux Urgences
+              </button>
+              <button style={{ width:"100%", display:"flex", alignItems:"center", gap:10, background:"rgba(255,255,255,0.06)", color:"#e2e8f0", border:`1px solid ${border}`, borderRadius:10, padding:"10px 14px", fontSize:13, fontWeight:600, cursor:"pointer" }}>
+                📅 Prendre un RDV
+              </button>
+            </div>
           </div>
 
           {/* STATS */}
-          <div className="bg-white rounded-xl border border-gray-100 p-4">
-            <h3 className="font-bold text-gray-800 text-sm mb-3">Aujourd'hui</h3>
-            <div className="space-y-2">
+          <div style={{ background:card, border:`1px solid ${border}`, borderRadius:14, padding:"1.25rem" }}>
+            <h3 style={{ color:"#e2e8f0", fontWeight:700, fontSize:13, margin:"0 0 12px" }}>Aujourd'hui</h3>
+            <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
               {[
-                { icon: <CheckCircle className="w-4 h-4 text-green-500" />, label: "Triages effectués", val: "127" },
-                { icon: <AlertTriangle className="w-4 h-4 text-red-500" />, label: "Urgences P1 détectées", val: "23" },
-                { icon: <Clock className="w-4 h-4 text-blue-500" />, label: "Temps moyen triage", val: "4 min" },
+                { icon:"✅", label:"Triages effectués", val:"127", color:"#22c55e" },
+                { icon:"🚨", label:"Urgences P1 détectées", val:"23", color:"#f87171" },
+                { icon:"⏱", label:"Temps moyen triage", val:"4 min", color:"#38bdf8" },
               ].map((s, i) => (
-                <div key={i} className="flex justify-between items-center">
-                  <div className="flex items-center gap-2 text-sm text-gray-600">{s.icon}{s.label}</div>
-                  <span className="font-bold text-gray-900">{s.val}</span>
+                <div key={i} style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                  <div style={{ display:"flex", alignItems:"center", gap:8, fontSize:13, color:"#64748b" }}>
+                    <span>{s.icon}</span>{s.label}
+                  </div>
+                  <span style={{ fontWeight:800, color:s.color, fontSize:13 }}>{s.val}</span>
                 </div>
               ))}
             </div>
@@ -165,54 +168,54 @@ export default function ChatbotTriage() {
         </div>
 
         {/* CHAT */}
-        <div className="md:col-span-2 bg-white rounded-xl border border-gray-100 flex flex-col shadow-sm" style={{ maxHeight: "80vh" }}>
+        <div style={{ background:card, border:`1px solid ${border}`, borderRadius:16, display:"flex", flexDirection:"column", maxHeight:"80vh", overflow:"hidden" }}>
           {/* Messages */}
-          <div className="flex-1 p-4 space-y-3 chat-area overflow-y-auto">
+          <div style={{ flex:1, padding:"1.25rem", overflowY:"auto", display:"flex", flexDirection:"column", gap:12 }}>
             {messages.map((m, i) => (
-              <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
-                <div className={`max-w-xs md:max-w-sm lg:max-w-md`}>
+              <div key={i} style={{ display:"flex", justifyContent: m.role === "user" ? "flex-end" : "flex-start" }}>
+                <div style={{ maxWidth:"70%" }}>
                   {m.role === "bot" && (
-                    <div className="flex items-center gap-1 mb-1">
-                      <span className="text-xs font-bold text-green-700">🤖 IA Triage</span>
-                      <span className="text-xs text-gray-400">{m.time}</span>
+                    <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:4 }}>
+                      <span style={{ fontSize:11, fontWeight:700, color:"#6ee7b7" }}>🤖 IA Triage</span>
+                      <span style={{ fontSize:10, color:"#64748b" }}>{m.time}</span>
                     </div>
                   )}
-                  <div className={`px-4 py-2.5 text-sm leading-relaxed ${m.role === "bot" ? "msg-bot text-gray-800" : "msg-user"}`}>
+                  <div style={{
+                    padding:"10px 14px", fontSize:13, lineHeight:1.5, borderRadius: m.role === "bot" ? "0 12px 12px 12px" : "12px 12px 0 12px",
+                    background: m.role === "bot" ? "rgba(6,95,70,0.2)" : "rgba(59,130,246,0.5)",
+                    color: "#e2e8f0", border: m.role === "bot" ? "1px solid rgba(6,95,70,0.3)" : "1px solid rgba(59,130,246,0.3)"
+                  }}>
                     {m.text}
                   </div>
-                  {m.role === "user" && <div className="text-xs text-gray-400 text-right mt-1">{m.time}</div>}
+                  {m.role === "user" && <div style={{ fontSize:10, color:"#64748b", textAlign:"right", marginTop:4 }}>{m.time}</div>}
                 </div>
               </div>
             ))}
             <div ref={bottomRef} />
           </div>
 
-          {/* Suggestions rapides */}
-          <div className="px-4 py-2 flex gap-2 flex-wrap border-t border-gray-50">
+          {/* Suggestions */}
+          <div style={{ padding:"10px 1.25rem", display:"flex", gap:8, flexWrap:"wrap", borderTop:`1px solid ${border}` }}>
             {suggestions[langue].map((s, i) => (
               <button key={i} onClick={() => setInput(s.replace(/^\S+\s/, ""))}
-                className="px-3 py-1 bg-gray-100 hover:bg-green-100 text-gray-600 rounded-full text-xs font-medium transition">
+                style={{ padding:"5px 12px", background:"rgba(255,255,255,0.06)", border:`1px solid ${border}`, color:"rgba(255,255,255,0.6)", borderRadius:20, fontSize:12, fontWeight:500, cursor:"pointer" }}>
                 {s}
               </button>
             ))}
           </div>
 
           {/* Input */}
-          <div className="p-4 border-t border-gray-100 flex gap-2">
-            <button className="p-2.5 text-gray-400 hover:text-gray-600 transition">
-              <Mic className="w-5 h-5" />
-            </button>
+          <div style={{ padding:"1rem 1.25rem", borderTop:`1px solid ${border}`, display:"flex", gap:8 }}>
             <input value={input} onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === "Enter" && envoyer()}
               placeholder={langue === "wo" ? "Wax ma ci sa yaram..." : "Décrivez vos symptômes..."}
-              className="flex-1 border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
-            <button onClick={envoyer}
-              className="bg-green-600 text-white p-2.5 rounded-lg hover:bg-green-700 transition">
-              <Send className="w-5 h-5" />
+              style={{ flex:1, background:"rgba(255,255,255,0.06)", border:`1px solid ${border}`, borderRadius:10, padding:"10px 14px", fontSize:13, color:"#e2e8f0", outline:"none" }} />
+            <button onClick={envoyer} style={{ background:"rgba(6,95,70,0.8)", color:"white", border:"none", borderRadius:10, padding:"10px 16px", fontSize:18, cursor:"pointer" }}>
+              ➤
             </button>
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }

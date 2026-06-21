@@ -59,10 +59,8 @@ export default function DonFinancement() {
     <div style={{ background: "linear-gradient(135deg, #0a0f1e 0%, #111827 50%, #0d1b2a 100%)", minHeight: "100vh", color: "#e5e7eb" }}>
 
       {/* BACK NAV */}
-      <div style={{ position:"sticky", top:0, zIndex:100, background:"rgba(10,22,40,0.95)", backdropFilter:"blur(20px)", borderBottom:"1px solid rgba(255,255,255,0.08)", padding:"0 1.5rem", height:52, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.6)", textDecoration:"none", fontSize:13, fontWeight:600 }}>
-          ← Retour au Portail CHNCAK
-        </a>
+      <div style={{ position:"sticky", top:0, zIndex:200, background:"rgba(5,13,26,0.96)", backdropFilter:"blur(20px)", borderBottom:"1px solid rgba(14,165,233,0.12)", padding:"0 1.5rem", height:52, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.5)", textDecoration:"none", fontSize:13, fontWeight:600 }}>← Portail CHNCAK</a>
         <span style={{ fontSize:11, color:"rgba(255,255,255,0.3)", fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase" }}>CHNCAK Suite</span>
       </div>
 
@@ -179,7 +177,6 @@ export default function DonFinancement() {
               💛 Faire un Don
             </h2>
 
-            {/* Montants suggérés */}
             <div style={{ marginBottom: 16 }}>
               <label style={{ fontSize: 13, color: "#9ca3af", display: "block", marginBottom: 8 }}>Montant suggéré</label>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -204,7 +201,6 @@ export default function DonFinancement() {
                 style={{ width: "100%", padding: "10px 14px", borderRadius: 8, background: "#111827", border: "1px solid #374151", color: "#e5e7eb", fontSize: 15, boxSizing: "border-box" }} />
             </div>
 
-            {/* Mode de paiement */}
             <div style={{ marginBottom: 16 }}>
               <label style={{ fontSize: 13, color: "#9ca3af", display: "block", marginBottom: 8 }}>Mode de paiement</label>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -266,7 +262,6 @@ export default function DonFinancement() {
 
           {/* DONATEURS + TRANSPARENCE */}
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-            {/* Tableau donateurs */}
             <section style={{ background: "#1f2937", border: "1px solid #374151", borderRadius: 16, padding: 24 }}>
               <h2 style={{ fontSize: 18, fontWeight: 700, color: "#e5e7eb", marginBottom: 16 }}>🌍 Derniers Dons</h2>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -288,11 +283,9 @@ export default function DonFinancement() {
               </div>
             </section>
 
-            {/* Transparence */}
             <section style={{ background: "#1f2937", border: "1px solid #374151", borderRadius: 16, padding: 24 }}>
               <h2 style={{ fontSize: 18, fontWeight: 700, color: "#e5e7eb", marginBottom: 16 }}>📊 Transparence des Fonds</h2>
               <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-                {/* Camembert simulé CSS */}
                 <div style={{ position: "relative", width: 90, height: 90, flexShrink: 0 }}>
                   <svg viewBox="0 0 36 36" style={{ width: 90, height: 90, transform: "rotate(-90deg)" }}>
                     <circle cx="18" cy="18" r="15.9" fill="none" stroke="#374151" strokeWidth="3.8" />
@@ -329,12 +322,11 @@ export default function DonFinancement() {
       {/* MODAL SUCCES */}
       {showModal && (
         <div style={{
-          position: "fixed", inset: 0, background: "rgba(0,0,0,0.8)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100
+          position: "fixed", inset: 0, background: "rgba(0,0,0,0.8)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 300
         }} onClick={() => setShowModal(false)}>
           <div style={{
             background: "linear-gradient(135deg, #1f2937, #111827)", border: "2px solid #10b981",
-            borderRadius: 20, padding: 48, maxWidth: 420, width: "90%", textAlign: "center",
-            animation: "fadeIn 0.3s ease"
+            borderRadius: 20, padding: 48, maxWidth: 420, width: "90%", textAlign: "center"
           }} onClick={e => e.stopPropagation()}>
             <div style={{ fontSize: 56, marginBottom: 16 }}>🎉</div>
             <h2 style={{ fontSize: 24, fontWeight: 800, color: "#10b981", marginBottom: 12 }}>Merci pour votre don !</h2>
@@ -360,7 +352,6 @@ export default function DonFinancement() {
 
       <style>{`
         @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
         input::placeholder, textarea::placeholder { color: #4b5563; }
         * { box-sizing: border-box; }
       `}</style>

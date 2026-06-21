@@ -1,313 +1,259 @@
 "use client"
 import { useState, useEffect } from "react"
-import { Activity, ShieldAlert, Zap, Globe, BarChart4, Target, Cpu, Radio } from "lucide-react"
 
-// --- Données Mockées pour l'effet "Temps Réel" ---
-const AI_ALERTS = [
-  "🚨 [IA-DETECT] Pic de temps de parole non déclaré (RTS1) - +45% (12:00)",
-  "⚠️ [DEEPFAKE] Contenu suspect détecté sur TikTok (Score: 89%) - Source: DakarLive",
-  "🛡️ [KIDS-PROTECT] Programme inadapté signalé sur SenTV à 14h30",
-  "📊 [AD-WATCH] Infraction: Dépassement volume publicitaire TFM (+12 min)",
-  "🤖 [IA-PREDICT] Risque de désinformation élevé (Secteur Nord) - Mots clés: 'Fraude'",
-  "📡 [STREAM-REGUL] 3 nouvelles Web-TVs non déclarées détectées sur YouTube",
+const joursData = [
+  { jour: "Lun", admissions: 45, isToday: false },
+  { jour: "Mar", admissions: 38, isToday: false },
+  { jour: "Mer", admissions: 52, isToday: true },
+  { jour: "Jeu", admissions: 61, isToday: false },
+  { jour: "Ven", admissions: 49, isToday: false },
+  { jour: "Sam", admissions: 33, isToday: false },
+  { jour: "Dim", admissions: 28, isToday: false },
 ]
 
-const STATS = [
-  { label: "Heures TV Analysées (24h)", value: 1420, suffix: "h", color: "#14b8a6" },
-  { label: "Deepfakes Bloqués", value: 47, suffix: "", color: "#a855f7" },
-  { label: "Alertes Pluralisme", value: 12, suffix: "", color: "#eab308" },
-  { label: "Fiabilité Globale", value: 98, suffix: "%", color: "#10b981" },
+const alertesPredictives = [
+  { id: 1, type: "SEPSIS", patient: "Patient #4821", message: "Risque sepsis détecté — Score SOFA en hausse", probabilite: 87, couleur: "#ef4444", urgence: "CRITIQUE" },
+  { id: 2, type: "RÉADMISSION", patient: "Patient #3942", message: "Réadmission probable dans 72h post-chirurgie", probabilite: 74, couleur: "#f59e0b", urgence: "ÉLEVÉ" },
+  { id: 3, type: "PIC DEMANDE", patient: "Service Urgences", message: "Pic de demande prévu dans 48h (+40% volume)", probabilite: 91, couleur: "#6366f1", urgence: "PLANIFICATION" },
+  { id: 4, type: "ÉQUIPEMENT", patient: "IRM Principal", message: "Défaillance équipement IRM — Maintenance requise", probabilite: 68, couleur: "#f59e0b", urgence: "MAINTENANCE" },
 ]
 
-export default function CommandCenter() {
-  const [mounted, setMounted] = useState(false)
-  const [alertIndex, setAlertIndex] = useState(0)
-  const [randomData, setRandomData] = useState<number[]>([40, 60, 45, 80, 55, 90, 65, 85, 50, 75])
+const modelesIA = [
+  { nom: "PredSepsis v3.2", type: "Classification binaire", precision: 94.2, update: "21/06/2026", statut: "actif" },
+  { nom: "ReAdmit-30 v2.1", type: "Régression logistique", precision: 88.7, update: "19/06/2026", statut: "actif" },
+  { nom: "DemandePred v1.8", type: "Séries temporelles LSTM", precision: 91.5, update: "20/06/2026", statut: "actif" },
+  { nom: "EquipMaint v1.3", type: "Forêt aléatoire", precision: 82.4, update: "18/06/2026", statut: "actif" },
+  { nom: "MortalitéICU v2.0", type: "XGBoost", precision: 96.1, update: "21/06/2026", statut: "entraînement" },
+]
 
-  // Simulation Temps Réel
+export default function PredictPage() {
+  const [loading, setLoading] = useState(false)
+  const [precision, setPrecision] = useState(94.2)
+  const [analyseComplete, setAnalyseComplete] = useState(false)
+
+  const maxAdmissions = Math.max(...joursData.map(j => j.admissions))
+
   useEffect(() => {
-    setMounted(true)
-    const alertInterval = setInterval(() => {
-      setAlertIndex(prev => (prev + 1) % AI_ALERTS.length)
-    }, 4500)
-
-    const chartInterval = setInterval(() => {
-      setRandomData(prev => prev.map(v => Math.max(20, Math.min(100, v + (Math.random() * 20 - 10)))))
-    }, 2000)
-
-    return () => {
-      clearInterval(alertInterval)
-      clearInterval(chartInterval)
-    }
+    const interval = setInterval(() => {
+      setPrecision(prev => {
+        const next = Math.round((prev + 0.1) * 10) / 10
+        return next > 99.9 ? 94.2 : next
+      })
+    }, 5000)
+    return () => clearInterval(interval)
   }, [])
 
+  function lancerAnalyse() {
+    setLoading(true)
+    setAnalyseComplete(false)
+    setTimeout(() => {
+      setLoading(false)
+      setAnalyseComplete(true)
+    }, 2800)
+  }
+
   return (
-    <>
+    <div style={{ background: "#050d1a", minHeight: "100vh", color: "#e2e8f0", fontFamily: "'Inter',system-ui,sans-serif" }}>
       <style>{`
-        body { margin: 0; background: #030712; color: #fff; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
-
-        /* Animations CSS pures */
-        @keyframes scanline {
-          0% { transform: translateY(-100%); }
-          100% { transform: translateY(100vh); }
-        }
-        @keyframes pulse-glow {
-          0%, 100% { box-shadow: 0 0 15px rgba(20, 184, 166, 0.2); }
-          50% { box-shadow: 0 0 35px rgba(20, 184, 166, 0.6); }
-        }
-        @keyframes typing {
-          from { width: 0; opacity: 0; }
-          to { width: 100%; opacity: 1; }
-        }
-        @keyframes blink-caret {
-          from, to { border-color: transparent }
-          50% { border-color: #14b8a6; }
-        }
-        @keyframes radar-spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        @keyframes floatUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        .grid-bg {
-          background-size: 40px 40px;
-          background-image:
-            linear-gradient(to right, rgba(20, 184, 166, 0.05) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(20, 184, 166, 0.05) 1px, transparent 1px);
-        }
-
-        .glass-panel {
-          background: rgba(17, 24, 39, 0.7);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          border: 1px solid rgba(20, 184, 166, 0.15);
-          border-radius: 16px;
-        }
-
-        .cyber-text {
-          color: #5eead4;
-          text-shadow: 0 0 10px rgba(94, 234, 212, 0.5);
-        }
-
-        .typewriter {
-          overflow: hidden;
-          border-right: .15em solid #14b8a6;
-          white-space: nowrap;
-          margin: 0 auto;
-          letter-spacing: .05em;
-          animation:
-            typing 3s steps(40, end),
-            blink-caret .75s step-end infinite;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #030712; }
-        ::-webkit-scrollbar-thumb { background: #14b8a6; border-radius: 10px; }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+        @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
       `}</style>
 
       {/* BACK NAV */}
-      <div style={{ position:"sticky", top:0, zIndex:100, background:"rgba(10,22,40,0.95)", backdropFilter:"blur(20px)", borderBottom:"1px solid rgba(255,255,255,0.08)", padding:"0 1.5rem", height:52, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.6)", textDecoration:"none", fontSize:13, fontWeight:600 }}>
-          ← Retour au Portail CHNCAK
-        </a>
+      <div style={{ position:"sticky", top:0, zIndex:200, background:"rgba(5,13,26,0.96)", backdropFilter:"blur(20px)", borderBottom:"1px solid rgba(14,165,233,0.12)", padding:"0 1.5rem", height:52, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.5)", textDecoration:"none", fontSize:13, fontWeight:600 }}>← Portail CHNCAK</a>
         <span style={{ fontSize:11, color:"rgba(255,255,255,0.3)", fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase" }}>CHNCAK Suite</span>
       </div>
 
-      <div className="min-h-screen relative grid-bg">
-        {/* Ligne de scan radar style matrice */}
-        <div
-          className="absolute inset-0 pointer-events-none opacity-20"
-          style={{
-            background: 'linear-gradient(to bottom, transparent, #14b8a6, transparent)',
-            height: '2px',
-            animation: 'scanline 8s linear infinite'
-          }}
-        />
-
-        {/* Effet lueur radiale globale */}
-        <div className="absolute inset-0 pointer-events-none" style={{
-          background: "radial-gradient(circle at 50% 30%, rgba(20,184,166,0.1), transparent 60%)"
-        }} />
-
-        {/* --- HEADER --- */}
-        <header className="glass-panel sticky top-[52px] z-50 flex items-center justify-between px-6 py-4 mx-4 mt-4 border-b-0 rounded-2xl">
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <Cpu className="w-8 h-8 text-teal-400" />
-              <div className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full animate-ping" />
-            </div>
+      {/* HEADER */}
+      <div style={{ background:"linear-gradient(135deg,rgba(99,102,241,0.15),rgba(99,102,241,0.03))", borderBottom:"1px solid rgba(99,102,241,0.2)", padding:"2rem 1.5rem" }}>
+        <div style={{ maxWidth:1200, margin:"0 auto" }}>
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:"1.5rem", flexWrap:"wrap", gap:16 }}>
             <div>
-              <h1 className="text-xl font-black text-white tracking-widest">
-                CHNCAK <span className="cyber-text">ANALYTICS</span>
+              <div style={{ display:"inline-flex", alignItems:"center", gap:8, background:"rgba(99,102,241,0.12)", border:"1px solid rgba(99,102,241,0.3)", borderRadius:40, padding:"4px 14px", marginBottom:12 }}>
+                <span style={{ width:7, height:7, borderRadius:"50%", background:"#6366f1", display:"inline-block", animation:"pulse 2s infinite" }}></span>
+                <span style={{ color:"#818cf8", fontSize:11, fontWeight:700, letterSpacing:"0.08em" }}>INTELLIGENCE ARTIFICIELLE ACTIVE</span>
+              </div>
+              <h1 style={{ fontSize:"clamp(22px,3vw,32px)", fontWeight:800, color:"#e2e8f0", margin:0, lineHeight:1.2 }}>
+                Predict IA — <span style={{ color:"#6366f1" }}>Intelligence Artificielle</span> CHNCAK
               </h1>
-              <p className="text-[10px] text-teal-500 tracking-[0.2em] uppercase font-bold">
-                Gestion Prédictive des Flux
-              </p>
+              <p style={{ color:"#64748b", fontSize:14, marginTop:6 }}>Prédictions temps réel pour la gestion hospitalière optimisée</p>
             </div>
+            <button
+              onClick={lancerAnalyse}
+              disabled={loading}
+              style={{
+                background: loading ? "rgba(99,102,241,0.3)" : "linear-gradient(135deg,#6366f1,#4f46e5)",
+                color:"white", border:"none", borderRadius:10, padding:"10px 20px",
+                fontSize:14, fontWeight:700, cursor: loading ? "not-allowed" : "pointer",
+                display:"flex", alignItems:"center", gap:8, transition:"all 0.2s"
+              }}>
+              {loading ? (
+                <>
+                  <span style={{ width:14, height:14, border:"2px solid rgba(255,255,255,0.3)", borderTopColor:"white", borderRadius:"50%", display:"inline-block", animation:"spin 0.8s linear infinite" }}></span>
+                  Analyse en cours...
+                </>
+              ) : analyseComplete ? "✓ Relancer l'analyse" : "Lancer nouvelle analyse"}
+            </button>
           </div>
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2">
-              <Radio className="w-4 h-4 text-emerald-400 animate-pulse" />
-              <span className="text-xs text-emerald-400 font-mono">SYSTEM ONLINE</span>
-            </div>
-            <div className="px-3 py-1 rounded bg-teal-500/10 border border-teal-500/30 text-teal-400 font-mono text-xs">
-              v2.0.4-AI-CORE
-            </div>
-          </div>
-        </header>
 
-        {/* --- MAIN CONTENT --- */}
-        <main className="max-w-[1400px] mx-auto p-4 md:p-6 mt-4 grid gap-6 grid-cols-1 lg:grid-cols-12 relative z-10">
-
-          {/* Section 1 : Flux d'alerte IA & Radar (Top Left) */}
-          <div className="lg:col-span-8 flex flex-col gap-6">
-
-            {/* Terminal AI Feed */}
-            <div className="glass-panel p-6 border-l-4 border-l-red-500 flex flex-col" style={{ animation: "floatUp 0.6s ease-out" }}>
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="flex items-center gap-2 text-sm font-bold text-gray-300 uppercase tracking-wider">
-                  <Activity className="w-4 h-4 text-red-400" />
-                  Flux Cerveau IA - Temps Réel
-                </h2>
-                <span className="text-xs font-mono text-red-400 bg-red-500/10 px-2 py-1 rounded">LIVE SECURE</span>
-              </div>
-              <div className="bg-gray-950/80 rounded-xl p-4 min-h-[80px] flex items-center font-mono text-sm border border-gray-800 relative overflow-hidden">
-                {mounted && (
-                  <p key={alertIndex} className="text-red-400 typewriter m-0">
-                    {AI_ALERTS[alertIndex]}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            {/* Statistiques Clés Dynamiques */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {STATS.map((stat, i) => (
-                <div key={i} className="glass-panel p-5 relative overflow-hidden group" style={{ animation: `floatUp 0.6s ${i * 0.1}s ease-out both` }}>
-                  <div className="absolute -right-4 -top-4 w-16 h-16 rounded-full opacity-20" style={{ background: stat.color, filter: 'blur(15px)' }} />
-                  <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">{stat.label}</p>
-                  <div className="flex items-baseline gap-1">
-                    {mounted ? (
-                      <span className="text-3xl font-black text-white" style={{ textShadow: `0 0 20px ${stat.color}` }}>
-                        <AnimatedNumber value={stat.value} />
-                      </span>
-                    ) : (
-                      <span className="text-3xl font-black text-white">0</span>
-                    )}
-                    <span className="text-sm font-bold" style={{ color: stat.color }}>{stat.suffix}</span>
-                  </div>
+          {/* KPIs */}
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))", gap:16 }}>
+            {[
+              { label:"Précision modèle", value:`${precision}%`, icon:"🎯", sub:"Modèle PredSepsis actif", couleur:"#6366f1" },
+              { label:"Prédictions / jour", value:"1 247", icon:"🔮", sub:"+12% vs hier", couleur:"#818cf8" },
+              { label:"Alertes précoces", value:"23", icon:"⚡", sub:"dont 3 critiques", couleur:"#a78bfa" },
+              { label:"Économies estimées", value:"12M FCFA", icon:"💰", sub:"Ce mois-ci", couleur:"#22c55e" },
+            ].map((k, i) => (
+              <div key={i} style={{ background:"#0a1628", border:"1px solid rgba(255,255,255,0.06)", borderRadius:12, padding:"1rem 1.25rem", animation:`fadeUp 0.4s ease ${i*0.08}s both` }}>
+                <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:6 }}>
+                  <span style={{ fontSize:20 }}>{k.icon}</span>
+                  <span style={{ fontSize:12, color:"#64748b" }}>{k.label}</span>
                 </div>
-              ))}
-            </div>
-
-            {/* Graphique Big Data Simulé */}
-            <div className="glass-panel p-6 flex-1 min-h-[300px]" style={{ animation: "floatUp 0.6s 0.5s ease-out both" }}>
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="flex items-center gap-2 text-sm font-bold text-gray-300 uppercase tracking-wider">
-                  <BarChart4 className="w-4 h-4 text-teal-400" />
-                  Densité de Flux Audiovisuel (Toute Bande)
-                </h2>
+                <div style={{ fontSize:26, fontWeight:800, color:k.couleur }}>{k.value}</div>
+                <div style={{ fontSize:11, color:"rgba(255,255,255,0.3)", marginTop:2 }}>{k.sub}</div>
               </div>
-
-              <div className="h-48 flex items-end gap-2 justify-between px-2">
-                {randomData.map((val, idx) => (
-                  <div key={idx} className="relative w-full bg-teal-950/40 rounded-t-sm group">
-                    <div
-                      className="absolute bottom-0 w-full bg-gradient-to-t from-teal-600 to-teal-300 rounded-t-sm transition-all duration-700 ease-out"
-                      style={{
-                        height: `${val}%`,
-                        boxShadow: '0 0 10px rgba(20,184,166,0.3)'
-                      }}
-                    />
-                    <div className="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 text-xs font-mono bg-teal-900 px-2 py-1 rounded text-teal-300 transition-opacity">
-                      {Math.round(val)}%
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
+            ))}
           </div>
-
-          {/* Section 2 : Analyse Sectorielle & Radar (Right Sidebar) */}
-          <div className="lg:col-span-4 flex flex-col gap-6">
-
-            {/* Composant Radar Visuel */}
-            <div className="glass-panel p-6 flex flex-col items-center justify-center relative overflow-hidden" style={{ animation: "pulse-glow 4s infinite" }}>
-              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay" />
-              <h2 className="text-sm font-bold text-teal-400 uppercase tracking-widest mb-6 w-full flex items-center gap-2">
-                <Globe className="w-4 h-4" />
-                Cartographie Réseau
-              </h2>
-
-              {/* Cercle Radar */}
-              <div className="relative w-48 h-48 rounded-full border border-teal-500/30 flex items-center justify-center">
-                <div className="absolute inset-2 rounded-full border border-teal-500/20" />
-                <div className="absolute inset-8 rounded-full border border-teal-500/10" />
-                <div className="absolute w-full h-full rounded-full border-t border-teal-400" style={{ animation: "radar-spin 4s linear infinite" }}>
-                  <div className="absolute top-0 left-1/2 w-1/2 h-full bg-gradient-to-r from-transparent to-teal-500/20 origin-left" />
-                </div>
-                {/* Blips */}
-                <div className="absolute top-[20%] left-[30%] w-2 h-2 bg-red-500 rounded-full animate-ping" />
-                <div className="absolute bottom-[40%] right-[20%] w-2 h-2 bg-teal-400 rounded-full animate-ping" style={{ animationDelay: "1s" }} />
-                <div className="absolute top-[60%] left-[70%] w-2 h-2 bg-yellow-400 rounded-full animate-ping" style={{ animationDelay: "2s" }} />
-                <Target className="w-6 h-6 text-teal-500/50 absolute z-10" />
-              </div>
-
-              <div className="mt-6 w-full space-y-2 font-mono text-xs">
-                <div className="flex justify-between text-gray-400"><span>Canaux Numériques:</span><span className="text-teal-400">42 Actifs</span></div>
-                <div className="flex justify-between text-gray-400"><span>Charge Serveurs IA:</span><span className="text-yellow-400">78%</span></div>
-                <div className="flex justify-between text-gray-400"><span>Dernier Scan:</span><span className="text-white">Il y a 0.4s</span></div>
-              </div>
-            </div>
-
-            {/* Modules d'action rapide */}
-            <div className="glass-panel p-6 flex-1">
-               <h2 className="text-sm font-bold text-gray-300 uppercase tracking-wider mb-4 border-b border-gray-800 pb-2">
-                Modules Sous-Systèmes
-              </h2>
-              <div className="space-y-3">
-                {['ElectroWatch', 'MediaWatch', 'AntiDeep', 'KidsProtect', 'AdWatch'].map((sys, idx) => (
-                  <button key={idx} className="w-full text-left px-4 py-3 rounded-xl bg-gray-900/50 border border-gray-800 hover:border-teal-500/50 hover:bg-teal-900/20 transition-all flex justify-between items-center group">
-                    <span className="text-sm font-bold text-gray-400 group-hover:text-white transition-colors">{sys}</span>
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
-                  </button>
-                ))}
-              </div>
-            </div>
-
-          </div>
-        </main>
+        </div>
       </div>
-    </>
+
+      <div style={{ maxWidth:1200, margin:"0 auto", padding:"2rem 1.5rem", display:"flex", flexDirection:"column", gap:24 }}>
+
+        {/* GRAPHIQUE ADMISSIONS */}
+        <div style={{ background:"#0a1628", border:"1px solid rgba(255,255,255,0.06)", borderRadius:16, padding:"1.5rem", animation:"fadeUp 0.4s ease 0.1s both" }}>
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"1.5rem", flexWrap:"wrap", gap:8 }}>
+            <div>
+              <h2 style={{ color:"#e2e8f0", fontWeight:700, fontSize:17, margin:0 }}>Prédictions d'Admissions</h2>
+              <p style={{ color:"#64748b", fontSize:13, margin:"4px 0 0" }}>Prévisions IA sur 7 jours — Semaine du 23 au 29 Juin 2026</p>
+            </div>
+            <span style={{ background:"rgba(99,102,241,0.12)", color:"#818cf8", fontSize:11, fontWeight:700, padding:"4px 10px", borderRadius:20, border:"1px solid rgba(99,102,241,0.25)" }}>MODÈLE LSTM v2.3</span>
+          </div>
+          <div style={{ display:"flex", alignItems:"flex-end", gap:12, height:180, padding:"0 8px" }}>
+            {joursData.map((j, i) => (
+              <div key={i} style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center", gap:6 }}>
+                <span style={{ fontSize:12, fontWeight:700, color: j.isToday ? "#6366f1" : "#64748b" }}>{j.admissions}</span>
+                <div style={{
+                  width:"100%", borderRadius:"6px 6px 0 0",
+                  height:`${(j.admissions / maxAdmissions) * 140}px`,
+                  background: j.isToday
+                    ? "linear-gradient(180deg,#6366f1,#4f46e5)"
+                    : "linear-gradient(180deg,rgba(99,102,241,0.45),rgba(99,102,241,0.15))",
+                  border: j.isToday ? "1px solid rgba(99,102,241,0.7)" : "1px solid rgba(99,102,241,0.15)",
+                  position:"relative"
+                }}>
+                  {j.isToday && (
+                    <div style={{ position:"absolute", top:-22, left:"50%", transform:"translateX(-50%)", background:"#6366f1", color:"white", fontSize:9, fontWeight:700, padding:"2px 6px", borderRadius:4, whiteSpace:"nowrap" }}>AUJOURD'HUI</div>
+                  )}
+                </div>
+                <span style={{ fontSize:11, color: j.isToday ? "#818cf8" : "#64748b", fontWeight: j.isToday ? 700 : 400 }}>{j.jour}</span>
+              </div>
+            ))}
+          </div>
+          <div style={{ display:"flex", alignItems:"center", gap:20, marginTop:"1rem", paddingTop:"1rem", borderTop:"1px solid rgba(255,255,255,0.06)", flexWrap:"wrap" }}>
+            <div style={{ display:"flex", alignItems:"center", gap:6 }}>
+              <div style={{ width:12, height:12, borderRadius:2, background:"linear-gradient(180deg,#6366f1,#4f46e5)" }}></div>
+              <span style={{ fontSize:11, color:"#64748b" }}>Jour actuel</span>
+            </div>
+            <div style={{ display:"flex", alignItems:"center", gap:6 }}>
+              <div style={{ width:12, height:12, borderRadius:2, background:"rgba(99,102,241,0.35)" }}></div>
+              <span style={{ fontSize:11, color:"#64748b" }}>Prédictions IA</span>
+            </div>
+            <span style={{ marginLeft:"auto", fontSize:11, color:"#64748b" }}>Intervalle de confiance: 95%</span>
+          </div>
+        </div>
+
+        {/* ALERTES PREDICTIVES */}
+        <div style={{ background:"#0a1628", border:"1px solid rgba(255,255,255,0.06)", borderRadius:16, padding:"1.5rem", animation:"fadeUp 0.4s ease 0.2s both" }}>
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"1.25rem", flexWrap:"wrap", gap:8 }}>
+            <div>
+              <h2 style={{ color:"#e2e8f0", fontWeight:700, fontSize:17, margin:0 }}>Alertes Prédictives</h2>
+              <p style={{ color:"#64748b", fontSize:13, margin:"4px 0 0" }}>{alertesPredictives.length} alertes actives générées par l'IA</p>
+            </div>
+            <span style={{ background:"rgba(239,68,68,0.12)", color:"#f87171", fontSize:11, fontWeight:700, padding:"4px 10px", borderRadius:20, border:"1px solid rgba(239,68,68,0.25)", animation:"pulse 2s infinite" }}>TEMPS RÉEL</span>
+          </div>
+          <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
+            {alertesPredictives.map(a => (
+              <div key={a.id} style={{
+                background:"rgba(255,255,255,0.02)", border:`1px solid ${a.couleur}22`,
+                borderLeft:`3px solid ${a.couleur}`, borderRadius:10, padding:"1rem 1.25rem",
+                display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:12
+              }}>
+                <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+                  <span style={{ background:`${a.couleur}20`, color:a.couleur, fontSize:10, fontWeight:800, padding:"3px 8px", borderRadius:4, letterSpacing:"0.05em", whiteSpace:"nowrap" }}>{a.type}</span>
+                  <div>
+                    <div style={{ color:"#e2e8f0", fontWeight:600, fontSize:14 }}>{a.patient}</div>
+                    <div style={{ color:"#64748b", fontSize:12, marginTop:2 }}>{a.message}</div>
+                  </div>
+                </div>
+                <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+                  <div style={{ textAlign:"right" }}>
+                    <div style={{ color:a.couleur, fontWeight:800, fontSize:18 }}>{a.probabilite}%</div>
+                    <div style={{ color:"#64748b", fontSize:10 }}>probabilité</div>
+                  </div>
+                  <span style={{ background:`${a.couleur}18`, color:a.couleur, fontSize:10, fontWeight:700, padding:"4px 10px", borderRadius:6 }}>{a.urgence}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* MODÈLES ACTIFS */}
+        <div style={{ background:"#0a1628", border:"1px solid rgba(255,255,255,0.06)", borderRadius:16, padding:"1.5rem", animation:"fadeUp 0.4s ease 0.3s both" }}>
+          <div style={{ marginBottom:"1.25rem" }}>
+            <h2 style={{ color:"#e2e8f0", fontWeight:700, fontSize:17, margin:0 }}>Modèles Actifs</h2>
+            <p style={{ color:"#64748b", fontSize:13, margin:"4px 0 0" }}>5 modèles de machine learning en production</p>
+          </div>
+          <div style={{ overflowX:"auto" }}>
+            <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13 }}>
+              <thead>
+                <tr style={{ borderBottom:"1px solid rgba(255,255,255,0.06)" }}>
+                  {["Modèle", "Type", "Précision", "Dernière MAJ", "Statut"].map(h => (
+                    <th key={h} style={{ padding:"8px 12px", textAlign:"left", color:"#64748b", fontWeight:600, fontSize:11, textTransform:"uppercase", letterSpacing:"0.05em" }}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {modelesIA.map((m, i) => (
+                  <tr key={i} style={{ borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                    <td style={{ padding:"12px", color:"#e2e8f0", fontWeight:600 }}>{m.nom}</td>
+                    <td style={{ padding:"12px", color:"#64748b" }}>{m.type}</td>
+                    <td style={{ padding:"12px" }}>
+                      <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+                        <div style={{ width:80, background:"rgba(255,255,255,0.06)", borderRadius:4, height:6 }}>
+                          <div style={{ height:"100%", borderRadius:4, background:"#6366f1", width:`${m.precision}%` }}></div>
+                        </div>
+                        <span style={{ color:"#6366f1", fontWeight:700 }}>{m.precision}%</span>
+                      </div>
+                    </td>
+                    <td style={{ padding:"12px", color:"#64748b", fontFamily:"monospace", fontSize:12 }}>{m.update}</td>
+                    <td style={{ padding:"12px" }}>
+                      <span style={{
+                        background: m.statut === "actif" ? "rgba(34,197,94,0.12)" : "rgba(245,158,11,0.12)",
+                        color: m.statut === "actif" ? "#22c55e" : "#f59e0b",
+                        padding:"3px 10px", borderRadius:20, fontSize:11, fontWeight:700
+                      }}>
+                        {m.statut === "actif" ? "● Actif" : "⟳ Entraînement"}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {analyseComplete && (
+          <div style={{ background:"rgba(99,102,241,0.08)", border:"1px solid rgba(99,102,241,0.3)", borderRadius:12, padding:"1rem 1.25rem", display:"flex", alignItems:"center", gap:12, animation:"fadeUp 0.4s ease both" }}>
+            <span style={{ fontSize:20 }}>✅</span>
+            <div>
+              <div style={{ color:"#818cf8", fontWeight:700, fontSize:14 }}>Analyse IA complétée avec succès</div>
+              <div style={{ color:"#64748b", fontSize:12, marginTop:2 }}>Tous les modèles ont été rechargés. Prédictions mises à jour pour les 48 prochaines heures.</div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   )
-}
-
-// Composant pour animer les nombres
-function AnimatedNumber({ value }: { value: number }) {
-  const [displayValue, setDisplayValue] = useState(0)
-
-  useEffect(() => {
-    let start = 0
-    const end = value
-    const duration = 1500
-    const increment = end / (duration / 16)
-
-    const timer = setInterval(() => {
-      start += increment
-      if (start >= end) {
-        setDisplayValue(end)
-        clearInterval(timer)
-      } else {
-        setDisplayValue(Math.floor(start))
-      }
-    }, 16)
-    return () => clearInterval(timer)
-  }, [value])
-
-  return <>{displayValue}</>
 }

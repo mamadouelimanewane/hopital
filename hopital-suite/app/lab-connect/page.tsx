@@ -1,6 +1,5 @@
 "use client"
 import { useState } from "react"
-import { FlaskConical, AlertTriangle, Clock, CheckCircle, ChevronRight, Search, Download, Zap } from "lucide-react"
 
 const analyses = [
   { id: "LAB-2847", patient: "Awa Diop", type: "Numération Formule Sanguine", resultat: "Hémoglobine 9.2 g/dL", normal: "12-16 g/dL", statut: "Anormal", medecin: "Dr. Ndiaye", urgence: true },
@@ -22,6 +21,10 @@ const enCours = [
 
 const etapes = ["Prélèvement", "Centrifugation", "Analyse", "Validation", "Transmission"]
 
+const accent = "#0369a1"
+const card = "#0a1628"
+const border = "rgba(255,255,255,0.06)"
+
 export default function LabConnect() {
   const [onglet, setOnglet] = useState<"resultats" | "encours" | "critiques" | "historique">("resultats")
   const [recherche, setRecherche] = useState("")
@@ -32,146 +35,149 @@ export default function LabConnect() {
     a.type.toLowerCase().includes(recherche.toLowerCase())
   )
 
+  const statutStyle = (statut: string) => {
+    if (statut === "Critique") return { color:"#f87171", bg:"rgba(239,68,68,0.12)" }
+    if (statut === "Anormal") return { color:"#fb923c", bg:"rgba(251,146,60,0.12)" }
+    return { color:"#22c55e", bg:"rgba(34,197,94,0.12)" }
+  }
+
   return (
-    <>
+    <div style={{ background:"#050d1a", minHeight:"100vh", color:"#e2e8f0", fontFamily:"'Inter',system-ui,sans-serif" }}>
       <style>{`
-        body { margin:0; background:#f0f7ff; color:#1e293b; font-family:'Inter',system-ui,sans-serif; }
-        .pulse { animation: pulse 2s infinite; }
-        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
-        .fade { animation: fade 0.4s ease-out; }
-        @keyframes fade { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-        .progress-bar { transition: width 0.6s ease; }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
       `}</style>
 
       {/* BACK NAV */}
-      <div style={{ position:"sticky", top:0, zIndex:100, background:"rgba(10,22,40,0.95)", backdropFilter:"blur(20px)", borderBottom:"1px solid rgba(255,255,255,0.08)", padding:"0 1.5rem", height:52, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.6)", textDecoration:"none", fontSize:13, fontWeight:600 }}>
-          ← Retour au Portail CHNCAK
-        </a>
+      <div style={{ position:"sticky", top:0, zIndex:200, background:"rgba(5,13,26,0.96)", backdropFilter:"blur(20px)", borderBottom:"1px solid rgba(14,165,233,0.12)", padding:"0 1.5rem", height:52, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.5)", textDecoration:"none", fontSize:13, fontWeight:600 }}>← Portail CHNCAK</a>
         <span style={{ fontSize:11, color:"rgba(255,255,255,0.3)", fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase" }}>CHNCAK Suite</span>
       </div>
 
       {/* HEADER */}
-      <div style={{ background: "linear-gradient(135deg,#1d4ed8,#0ea5e9)" }} className="text-white px-6 py-5">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex justify-between items-center mb-5">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-                <FlaskConical className="w-6 h-6" />
+      <div style={{ background:"linear-gradient(135deg,rgba(3,105,161,0.18),rgba(3,105,161,0.04))", borderBottom:"1px solid rgba(3,105,161,0.25)", padding:"1.5rem" }}>
+        <div style={{ maxWidth:1280, margin:"0 auto" }}>
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:"1.25rem", flexWrap:"wrap", gap:12 }}>
+            <div>
+              <div style={{ display:"inline-flex", alignItems:"center", gap:8, background:"rgba(3,105,161,0.12)", border:"1px solid rgba(3,105,161,0.3)", borderRadius:40, padding:"4px 14px", marginBottom:10 }}>
+                <span style={{ width:7, height:7, borderRadius:"50%", background:"#38bdf8", display:"inline-block", animation:"pulse 2s infinite" }}></span>
+                <span style={{ color:"#38bdf8", fontSize:11, fontWeight:700, letterSpacing:"0.08em" }}>LABORATOIRE CONNECTÉ</span>
               </div>
-              <div>
-                <h1 className="text-xl font-black tracking-tight">Lab Connect <span className="font-light">CHNCAK</span></h1>
-                <p className="text-blue-200 text-xs">Laboratoire d'analyses connecté en temps réel</p>
-              </div>
+              <h1 style={{ fontSize:"clamp(20px,2.5vw,28px)", fontWeight:800, color:"#e2e8f0", margin:0 }}>
+                Lab Connect — <span style={{ color:"#38bdf8" }}>Analyses en Temps Réel</span>
+              </h1>
+              <p style={{ color:"#64748b", fontSize:13, marginTop:4 }}>Laboratoire d'analyses médicales connecté CHNCAK</p>
             </div>
-            <div className="flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-full">
-              <span className="w-2 h-2 bg-green-400 rounded-full pulse"></span>
-              <span className="text-sm font-semibold">Système Actif</span>
+            <div style={{ display:"flex", alignItems:"center", gap:8, background:"rgba(34,197,94,0.1)", border:"1px solid rgba(34,197,94,0.25)", borderRadius:20, padding:"6px 14px" }}>
+              <span style={{ width:8, height:8, borderRadius:"50%", background:"#22c55e", display:"inline-block", animation:"pulse 2s infinite" }}></span>
+              <span style={{ fontSize:13, fontWeight:600, color:"#22c55e" }}>Système Actif</span>
             </div>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(180px,1fr))", gap:16 }}>
             {[
-              { label: "En cours", val: "47", color: "bg-blue-500/30" },
-              { label: "Résultats prêts", val: "12", color: "bg-green-500/30" },
-              { label: "Alertes critiques", val: "4", color: "bg-red-500/30" },
-              { label: "Délai moyen", val: "2h15", color: "bg-purple-500/30" },
+              { label:"En cours", val:"47", color:"#38bdf8" },
+              { label:"Résultats prêts", val:"12", color:"#22c55e" },
+              { label:"Alertes critiques", val:"4", color:"#f87171" },
+              { label:"Délai moyen", val:"2h15", color:"#8b5cf6" },
             ].map((s, i) => (
-              <div key={i} className={`${s.color} backdrop-blur-sm rounded-xl p-3 text-center`}>
-                <div className="text-2xl font-black">{s.val}</div>
-                <div className="text-xs text-blue-100">{s.label}</div>
+              <div key={i} style={{ background:card, border:`1px solid ${border}`, borderRadius:12, padding:"1rem", textAlign:"center", animation:`fadeUp 0.4s ease ${i*0.08}s both` }}>
+                <div style={{ fontSize:28, fontWeight:800, color:s.color }}>{s.val}</div>
+                <div style={{ fontSize:12, color:"#64748b", marginTop:2 }}>{s.label}</div>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* ONGLETS */}
-      <div className="max-w-7xl mx-auto px-6 mt-6">
-        <div className="flex gap-2 mb-6 flex-wrap">
-          {(["resultats", "encours", "critiques", "historique"] as const).map(t => (
-            <button key={t} onClick={() => setOnglet(t)}
-              className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${onglet === t ? "bg-blue-600 text-white" : "bg-white text-gray-600 hover:bg-blue-50"}`}>
-              {t === "resultats" && "📋 Résultats prêts"}
-              {t === "encours" && "⏳ En cours (47)"}
-              {t === "critiques" && <span className="flex items-center gap-1"><AlertTriangle className="w-4 h-4 text-red-500" />Critiques ({critiques.length})</span>}
-              {t === "historique" && "📁 Historique"}
-            </button>
+      <div style={{ maxWidth:1280, margin:"0 auto", padding:"1.5rem", display:"flex", flexDirection:"column", gap:20 }}>
+
+        {/* ONGLETS */}
+        <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
+          {[
+            { id:"resultats" as const, label:"📋 Résultats prêts" },
+            { id:"encours" as const, label:"⏳ En cours (47)" },
+            { id:"critiques" as const, label:`🚨 Critiques (${critiques.length})` },
+            { id:"historique" as const, label:"📁 Historique" },
+          ].map(t => (
+            <button key={t.id} onClick={() => setOnglet(t.id)} style={{
+              background: onglet === t.id ? "rgba(3,105,161,0.2)" : card,
+              color: onglet === t.id ? "#38bdf8" : "rgba(255,255,255,0.5)",
+              border: `1px solid ${onglet === t.id ? "rgba(3,105,161,0.5)" : border}`,
+              borderRadius:10, padding:"8px 16px", fontSize:13, fontWeight:600, cursor:"pointer", transition:"all 0.2s"
+            }}>{t.label}</button>
           ))}
         </div>
 
         {/* RÉSULTATS */}
         {onglet === "resultats" && (
-          <div className="fade">
-            <div className="mb-4 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <div style={{ animation:"fadeUp 0.3s ease both" }}>
+            <div style={{ position:"relative", marginBottom:16 }}>
+              <span style={{ position:"absolute", left:12, top:"50%", transform:"translateY(-50%)", color:"#64748b", fontSize:14 }}>🔍</span>
               <input value={recherche} onChange={e => setRecherche(e.target.value)}
                 placeholder="Rechercher patient ou type d'examen..."
-                className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-lg bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                style={{ width:"100%", paddingLeft:36, paddingRight:16, paddingTop:10, paddingBottom:10, background:card, border:`1px solid ${border}`, borderRadius:10, color:"#e2e8f0", fontSize:13, outline:"none", boxSizing:"border-box" }} />
             </div>
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-              <table className="w-full text-sm">
-                <thead className="bg-gray-50 border-b border-gray-100">
-                  <tr>
-                    {["ID", "Patient", "Examen", "Résultat", "Valeurs Normales", "Statut", "Médecin", "Action"].map(h => (
-                      <th key={h} className="text-left px-4 py-3 text-xs font-bold text-gray-500 uppercase tracking-wide">{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-50">
-                  {filtres.map((a, i) => (
-                    <tr key={i} className="hover:bg-blue-50/30 transition">
-                      <td className="px-4 py-3 font-mono text-xs text-gray-500">{a.id}</td>
-                      <td className="px-4 py-3 font-semibold">{a.patient}</td>
-                      <td className="px-4 py-3 text-gray-600">{a.type}</td>
-                      <td className="px-4 py-3">
-                        <span className={`font-semibold ${a.statut === "Critique" ? "text-red-600" : a.statut === "Anormal" ? "text-orange-600" : "text-green-600"}`}>
-                          {a.resultat}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-gray-400 text-xs">{a.normal}</td>
-                      <td className="px-4 py-3">
-                        <span className={`px-2 py-1 rounded-full text-xs font-bold ${a.statut === "Critique" ? "bg-red-100 text-red-700" : a.statut === "Anormal" ? "bg-orange-100 text-orange-700" : "bg-green-100 text-green-700"}`}>
-                          {a.statut === "Critique" && "🚨 "}{a.statut}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-gray-600">{a.medecin}</td>
-                      <td className="px-4 py-3">
-                        <button className="text-blue-600 hover:underline text-xs font-semibold flex items-center gap-1">
-                          Transmettre <ChevronRight className="w-3 h-3" />
-                        </button>
-                      </td>
+            <div style={{ background:card, border:`1px solid ${border}`, borderRadius:16, overflow:"hidden" }}>
+              <div style={{ overflowX:"auto" }}>
+                <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13 }}>
+                  <thead>
+                    <tr style={{ borderBottom:`1px solid ${border}` }}>
+                      {["ID","Patient","Examen","Résultat","Valeurs Normales","Statut","Médecin","Action"].map(h => (
+                        <th key={h} style={{ padding:"10px 14px", textAlign:"left", color:"rgba(255,255,255,0.4)", fontWeight:600, fontSize:11, textTransform:"uppercase" }}>{h}</th>
+                      ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {filtres.map((a, i) => {
+                      const ss = statutStyle(a.statut)
+                      return (
+                        <tr key={i} style={{ borderBottom:`1px solid ${border}` }}>
+                          <td style={{ padding:"10px 14px", fontFamily:"monospace", fontSize:11, color:"#64748b" }}>{a.id}</td>
+                          <td style={{ padding:"10px 14px", fontWeight:600, color:"#e2e8f0" }}>{a.patient}</td>
+                          <td style={{ padding:"10px 14px", fontSize:12, color:"rgba(255,255,255,0.6)" }}>{a.type}</td>
+                          <td style={{ padding:"10px 14px", fontSize:12, fontWeight:600, color:ss.color }}>{a.resultat}</td>
+                          <td style={{ padding:"10px 14px", fontSize:11, color:"#64748b" }}>{a.normal}</td>
+                          <td style={{ padding:"10px 14px" }}>
+                            <span style={{ background:ss.bg, color:ss.color, padding:"3px 10px", borderRadius:20, fontSize:11, fontWeight:700 }}>
+                              {a.statut === "Critique" && "🚨 "}{a.statut}
+                            </span>
+                          </td>
+                          <td style={{ padding:"10px 14px", fontSize:12, color:"rgba(255,255,255,0.6)" }}>{a.medecin}</td>
+                          <td style={{ padding:"10px 14px" }}>
+                            <button style={{ color:"#38bdf8", background:"none", border:"none", fontSize:12, fontWeight:600, cursor:"pointer" }}>Transmettre →</button>
+                          </td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         )}
 
         {/* EN COURS */}
         {onglet === "encours" && (
-          <div className="fade space-y-4">
+          <div style={{ display:"flex", flexDirection:"column", gap:16, animation:"fadeUp 0.3s ease both" }}>
             {enCours.map((a, i) => (
-              <div key={i} className="bg-white rounded-xl border border-gray-100 p-5 shadow-sm">
-                <div className="flex justify-between items-start mb-4">
+              <div key={i} style={{ background:card, border:`1px solid ${border}`, borderRadius:14, padding:"1.25rem" }}>
+                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:"1rem" }}>
                   <div>
-                    <span className="font-mono text-xs text-gray-400">{a.id}</span>
-                    <h3 className="font-bold text-gray-900">{a.patient}</h3>
-                    <p className="text-sm text-gray-500">{a.type}</p>
+                    <div style={{ fontFamily:"monospace", fontSize:11, color:"#64748b", marginBottom:4 }}>{a.id}</div>
+                    <div style={{ fontWeight:700, color:"#e2e8f0", fontSize:15 }}>{a.patient}</div>
+                    <div style={{ fontSize:13, color:"#64748b", marginTop:2 }}>{a.type}</div>
                   </div>
-                  <div className="flex items-center gap-1 text-gray-400 text-xs">
-                    <Clock className="w-3 h-3" /> Début {a.debut}
-                  </div>
+                  <div style={{ fontSize:12, color:"#64748b" }}>⏱ Début {a.debut}</div>
                 </div>
-                <div className="flex gap-1 mb-2">
+                <div style={{ display:"flex", gap:4, marginBottom:8 }}>
                   {etapes.map((e, j) => (
-                    <div key={j} className="flex-1 text-center">
-                      <div className={`h-2 rounded-full mb-1 ${j < a.etape ? "bg-blue-500" : j === a.etape ? "bg-blue-300 pulse" : "bg-gray-100"}`}></div>
-                      <span className="text-xs text-gray-400 hidden md:block">{e}</span>
+                    <div key={j} style={{ flex:1 }}>
+                      <div style={{ height:6, borderRadius:4, marginBottom:4, background: j < a.etape ? "#0ea5e9" : j === a.etape-1 ? "#38bdf8" : "rgba(255,255,255,0.08)" }}></div>
+                      <span style={{ fontSize:9, color:"#64748b", display:"block", textAlign:"center", overflow:"hidden", whiteSpace:"nowrap", textOverflow:"ellipsis" }}>{e}</span>
                     </div>
                   ))}
                 </div>
-                <p className="text-xs text-blue-600 font-semibold">Étape {a.etape}/{a.total} — {etapes[a.etape - 1]}</p>
+                <p style={{ fontSize:12, color:"#38bdf8", fontWeight:600, margin:0 }}>Étape {a.etape}/{a.total} — {etapes[a.etape-1]}</p>
               </div>
             ))}
           </div>
@@ -179,49 +185,47 @@ export default function LabConnect() {
 
         {/* CRITIQUES */}
         {onglet === "critiques" && (
-          <div className="fade space-y-3">
-            <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-center gap-3 mb-4">
-              <AlertTriangle className="w-5 h-5 text-red-600 flex-shrink-0" />
-              <p className="text-red-700 text-sm font-semibold">{critiques.length} résultats critiques nécessitent une action immédiate</p>
+          <div style={{ animation:"fadeUp 0.3s ease both" }}>
+            <div style={{ background:"rgba(239,68,68,0.08)", border:"1px solid rgba(239,68,68,0.25)", borderRadius:10, padding:"1rem 1.25rem", display:"flex", alignItems:"center", gap:10, marginBottom:16 }}>
+              <span style={{ fontSize:18 }}>⚠️</span>
+              <p style={{ color:"#f87171", fontSize:13, fontWeight:600, margin:0 }}>{critiques.length} résultats critiques nécessitent une action immédiate</p>
             </div>
-            {critiques.map((a, i) => (
-              <div key={i} className="bg-white border-l-4 border-red-500 rounded-xl p-5 shadow-sm">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <span className="text-xs font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded-full">🚨 CRITIQUE</span>
-                    <h3 className="font-bold text-gray-900 mt-2">{a.patient} — {a.type}</h3>
-                    <p className="text-red-600 font-semibold text-sm mt-1">{a.resultat}</p>
-                    <p className="text-gray-400 text-xs">Valeur normale : {a.normal}</p>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <button className="bg-red-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-red-700 transition">Appeler {a.medecin}</button>
-                    <button className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-xs font-semibold hover:bg-gray-200 transition">Voir dossier</button>
+            <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
+              {critiques.map((a, i) => (
+                <div key={i} style={{ background:card, borderLeft:"3px solid #ef4444", border:`1px solid rgba(239,68,68,0.2)`, borderRadius:14, padding:"1.25rem" }}>
+                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", flexWrap:"wrap", gap:12 }}>
+                    <div>
+                      <span style={{ background:"rgba(239,68,68,0.12)", color:"#f87171", fontSize:10, fontWeight:800, padding:"3px 8px", borderRadius:4 }}>🚨 CRITIQUE</span>
+                      <div style={{ fontWeight:700, color:"#e2e8f0", fontSize:14, marginTop:8 }}>{a.patient} — {a.type}</div>
+                      <div style={{ color:"#f87171", fontWeight:600, fontSize:13, marginTop:4 }}>{a.resultat}</div>
+                      <div style={{ color:"#64748b", fontSize:11, marginTop:2 }}>Valeur normale: {a.normal}</div>
+                    </div>
+                    <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+                      <button style={{ background:"rgba(239,68,68,0.8)", color:"white", border:"none", borderRadius:8, padding:"8px 16px", fontSize:12, fontWeight:700, cursor:"pointer" }}>Appeler {a.medecin}</button>
+                      <button style={{ background:"rgba(255,255,255,0.06)", color:"#e2e8f0", border:`1px solid ${border}`, borderRadius:8, padding:"8px 16px", fontSize:12, fontWeight:600, cursor:"pointer" }}>Voir dossier</button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         )}
 
         {/* HISTORIQUE */}
         {onglet === "historique" && (
-          <div className="fade bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="font-bold text-gray-900">Historique des analyses</h3>
-              <button className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition">
-                <Download className="w-4 h-4" /> Exporter
-              </button>
+          <div style={{ background:card, border:`1px solid ${border}`, borderRadius:16, padding:"1.5rem", animation:"fadeUp 0.3s ease both" }}>
+            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"1.5rem" }}>
+              <h3 style={{ color:"#e2e8f0", fontWeight:600, margin:0 }}>Historique des analyses</h3>
+              <button style={{ background:"linear-gradient(135deg,#0369a1,#0ea5e9)", color:"white", border:"none", borderRadius:8, padding:"8px 14px", fontSize:12, fontWeight:700, cursor:"pointer" }}>📥 Exporter</button>
             </div>
-            <div className="text-center py-12 text-gray-400">
-              <Zap className="w-10 h-10 mx-auto mb-3 text-gray-200" />
-              <p className="font-semibold">Historique — 3,847 analyses archivées</p>
-              <p className="text-sm mt-1">Utilisez la recherche ci-dessus pour filtrer par patient ou période</p>
+            <div style={{ textAlign:"center", padding:"3rem 0", color:"#64748b" }}>
+              <div style={{ fontSize:48, marginBottom:12 }}>⚗️</div>
+              <p style={{ fontWeight:600, fontSize:15, color:"#e2e8f0", margin:"0 0 8px" }}>Historique — 3 847 analyses archivées</p>
+              <p style={{ fontSize:13, margin:0 }}>Utilisez la recherche pour filtrer par patient ou période</p>
             </div>
           </div>
         )}
-
-        <div className="h-10"></div>
       </div>
-    </>
+    </div>
   )
 }
