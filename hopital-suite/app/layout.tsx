@@ -5,9 +5,9 @@ import "./globals.css"
 const geist = Geist({ variable: "--font-sans", subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "CNRA Suite — Plateforme numérique intégrée",
-  description: "Suite de 6 applications gouvernementales pour le Conseil National de Régulation de l'Audiovisuel du Sénégal. Surveillance électorale, médias, deepfakes, éducation aux médias.",
-  keywords: ["CNRA", "Sénégal", "audiovisuel", "médias", "régulation", "gouvernement"],
+  title: "Ndamatou Suite — Hôpital de Référence",
+  description: "Suite de 34 applications médicales pour l'Hôpital Ndamatou de Touba au Sénégal. Gestion hospitalière, IA médicale, dossiers partagés et suivi patient.",
+  keywords: ["Ndamatou", "Touba", "Sénégal", "hôpital", "santé", "médical", "IA"],
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

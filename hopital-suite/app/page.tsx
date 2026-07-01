@@ -215,7 +215,7 @@ export default function Home() {
               fontSize: 16, fontWeight: 700, textDecoration: "none",
               boxShadow: "0 0 30px rgba(16,185,129,0.3)", transition: "all 0.2s",
             }}>
-              Découvrir les 26 applications ↓
+              Découvrir les 34 applications ↓
             </a>
           </div>
 
@@ -230,7 +230,7 @@ export default function Home() {
             </p>
             <p style={{ fontSize: "clamp(1rem, 2vw, 1.2rem)", color: "rgba(255,255,255,0.7)", lineHeight: 1.8 }}>
               Le Ndamatou de Touba est une infrastructure de référence nationale.
-              Cet écosystème digital de <strong style={{ color: "#fff" }}>26 applications d'avant-garde</strong> place
+              Cet écosystème digital de <strong style={{ color: "#fff" }}>34 applications d'avant-garde</strong> place
               l'excellence médicale au cœur de la transformation numérique sénégalaise.
             </p>
           </div>
@@ -253,7 +253,7 @@ export default function Home() {
               — Portail d'accès —
             </p>
             <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.5rem)", fontWeight: 800, color: "#fff" }}>
-              26 Applications Médicales d'État
+              34 Applications Médicales d'État
             </h2>
             <p style={{ fontSize: 16, color: "rgba(255,255,255,0.45)", marginTop: 8 }}>
               4 domaines · Du soin quotidien à l'intelligence artificielle
