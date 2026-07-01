@@ -12,19 +12,19 @@ interface Message {
 }
 
 const conversationFr: Message[] = [
-  { role: "bot", text: "Bonjour ! Je suis l'assistant de triage CHNCAK. Décrivez vos symptômes ou choisissez une catégorie ci-dessous.", time: "10:02" },
+  { role: "bot", text: "Bonjour ! Je suis l'assistant de triage Ndamatou. Décrivez vos symptômes ou choisissez une catégorie ci-dessous.", time: "10:02" },
   { role: "user", text: "J'ai des douleurs thoraciques depuis 1 heure", time: "10:03" },
   { role: "bot", text: "⚠️ Symptômes cardiaques potentiels détectés. Avez-vous également des douleurs dans le bras gauche ou la mâchoire ?", time: "10:03" },
   { role: "user", text: "Oui, et je transpire beaucoup, j'ai du mal à respirer", time: "10:04" },
-  { role: "bot", text: "🚨 URGENCE P1 — Ces symptômes sont compatibles avec un syndrome coronarien aigu (infarctus). Appelez le 15 (SAMU) immédiatement ou rendez-vous aux Urgences CHNCAK. Ne conduisez pas vous-même.", time: "10:04" },
+  { role: "bot", text: "🚨 URGENCE P1 — Ces symptômes sont compatibles avec un syndrome coronarien aigu (infarctus). Appelez le 15 (SAMU) immédiatement ou rendez-vous aux Urgences Ndamatou. Ne conduisez pas vous-même.", time: "10:04" },
 ]
 
 const conversationWo: Message[] = [
-  { role: "bot", text: "Asalaamu aleekum ! Maa ngi ci CHNCAK yi wax ñu ci ak yéen ci mbind bu kanam. Wax ma ci sa yaram yi doy sa yaram.", time: "10:02" },
+  { role: "bot", text: "Asalaamu aleekum ! Maa ngi ci Ndamatou yi wax ñu ci ak yéen ci mbind bu kanam. Wax ma ci sa yaram yi doy sa yaram.", time: "10:02" },
   { role: "user", text: "Dafa may daw biir sama xol ci diggante ak biir yoon wu ndaw bi.", time: "10:03" },
   { role: "bot", text: "⚠️ Mbëggël — Dafa di bind ci xol bi. Ndax dafa dëgël ak sa kanam wala sa bakkan ci kanam?", time: "10:03" },
   { role: "user", text: "Waaw, dafa may daw ak dafa wëñ ci sama yaram", time: "10:04" },
-  { role: "bot", text: "🚨 TOGG TOPP P1 — Dem ci kër si yu ndaw ndaw! Woo li 15 (SAMU) wala dem ci Urgences bi ci CHNCAK. Bul dem ak sa kanam.", time: "10:04" },
+  { role: "bot", text: "🚨 TOGG TOPP P1 — Dem ci kër si yu ndaw ndaw! Woo li 15 (SAMU) wala dem ci Urgences bi ci Ndamatou. Bul dem ak sa kanam.", time: "10:04" },
 ]
 
 const suggestions = {
@@ -95,7 +95,7 @@ export default function ChatbotTriage() {
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-xl">🏥</div>
             <div>
-              <h1 className="font-black text-lg">Assistant Triage CHNCAK</h1>
+              <h1 className="font-black text-lg">Assistant Triage Ndamatou</h1>
               <p className="text-green-200 text-xs">IA de triage médical 24h/7j</p>
             </div>
           </div>

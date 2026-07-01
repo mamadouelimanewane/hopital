@@ -4,14 +4,14 @@ import { useState, useEffect } from "react"
 
 const campaigns = [
   { id: 1, title: "Acquisition Scanner IRM", goal: 150_000_000, raised: 102_000_000, color: "#f59e0b" },
-  { id: 2, title: "Bloc Opératoire Moderne", goal: 200_000_000, raised: 84_000_000, color: "#10b981" },
+  { id: 2, title: "Bloc Opératoire Moderne", goal: 200_000_000, raised: 84_000_000, color: "#0ea5e9" },
   { id: 3, title: "Unité Soins Intensifs Pédiatriques", goal: 80_000_000, raised: 72_800_000, color: "#6366f1" },
   { id: 4, title: "Formation 50 Infirmiers", goal: 25_000_000, raised: 25_000_000, color: "#22c55e" },
 ]
 
 const recentDons = [
   { id: 1, montant: 500_000, pays: "France", flag: "🇫🇷", date: "20/06/2026", message: "Pour la santé de Touba !", anonyme: false, nom: "Mamadou D." },
-  { id: 2, montant: 1_000_000, pays: "USA", flag: "🇺🇸", date: "19/06/2026", message: "Que Dieu bénisse le CHNCAK", anonyme: false, nom: "Fatou N." },
+  { id: 2, montant: 1_000_000, pays: "USA", flag: "🇺🇸", date: "19/06/2026", message: "Que Dieu bénisse le Ndamatou", anonyme: false, nom: "Fatou N." },
   { id: 3, montant: 250_000, pays: "Italie", flag: "🇮🇹", date: "19/06/2026", message: "", anonyme: true, nom: "Anonyme" },
   { id: 4, montant: 100_000, pays: "Gabon", flag: "🇬🇦", date: "18/06/2026", message: "Solidarité depuis Libreville", anonyme: false, nom: "Ibrahima S." },
   { id: 5, montant: 2_000_000, pays: "UAE", flag: "🇦🇪", date: "18/06/2026", message: "Bismillah", anonyme: false, nom: "Sheikh M." },
@@ -62,8 +62,8 @@ export default function DonFinancement() {
       <header style={{ background: "linear-gradient(135deg, #1a2035 0%, #0f2027 100%)", borderBottom: "1px solid #d97706" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "48px 24px 36px", textAlign: "center" }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 12, background: "rgba(217,119,6,0.12)", border: "1px solid #d97706", borderRadius: 40, padding: "6px 20px", marginBottom: 24 }}>
-            <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#10b981", display: "inline-block", animation: "pulse 2s infinite" }}></span>
-            <span style={{ color: "#d97706", fontSize: 13, fontWeight: 600, letterSpacing: 1 }}>PLATEFORME OFFICIELLE CHNCAK</span>
+            <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#0ea5e9", display: "inline-block", animation: "pulse 2s infinite" }}></span>
+            <span style={{ color: "#d97706", fontSize: 13, fontWeight: 600, letterSpacing: 1 }}>PLATEFORME OFFICIELLE Ndamatou</span>
           </div>
           <h1 style={{ fontSize: "clamp(28px,5vw,52px)", fontWeight: 800, lineHeight: 1.15, marginBottom: 16 }}>
             <span style={{ color: "#fbbf24" }}>Investissez dans la Santé</span><br />
@@ -103,14 +103,14 @@ export default function DonFinancement() {
               <p style={{ color: "#6b7280", fontSize: 14 }}>Campagne 2025-2026 — Phase I de modernisation</p>
             </div>
             <div style={{ textAlign: "right" }}>
-              <div style={{ fontSize: 36, fontWeight: 800, color: "#10b981" }}>287 M</div>
+              <div style={{ fontSize: 36, fontWeight: 800, color: "#0ea5e9" }}>287 M</div>
               <div style={{ color: "#6b7280", fontSize: 14 }}>sur 500 M FCFA</div>
             </div>
           </div>
           <div style={{ background: "#374151", borderRadius: 12, height: 28, overflow: "hidden", position: "relative" }}>
             <div style={{
               height: "100%", borderRadius: 12,
-              background: "linear-gradient(90deg, #d97706, #fbbf24, #10b981)",
+              background: "linear-gradient(90deg, #d97706, #fbbf24, #0ea5e9)",
               width: `${animBar}%`,
               transition: "width 1.5s cubic-bezier(0.4,0,0.2,1)",
               position: "relative"
@@ -123,7 +123,7 @@ export default function DonFinancement() {
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", marginTop: 8, fontSize: 13, color: "#6b7280" }}>
             <span>0 FCFA</span>
-            <span style={{ color: "#10b981", fontWeight: 600 }}>287 000 000 collectés</span>
+            <span style={{ color: "#0ea5e9", fontWeight: 600 }}>287 000 000 collectés</span>
             <span>500 000 000 FCFA</span>
           </div>
         </section>
@@ -204,9 +204,9 @@ export default function DonFinancement() {
                   <button key={m.id} onClick={() => setMode(m.id)}
                     style={{
                       padding: "7px 12px", borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: "pointer", border: "2px solid",
-                      borderColor: mode === m.id ? "#10b981" : "#374151",
+                      borderColor: mode === m.id ? "#0ea5e9" : "#374151",
                       background: mode === m.id ? "rgba(16,185,129,0.12)" : "#111827",
-                      color: mode === m.id ? "#10b981" : "#9ca3af"
+                      color: mode === m.id ? "#0ea5e9" : "#9ca3af"
                     }}>
                     {m.icon} {m.label}
                   </button>
@@ -288,7 +288,7 @@ export default function DonFinancement() {
                 <div style={{ position: "relative", width: 90, height: 90, flexShrink: 0 }}>
                   <svg viewBox="0 0 36 36" style={{ width: 90, height: 90, transform: "rotate(-90deg)" }}>
                     <circle cx="18" cy="18" r="15.9" fill="none" stroke="#374151" strokeWidth="3.8" />
-                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#10b981" strokeWidth="3.8"
+                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#0ea5e9" strokeWidth="3.8"
                       strokeDasharray="60 40" strokeDashoffset="0" />
                     <circle cx="18" cy="18" r="15.9" fill="none" stroke="#fbbf24" strokeWidth="3.8"
                       strokeDasharray="25 75" strokeDashoffset="-60" />
@@ -298,7 +298,7 @@ export default function DonFinancement() {
                 </div>
                 <div style={{ flex: 1 }}>
                   {[
-                    { label: "Équipements médicaux", pct: 60, color: "#10b981" },
+                    { label: "Équipements médicaux", pct: 60, color: "#0ea5e9" },
                     { label: "Infrastructures", pct: 25, color: "#fbbf24" },
                     { label: "Formation personnels", pct: 15, color: "#6366f1" },
                   ].map(item => (
@@ -324,12 +324,12 @@ export default function DonFinancement() {
           position: "fixed", inset: 0, background: "rgba(0,0,0,0.8)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100
         }} onClick={() => setShowModal(false)}>
           <div style={{
-            background: "linear-gradient(135deg, #1f2937, #111827)", border: "2px solid #10b981",
+            background: "linear-gradient(135deg, #1f2937, #111827)", border: "2px solid #0ea5e9",
             borderRadius: 20, padding: 48, maxWidth: 420, width: "90%", textAlign: "center",
             animation: "fadeIn 0.3s ease"
           }} onClick={e => e.stopPropagation()}>
             <div style={{ fontSize: 56, marginBottom: 16 }}>🎉</div>
-            <h2 style={{ fontSize: 24, fontWeight: 800, color: "#10b981", marginBottom: 12 }}>Merci pour votre don !</h2>
+            <h2 style={{ fontSize: 24, fontWeight: 800, color: "#0ea5e9", marginBottom: 12 }}>Merci pour votre don !</h2>
             <p style={{ color: "#9ca3af", marginBottom: 8 }}>
               Don de <strong style={{ color: "#fbbf24" }}>{fmt(finalMontant)}</strong> enregistré avec succès.
             </p>
@@ -337,13 +337,13 @@ export default function DonFinancement() {
               Vous recevrez un reçu de confirmation à <strong style={{ color: "#e5e7eb" }}>{email}</strong>
               {certificat && " ainsi que votre certificat fiscal"}.
             </p>
-            <div style={{ background: "rgba(16,185,129,0.1)", border: "1px solid #10b981", borderRadius: 10, padding: 14, marginBottom: 24 }}>
-              <p style={{ fontSize: 13, color: "#10b981", margin: 0 }}>
+            <div style={{ background: "rgba(16,185,129,0.1)", border: "1px solid #0ea5e9", borderRadius: 10, padding: 14, marginBottom: 24 }}>
+              <p style={{ fontSize: 13, color: "#0ea5e9", margin: 0 }}>
                 "Jazak Allah khayr" — Que Dieu vous récompense au centuple 🤲
               </p>
             </div>
             <button onClick={() => setShowModal(false)}
-              style={{ padding: "12px 32px", borderRadius: 8, background: "#10b981", color: "#000", fontWeight: 700, fontSize: 15, border: "none", cursor: "pointer" }}>
+              style={{ padding: "12px 32px", borderRadius: 8, background: "#0ea5e9", color: "#000", fontWeight: 700, fontSize: 15, border: "none", cursor: "pointer" }}>
               Fermer
             </button>
           </div>

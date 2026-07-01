@@ -45,8 +45,8 @@ export default function LandingPage() {
               </div>
             </div>
             <div style={{ display:"flex", alignItems:"center", gap:8 }}>
-              <div className="pulse" style={{ width:6, height:6, borderRadius:"50%", background:"#10b981" }} />
-              <span style={{ fontSize:11, color:"#10b981", fontWeight:600 }}>PORTAIL ACTIF</span>
+              <div className="pulse" style={{ width:6, height:6, borderRadius:"50%", background:"#0ea5e9" }} />
+              <span style={{ fontSize:11, color:"#0ea5e9", fontWeight:600 }}>PORTAIL ACTIF</span>
             </div>
           </div>
         </header>

@@ -2,8 +2,8 @@ import type { Metadata } from "next"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "CHNCAK Mobile — Votre santé en poche",
-  description: "Application mobile patient CHNCAK",
+  title: "Ndamatou Mobile — Votre santé en poche",
+  description: "Application mobile patient Ndamatou",
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -4,7 +4,7 @@ import Link from "next/link"
 
 const FEATURES = [
   { icon: "📢", title: "Signalement d'infractions", desc: "Alertes SOS donneurs et gestion d'inventaire en temps réel.s constatée sur les médias sénégalais." },
-  { icon: "🗳️", title: "Consultations publiques", desc: "Participez aux consultations du CHNCAK et faites entendre votre voix dans la régulation des médias." },
+  { icon: "🗳️", title: "Consultations publiques", desc: "Participez aux consultations du Ndamatou et faites entendre votre voix dans la régulation des médias." },
   { icon: "📋", title: "Suivi des décisions", desc: "Consultez les décisions officielles, sanctions et mises en demeure rendues par le Conseil." },
   { icon: "📊", title: "Observatoire citoyen", desc: "Accédez aux statistiques de temps de parole et aux données du paysage audiovisuel national." },
 ]
@@ -41,12 +41,12 @@ export default function LandingPage() {
                 border:`1px solid rgba(59,130,246,0.4)`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:16 }}>🏛️</div>
               <div>
                 <p style={{ fontSize:13, fontWeight:700, color:"#fff", margin:0 }}>Blood-Sync</p>
-                <p style={{ fontSize:9, color:COLOR, fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase", margin:0 }}>CHNCAK · Participation Blood-Syncne</p>
+                <p style={{ fontSize:9, color:COLOR, fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase", margin:0 }}>Ndamatou · Participation Blood-Syncne</p>
               </div>
             </div>
             <div style={{ display:"flex", alignItems:"center", gap:8 }}>
-              <div className="pulse" style={{ width:6, height:6, borderRadius:"50%", background:"#10b981" }} />
-              <span style={{ fontSize:11, color:"#10b981", fontWeight:600 }}>PORTAIL ACTIF</span>
+              <div className="pulse" style={{ width:6, height:6, borderRadius:"50%", background:"#0ea5e9" }} />
+              <span style={{ fontSize:11, color:"#0ea5e9", fontWeight:600 }}>PORTAIL ACTIF</span>
             </div>
           </div>
         </header>
@@ -75,7 +75,7 @@ export default function LandingPage() {
 
           <p className="au3" style={{ fontSize:"clamp(1rem,2vw,1.2rem)", color:"rgba(255,255,255,0.5)",
             maxWidth:560, margin:"0 auto 2.5rem", lineHeight:1.8 }}>
-            Le portail officiel du CHNCAK pour <strong style={{ color:"rgba(255,255,255,0.85)" }}>la participation citoyenne</strong> —
+            Le portail officiel du Ndamatou pour <strong style={{ color:"rgba(255,255,255,0.85)" }}>la participation citoyenne</strong> —
             signalez, consultez, suivez les décisions et contribuez à un audiovisuel sénégalais de qualité.
           </p>
 
@@ -113,7 +113,7 @@ export default function LandingPage() {
 
         <footer style={{ borderTop:"1px solid rgba(255,255,255,0.06)", padding:"1.5rem 2rem", textAlign:"center" }}>
           <p style={{ fontSize:11, color:"rgba(255,255,255,0.2)", margin:0 }}>
-            © 2025 CHNCAK · Blood-Sync · Développé par <span style={{ color:"rgba(255,255,255,0.4)", fontWeight:600 }}>Processingenierie</span>
+            © 2025 Ndamatou · Blood-Sync · Développé par <span style={{ color:"rgba(255,255,255,0.4)", fontWeight:600 }}>Processingenierie</span>
           </p>
         </footer>
       </div>

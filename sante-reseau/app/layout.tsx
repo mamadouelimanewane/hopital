@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Réseau Santé Sénégal — CHNCAK",
+  title: "Réseau Santé Sénégal — Ndamatou",
   description: "Plateforme nationale de partage inter-hôpitaux",
 }
 

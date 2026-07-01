@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 const APPS = [
-  { id: "connect", name: "CHNCAK Connect", icon: "🏥", color: "#2563eb", subtitle: "Portail Patient & Télémédecine",
-    desc: "L'application centrale pour tous les patients de l'hôpital CHNCAK de Touba.",
+  { id: "connect", name: "Ndamatou Connect", icon: "🏥", color: "#2563eb", subtitle: "Portail Patient & Télémédecine",
+    desc: "L'application centrale pour tous les patients de l'hôpital Ndamatou de Touba.",
     features: [
       { icon: "📅", title: "Prise de RDV", desc: "Consultations en ligne" },
       { icon: "📄", title: "Résultats", desc: "Analyses et radiologies" },
@@ -12,7 +12,7 @@ const APPS = [
     ],
     stats: [{ val: "10K+", label: "Patients Actifs" }, { val: "24/7", label: "Disponibilité" }, { val: "100%", label: "Sécurisé" }]
   },
-  { id: "predict", name: "Predict-IA", icon: "🧠", color: "#10b981", subtitle: "Tableau de Bord Direction & IA",
+  { id: "predict", name: "Predict-IA", icon: "🧠", color: "#0ea5e9", subtitle: "Tableau de Bord Direction & IA",
     desc: "Intelligence artificielle pour la gestion prédictive des ressources hospitalières.",
     features: [
       { icon: "📈", title: "Prévision Flux", desc: "Anticipation des urgences" },
@@ -33,7 +33,7 @@ const APPS = [
     stats: [{ val: "0", label: "Rupture de Stock" }, { val: "100%", label: "Traçabilité" }, { val: "5K+", label: "Références" }]
   },
   { id: "learn", name: "Med-Learn", icon: "🎓", color: "#6366f1", subtitle: "Université & Staffs Médicaux",
-    desc: "Plateforme de formation continue pour le personnel médical du CHNCAK.",
+    desc: "Plateforme de formation continue pour le personnel médical du Ndamatou.",
     features: [
       { icon: "📚", title: "Cours en Ligne", desc: "Modules de spécialisation" },
       { icon: "🎥", title: "Chirurgie Live", desc: "Retransmission des blocs" },
@@ -83,7 +83,7 @@ const APPS = [
     stats: [{ val: "5★", label: "Service Client" }, { val: "VIP", label: "Accueil Personnalisé" }, { val: "24/7", label: "Assistance" }]
   },
   { id: "eco", name: "Eco-Hôpital", icon: "⚡", color: "#84cc16", subtitle: "Smart Grid & Jumeau Énergétique",
-    desc: "Gestion intelligente de la consommation énergétique et écologique du CHNCAK.",
+    desc: "Gestion intelligente de la consommation énergétique et écologique du Ndamatou.",
     features: [
       { icon: "🔋", title: "Smart Grid", desc: "Optimisation électrique" },
       { icon: "☀️", title: "Solaire", desc: "Production d'énergie verte" },
@@ -142,6 +142,86 @@ const APPS = [
     ],
     stats: [{ val: "10K+", label: "Inscrits" }, { val: "100%", label: "Transparent" }, { val: "National", label: "Couverture" }]
   },
+  { id: "hemo", name: "Hemo-Care", icon: "🩸", color: "#0ea5e9", subtitle: "Centre d'Hémodialyse",
+    desc: "Gestion de la planification et du suivi des séances de dialyse.",
+    features: [
+      { icon: "📅", title: "Planification", desc: "Séances récurrentes" },
+      { icon: "⚖️", title: "Suivi Poids", desc: "Contrôle du poids sec" },
+      { icon: "⚙️", title: "Générateurs", desc: "Disponibilité des machines" },
+      { icon: "📊", title: "Paramètres", desc: "Constantes vitales per-dialytiques" },
+    ],
+    stats: [{ val: "100+", label: "Patients Actifs" }, { val: "24/7", label: "Disponibilité" }, { val: "0", label: "Attente" }]
+  },
+  { id: "mater", name: "Mater-Neo", icon: "👶", color: "#ec4899", subtitle: "Maternité & Néonatologie",
+    desc: "Suivi des grossesses, accouchements et soins intensifs néonatals.",
+    features: [
+      { icon: "🤰", title: "Grossesse", desc: "Dossier de suivi" },
+      { icon: "📈", title: "Partogramme", desc: "Suivi électronique du travail" },
+      { icon: "🛏️", title: "Couveuses", desc: "Gestion des 15 lits néonatals" },
+      { icon: "❤️", title: "Monitoring", desc: "Rythme cardiaque fœtal" },
+    ],
+    stats: [{ val: "15", label: "Lits Néonat" }, { val: "100%", label: "Traçabilité" }, { val: "24/7", label: "Soins Intensifs" }]
+  },
+  { id: "gmao", name: "GMAO-Track", icon: "🔧", color: "#64748b", subtitle: "Maintenance des Équipements",
+    desc: "Suivi préventif et curatif des équipements médicaux et infrastructures.",
+    features: [
+      { icon: "🛠️", title: "Préventif", desc: "Planning d'entretien" },
+      { icon: "🚨", title: "Alertes", desc: "Déclaration de pannes" },
+      { icon: "⚙️", title: "Interventions", desc: "Suivi des techniciens" },
+      { icon: "📦", title: "Pièces", desc: "Stock de rechange" },
+    ],
+    stats: [{ val: "-50%", label: "Temps d'Arrêt" }, { val: "100%", label: "Conformité" }, { val: "24h", label: "Réactivité" }]
+  },
+  { id: "waste", name: "Waste-Control", icon: "🗑️", color: "#84cc16", subtitle: "Gestion des Déchets Médicaux",
+    desc: "Traçabilité complète des déchets infectieux et hospitaliers (DASRI).",
+    features: [
+      { icon: "🏷️", title: "Traçabilité", desc: "Suivi par code-barres" },
+      { icon: "⚖️", title: "Pesée", desc: "Contrôle des volumes" },
+      { icon: "🔥", title: "Destruction", desc: "Incinération sécurisée" },
+      { icon: "📜", title: "Conformité", desc: "Normes environnementales" },
+    ],
+    stats: [{ val: "0", label: "Risque Infectieux" }, { val: "100%", label: "Traçabilité" }, { val: "Eco", label: "Responsable" }]
+  },
+  { id: "supply", name: "Supply-Chain", icon: "📦", color: "#eab308", subtitle: "Logistique & Fournisseurs",
+    desc: "Gestion de l'approvisionnement non-médical (restauration, blanchisserie, etc.).",
+    features: [
+      { icon: "🛒", title: "Commandes", desc: "Automatisation des achats" },
+      { icon: "👕", title: "Blanchisserie", desc: "Suivi du linge propre" },
+      { icon: "🍽️", title: "Restauration", desc: "Approvisionnement cuisines" },
+      { icon: "🚚", title: "Livraisons", desc: "Suivi des fournisseurs" },
+    ],
+    stats: [{ val: "J-0", label: "Ruptures" }, { val: "100%", label: "Contrôle" }, { val: "Auto", label: "Réassort" }]
+  },
+  { id: "indoor", name: "Indoor-Guide", icon: "🗺️", color: "#3b82f6", subtitle: "Guidage 3D & Visiteurs",
+    desc: "Navigation interne et gestion des visiteurs dans le complexe hospitalier.",
+    features: [
+      { icon: "📍", title: "Carte 3D", desc: "Plan interactif" },
+      { icon: "🚶", title: "Itinéraire", desc: "Guidage pas-à-pas" },
+      { icon: "🎫", title: "Visiteurs", desc: "Badges et horaires" },
+      { icon: "🅿️", title: "Parking", desc: "Places disponibles" },
+    ],
+    stats: [{ val: "100%", label: "Couverture" }, { val: "-30%", label: "Retards RDV" }, { val: "Easy", label: "Navigation" }]
+  },
+  { id: "morgue", name: "Morgue-Sync", icon: "🕊️", color: "#94a3b8", subtitle: "Gestion Funéraire",
+    desc: "Administration numérisée, respectueuse et transparente des décès.",
+    features: [
+      { icon: "🧊", title: "Casiers", desc: "Disponibilité frigorifique" },
+      { icon: "📝", title: "Admin", desc: "Certificats et démarches" },
+      { icon: "👨‍👩‍👧‍👦", title: "Familles", desc: "Accompagnement" },
+      { icon: "🚗", title: "Transferts", desc: "Logistique funéraire" },
+    ],
+    stats: [{ val: "100%", label: "Respectueux" }, { val: "24/7", label: "Assistance" }, { val: "Digital", label: "Démarches" }]
+  },
+  { id: "dmp", name: "DMP-Gateway", icon: "🌍", color: "#10b981", subtitle: "Interopérabilité HL7/FHIR",
+    desc: "Dossier Médical Partagé connecté au réseau national sénégalais.",
+    features: [
+      { icon: "🔄", title: "Synchronisation", desc: "Dossier unifié" },
+      { icon: "🔐", title: "Sécurité", desc: "Chiffrement bout en bout" },
+      { icon: "📄", title: "Standard", desc: "Format FHIR international" },
+      { icon: "🏥", title: "Réseau", desc: "Connexion inter-hôpitaux" },
+    ],
+    stats: [{ val: "National", label: "Couverture" }, { val: "100%", label: "Interopérable" }, { val: "HL7", label: "Standard" }]
+  }
 ];
 
 const ROOT = 'c:/gravity/hopital/hopital-suite/app';
@@ -168,7 +248,7 @@ export default function ${app.name.replace(/[^a-zA-Z]/g, '')}Page() {
 
       {/* Header */}
       <header style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(10,22,40,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "0 1.5rem", height: 60, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <Link href="/" className="back-btn">← Retour au Portail CHNCAK</Link>
+        <Link href="/" className="back-btn">← Retour au Portail Ndamatou</Link>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <div style={{ width: 8, height: 8, borderRadius: "50%", background: "${app.color}" }} />
           <span style={{ fontSize: 12, color: "${app.color}", fontWeight: 700, letterSpacing: "0.1em" }}>SYSTÈME ACTIF</span>
@@ -240,7 +320,7 @@ export default function ${app.name.replace(/[^a-zA-Z]/g, '')}Page() {
       </main>
 
       <footer style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "1.5rem", marginTop: "3rem", textAlign: "center" }}>
-        <p style={{ fontSize: 11, color: "rgba(255,255,255,0.3)" }}>Développé par <span style={{ color: "${app.color}", fontWeight: 700 }}>Processingenierie</span> · Hôpital CHNCAK Touba 🇸🇳</p>
+        <p style={{ fontSize: 11, color: "rgba(255,255,255,0.3)" }}>Développé par <span style={{ color: "${app.color}", fontWeight: 700 }}>Processingenierie</span> · Hôpital Ndamatou Touba 🇸🇳</p>
       </footer>
     </>
   )
@@ -254,4 +334,4 @@ for (const app of APPS) {
   console.log(`✅ Created route: /${app.id}`);
 }
 
-console.log('\n🎉 Toutes les 14 pages CHNCAK créées avec succès !');
+console.log('\n🎉 Toutes les 14 pages Ndamatou créées avec succès !');

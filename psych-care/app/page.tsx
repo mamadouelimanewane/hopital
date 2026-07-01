@@ -16,7 +16,7 @@ const STATS = [
   { label: "Heures TV Analysées (24h)", value: 1420, suffix: "h", color: "#14b8a6" },
   { label: "Deepfakes Bloqués", value: 47, suffix: "", color: "#a855f7" },
   { label: "Alertes Pluralisme", value: 12, suffix: "", color: "#eab308" },
-  { label: "Fiabilité Globale", value: 98, suffix: "%", color: "#10b981" },
+  { label: "Fiabilité Globale", value: 98, suffix: "%", color: "#0ea5e9" },
 ]
 
 export default function CommandCenter() {
@@ -134,7 +134,7 @@ export default function CommandCenter() {
             </div>
             <div>
               <h1 className="text-xl font-black text-white tracking-widest">
-                CHNCAK <span className="cyber-text">ANALYTICS</span>
+                Ndamatou <span className="cyber-text">ANALYTICS</span>
               </h1>
               <p className="text-[10px] text-teal-500 tracking-[0.2em] uppercase font-bold">
                 Santé Mentale Connectée

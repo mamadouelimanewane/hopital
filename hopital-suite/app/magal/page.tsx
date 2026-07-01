@@ -1,269 +1,128 @@
-"use client";
-import { useState, useEffect } from "react";
-
-const ACCENT = "#f97316";
-const BG = "#050d1a";
-const CARD = "#0a1628";
-const BORDER = "1px solid rgba(255,255,255,0.06)";
-const TEXT = "#e2e8f0";
-const MUTED = "#64748b";
-
-const SERVICES = [
-  { name: "Urgences", fill: 94, beds: 47, max: 50 },
-  { name: "Médecine Interne", fill: 78, beds: 39, max: 50 },
-  { name: "Pédiatrie", fill: 65, beds: 26, max: 40 },
-  { name: "Chirurgie", fill: 88, beds: 44, max: 50 },
-  { name: "Réanimation", fill: 100, beds: 16, max: 16 },
-  { name: "Maternité", fill: 71, beds: 25, max: 35 },
-];
-
-const PERSONNEL = [
-  { corps: "Médecins", present: 47, total: 50, icon: "👨‍⚕️" },
-  { corps: "Infirmiers", present: 123, total: 150, icon: "👩‍⚕️" },
-  { corps: "Aides-soignants", present: 89, total: 100, icon: "🏥" },
-  { corps: "Secouristes", present: 34, total: 40, icon: "🚑" },
-  { corps: "Administratif", present: 18, total: 20, icon: "💼" },
-];
-
-const DECISIONS = [
-  { heure: "14:32", decision: "Ouverture salle de débordement B4 — 30 lits supplémentaires", responsable: "Dr. Diallo Amadou", level: "critical" },
-  { heure: "13:47", decision: "Rappel de 12 infirmiers en congé — renfort immédiat", responsable: "Mme Fatou Mbaye, DRH", level: "warn" },
-  { heure: "12:15", decision: "Convention activée avec Clinique du Cap — transferts autorisés", responsable: "Dr. Ibrahima Sow", level: "info" },
-  { heure: "11:00", decision: "Stock de sang renforcé — 80 poches O+ livrées par EFS", responsable: "Pharmacie centrale", level: "ok" },
-  { heure: "09:20", decision: "Déclenchement Plan Blanc partiel — Niveau 3 activé", responsable: "Direction CHNCAK", level: "critical" },
-];
-
-const fillColor = (pct: number) => pct >= 95 ? "#ef4444" : pct >= 85 ? "#f97316" : pct >= 70 ? "#f59e0b" : "#22c55e";
-const levelColor = (l: string) => l === "critical" ? "#ef4444" : l === "warn" ? "#f59e0b" : l === "ok" ? "#22c55e" : "#60a5fa";
+"use client"
+import Link from "next/link"
 
 export default function MagalSurgePage() {
-  const [admissions, setAdmissions] = useState(47);
-  const [casGraves, setCasGraves] = useState(12);
-  const [showModal, setShowModal] = useState(false);
-  const [alerted, setAlerted] = useState(false);
-  const [animIn, setAnimIn] = useState(false);
-  const [time, setTime] = useState(new Date());
-
-  useEffect(() => {
-    setAnimIn(true);
-    const interval = setInterval(() => {
-      setAdmissions(prev => prev + Math.floor(Math.random() * 3));
-      setCasGraves(prev => Math.max(10, prev + (Math.random() > 0.7 ? 1 : 0)));
-      setTime(new Date());
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const totalBeds = SERVICES.reduce((a, s) => a + s.max, 0);
-  const occupiedBeds = SERVICES.reduce((a, s) => a + s.beds, 0);
-  const globalOccupancy = Math.round((occupiedBeds / totalBeds) * 100);
-
   return (
-    <div style={{ minHeight:"100vh", background:BG, color:TEXT, fontFamily:"'Inter', system-ui, sans-serif" }}>
+    <>
       <style>{`
-        @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
-        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
-        @keyframes slideIn { from{opacity:0;transform:scale(0.95)} to{opacity:1;transform:scale(1)} }
-        ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-track{background:#050d1a} ::-webkit-scrollbar-thumb{background:#f9731630;border-radius:4px}
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: #0a1628; color: #fff; }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        .au1{animation:fadeUp .6s .1s both} .au2{animation:fadeUp .6s .2s both}
+        .au3{animation:fadeUp .6s .3s both} .au4{animation:fadeUp .6s .4s both}
+        .stat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 1.5rem; text-align: center; transition: all 0.3s; }
+        .stat-card:hover { border-color: #7c3aed44; background: rgba(255,255,255,0.05); transform: translateY(-3px); }
+        .feat-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1.25rem; transition: all 0.3s; }
+        .feat-card:hover { border-color: #7c3aed44; background: rgba(255,255,255,0.04); }
+        .back-btn { display: inline-flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.5); text-decoration: none; font-size: 14px; font-weight: 600; transition: color 0.2s; }
+        .back-btn:hover { color: #fff; }
       `}</style>
 
-      {/* Nav */}
-      <div style={{ position:"sticky", top:0, zIndex:200, background:"rgba(5,13,26,0.96)", backdropFilter:"blur(20px)", borderBottom:"1px solid rgba(14,165,233,0.12)", padding:"0 1.5rem", height:52, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.5)", textDecoration:"none", fontSize:13, fontWeight:600 }}>← Portail CHNCAK</a>
-        <span style={{ fontSize:11, color:"rgba(255,255,255,0.3)", fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase" }}>CHNCAK Suite</span>
-      </div>
-
-      {/* Modal Alerte */}
-      {showModal && (
-        <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.8)", zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center" }}>
-          <div style={{ background:"#0f1a2e", border:"1px solid rgba(249,115,22,0.5)", borderRadius:16, padding:"2rem", maxWidth:440, width:"90%", animation:"slideIn 0.2s ease" }}>
-            <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:16 }}>
-              <span style={{ fontSize:28 }}>🚨</span>
-              <div>
-                <div style={{ fontWeight:700, fontSize:17, color:"#ef4444" }}>Confirmer Alerte Niveau 4</div>
-                <div style={{ fontSize:12, color:MUTED, marginTop:2 }}>Action irréversible — notification massive</div>
-              </div>
-            </div>
-            <div style={{ background:"rgba(239,68,68,0.08)", border:"1px solid rgba(239,68,68,0.2)", borderRadius:10, padding:"12px 14px", marginBottom:16 }}>
-              <p style={{ margin:0, fontSize:13, color:TEXT, lineHeight:1.6 }}>
-                Le déclenchement du <strong style={{ color:"#ef4444" }}>Niveau 4 — Alerte Maximale</strong> activera :
-                <br />• Rappel de TOUT le personnel disponible
-                <br />• Transfert automatique des patients stables
-                <br />• Notification Ministère de la Santé
-                <br />• Mobilisation des équipes militaires de secours
-              </p>
-            </div>
-            <div style={{ display:"flex", gap:10 }}>
-              <button onClick={() => setShowModal(false)} style={{ flex:1, padding:"10px", borderRadius:8, border:BORDER, background:"transparent", color:MUTED, cursor:"pointer", fontWeight:600, fontSize:13 }}>Annuler</button>
-              <button onClick={() => { setAlerted(true); setShowModal(false); }} style={{ flex:1, padding:"10px", borderRadius:8, border:"1px solid #ef4444", background:"rgba(239,68,68,0.15)", color:"#ef4444", cursor:"pointer", fontWeight:700, fontSize:13 }}>
-                ⚡ CONFIRMER NIVEAU 4
-              </button>
-            </div>
-          </div>
+      {/* Header */}
+      <header style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(10,22,40,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "0 1.5rem", height: 60, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <Link href="/" className="back-btn">← Retour au Portail Ndamatou</Link>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#7c3aed" }} />
+          <span style={{ fontSize: 12, color: "#7c3aed", fontWeight: 700, letterSpacing: "0.1em" }}>SYSTÈME ACTIF</span>
         </div>
-      )}
+      </header>
 
-      <div style={{ maxWidth:1100, margin:"0 auto", padding:"2rem 1.5rem" }}>
+      <main style={{ maxWidth: 1200, margin: "0 auto", padding: "3rem 1.5rem" }}>
 
-        {/* Header */}
-        <div style={{ animation: animIn ? "fadeUp 0.5s ease both" : "none", marginBottom:"2rem" }}>
-          <div style={{ background:`linear-gradient(135deg, rgba(249,115,22,0.12) 0%, transparent 60%)`, border:`1px solid rgba(249,115,22,0.25)`, borderRadius:16, padding:"1.25rem 1.5rem", marginBottom:16 }}>
-            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:12 }}>
-              <div style={{ display:"flex", alignItems:"center", gap:12 }}>
-                <div style={{ fontSize:28 }}>⚡</div>
-                <div>
-                  <h1 style={{ margin:0, fontSize:24, fontWeight:700, color:TEXT }}>Magal Surge — Cellule de Crise</h1>
-                  <p style={{ margin:0, fontSize:12, color:MUTED, marginTop:2 }}>Gestion de crise & Montée en charge — Grand Événement 2026</p>
-                </div>
-              </div>
-              <div style={{ display:"flex", flexDirection:"column", alignItems:"flex-end", gap:4 }}>
-                <div style={{
-                  display:"flex", alignItems:"center", gap:8, padding:"6px 14px",
-                  background: alerted ? "rgba(239,68,68,0.15)" : "rgba(249,115,22,0.15)",
-                  border: alerted ? "1px solid rgba(239,68,68,0.4)" : "1px solid rgba(249,115,22,0.4)",
-                  borderRadius:10
-                }}>
-                  <span style={{ animation:"blink 1s infinite", width:8, height:8, borderRadius:"50%", background:alerted ? "#ef4444" : ACCENT, display:"inline-block" }}></span>
-                  <span style={{ fontWeight:700, fontSize:13, color:alerted ? "#ef4444" : ACCENT }}>
-                    {alerted ? "ROUGE — Niveau 4/5" : "ORANGE — Niveau 3/5"}
-                  </span>
-                </div>
-                <span style={{ fontSize:11, color:MUTED }}>{time.toLocaleTimeString("fr-FR", { hour:"2-digit", minute:"2-digit", second:"2-digit" })}</span>
-              </div>
-            </div>
+        {/* HERO */}
+        <div className="au1" style={{ display: "flex", alignItems: "flex-start", gap: 20, marginBottom: "3rem" }}>
+          <div style={{ width: 72, height: 72, borderRadius: 18, background: "#7c3aed20", border: "2px solid #7c3aed40", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 36, flexShrink: 0, boxShadow: "0 0 30px #7c3aed30" }}>
+            🕌
           </div>
-
-          {/* Dashboard stats */}
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:12 }}>
-            {[
-              { label:"Occupancy globale", value:`${globalOccupancy}%`, color: globalOccupancy >= 90 ? "#ef4444" : ACCENT, icon:"🏥" },
-              { label:"Admissions/heure", value:`${admissions}`, color:ACCENT, icon:"📈" },
-              { label:"Cas graves actifs", value:`${casGraves}`, color:"#ef4444", icon:"🚨" },
-              { label:"Décès (24h)", value:"0", color:"#22c55e", icon:"✅" },
-            ].map((s,i) => (
-              <div key={i} style={{ background:CARD, border:BORDER, borderRadius:14, padding:"1.25rem", animation:`fadeUp ${0.4+i*0.1}s ease both`, position:"relative", overflow:"hidden" }}>
-                <div style={{ position:"absolute", top:0, left:0, right:0, height:2, background:`${s.color}50` }}></div>
-                <div style={{ fontSize:22, marginBottom:8 }}>{s.icon}</div>
-                <div style={{ fontSize:32, fontWeight:700, color:s.color, lineHeight:1 }}>{s.value}</div>
-                <div style={{ fontSize:12, color:MUTED, marginTop:6 }}>{s.label}</div>
-              </div>
-            ))}
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+              <span style={{ fontSize: 11, color: "#7c3aed", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", background: "#7c3aed15", padding: "3px 10px", borderRadius: 6, border: "1px solid #7c3aed30" }}>
+                Application Hospitalière
+              </span>
+            </div>
+            <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 900, lineHeight: 1.1, marginBottom: 10 }}>
+              <span style={{ background: "linear-gradient(135deg, #fff, #7c3aed)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+                Magal-Surge
+              </span>
+            </h1>
+            <p style={{ fontSize: "clamp(0.95rem, 2vw, 1.15rem)", color: "rgba(255,255,255,0.55)", lineHeight: 1.7, maxWidth: 600 }}>
+              Module spécifique de préparation et réponse aux afflux massifs lors du Grand Magal de Touba.
+            </p>
           </div>
         </div>
 
-        {/* Capacités services */}
-        <div style={{ background:CARD, border:BORDER, borderRadius:16, padding:"1.5rem", marginBottom:14 }}>
-          <h2 style={{ margin:"0 0 1rem", fontSize:15, fontWeight:700, color:TEXT }}>🏥 Capacités en Temps Réel</h2>
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:10 }}>
-            {SERVICES.map((s, i) => (
-              <div key={i} style={{ background:"rgba(255,255,255,0.02)", border:`1px solid ${s.fill >= 90 ? "rgba(239,68,68,0.25)" : "rgba(255,255,255,0.06)"}`, borderRadius:12, padding:"12px 14px" }}>
-                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:8 }}>
-                  <span style={{ fontWeight:600, fontSize:13, color:TEXT }}>{s.name}</span>
-                  <span style={{ fontSize:14, fontWeight:700, color:fillColor(s.fill) }}>{s.fill}%</span>
-                </div>
-                <div style={{ height:8, background:"rgba(255,255,255,0.06)", borderRadius:4, overflow:"hidden", marginBottom:6 }}>
-                  <div style={{
-                    height:8, borderRadius:4, transition:"width 1s ease",
-                    width:`${s.fill}%`,
-                    background: s.fill >= 95 ? `linear-gradient(90deg, #ef444460, #ef4444)` : s.fill >= 85 ? `linear-gradient(90deg, ${ACCENT}60, ${ACCENT})` : `linear-gradient(90deg, #22c55e60, #22c55e)`
-                  }}></div>
-                </div>
-                <div style={{ fontSize:11, color:MUTED }}>
-                  {s.beds} / {s.max} lits occupés
-                  {s.fill >= 95 && <span style={{ marginLeft:8, color:"#ef4444", fontWeight:700, animation:"blink 1s infinite" }}>SATURATION</span>}
-                </div>
-              </div>
-            ))}
+        {/* STATS */}
+        <div className="au2" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 12, marginBottom: "3rem" }}>
+          <div className="stat-card">
+            <p style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", fontWeight: 900, color: "#7c3aed", marginBottom: 4 }}>3M+</p>
+            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>Pèlerins Protégés</p>
+          </div>
+          <div className="stat-card">
+            <p style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", fontWeight: 900, color: "#7c3aed", marginBottom: 4 }}>100+</p>
+            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>Postes Coordonnés</p>
+          </div>
+          <div className="stat-card">
+            <p style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", fontWeight: 900, color: "#7c3aed", marginBottom: 4 }}>Live</p>
+            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>Monitoring</p>
           </div>
         </div>
 
-        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:14, marginBottom:14 }}>
-
-          {/* Personnel mobilisé */}
-          <div style={{ background:CARD, border:BORDER, borderRadius:16, padding:"1.5rem" }}>
-            <h2 style={{ margin:"0 0 1rem", fontSize:15, fontWeight:700, color:TEXT }}>👥 Personnel Mobilisé</h2>
-            <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
-              {PERSONNEL.map((p, i) => {
-                const pct = Math.round((p.present/p.total)*100);
-                return (
-                  <div key={i}>
-                    <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:5 }}>
-                      <div style={{ display:"flex", alignItems:"center", gap:8 }}>
-                        <span style={{ fontSize:16 }}>{p.icon}</span>
-                        <span style={{ fontSize:13, fontWeight:600, color:TEXT }}>{p.corps}</span>
-                      </div>
-                      <span style={{ fontSize:13, fontWeight:700, color: pct >= 95 ? "#22c55e" : pct >= 80 ? ACCENT : "#ef4444" }}>
-                        {p.present}/{p.total}
-                      </span>
-                    </div>
-                    <div style={{ height:5, background:"rgba(255,255,255,0.06)", borderRadius:3 }}>
-                      <div style={{ height:5, width:`${pct}%`, borderRadius:3, background: pct >= 90 ? "#22c55e" : pct >= 75 ? ACCENT : "#ef4444", transition:"width 0.5s" }}></div>
-                    </div>
-                  </div>
-                );
-              })}
-              <div style={{ marginTop:8, paddingTop:8, borderTop:BORDER, display:"flex", justifyContent:"space-between", fontSize:12 }}>
-                <span style={{ color:MUTED }}>Total personnel présent</span>
-                <span style={{ color:ACCENT, fontWeight:700 }}>311 / 360</span>
+        {/* FEATURES */}
+        <div className="au3" style={{ marginBottom: "3rem" }}>
+          <h2 style={{ fontSize: "clamp(1.3rem, 2.5vw, 1.8rem)", fontWeight: 800, marginBottom: "1.5rem" }}>Fonctionnalités Clés</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: 12 }}>
+            <div className="feat-card">
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+                <div style={{ width: 40, height: 40, borderRadius: 10, background: "#7c3aed18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>📈</div>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>Prédiction</h3>
               </div>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>Modélisation de l'afflux</p>
             </div>
-          </div>
-
-          {/* Décisions de crise */}
-          <div style={{ background:CARD, border:BORDER, borderRadius:16, padding:"1.5rem" }}>
-            <h2 style={{ margin:"0 0 1rem", fontSize:15, fontWeight:700, color:TEXT }}>📋 Décisions de Crise</h2>
-            <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
-              {DECISIONS.map((d, i) => (
-                <div key={i} style={{ display:"flex", gap:10, padding:"10px 12px", background:`${levelColor(d.level)}06`, border:`1px solid ${levelColor(d.level)}18`, borderRadius:10 }}>
-                  <div style={{ flexShrink:0, display:"flex", flexDirection:"column", alignItems:"center", gap:4 }}>
-                    <span style={{ fontSize:10, color:MUTED, fontWeight:600 }}>{d.heure}</span>
-                    <div style={{ width:2, flex:1, background:`${levelColor(d.level)}30`, minHeight:16 }}></div>
-                  </div>
-                  <div style={{ minWidth:0 }}>
-                    <div style={{ fontSize:12, color:TEXT, fontWeight:500, lineHeight:1.4, marginBottom:4 }}>{d.decision}</div>
-                    <div style={{ fontSize:11, color:MUTED }}>— {d.responsable}</div>
-                  </div>
-                  <div style={{ flexShrink:0 }}>
-                    <span style={{ width:8, height:8, borderRadius:"50%", background:levelColor(d.level), display:"inline-block", marginTop:2 }}></span>
-                  </div>
-                </div>
-              ))}
+            <div className="feat-card">
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+                <div style={{ width: 40, height: 40, borderRadius: 10, background: "#7c3aed18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>🏕️</div>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>Postes Avancés</h3>
+              </div>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>Gestion des hôpitaux de campagne</p>
+            </div>
+            <div className="feat-card">
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+                <div style={{ width: 40, height: 40, borderRadius: 10, background: "#7c3aed18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>🚨</div>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>Alerte</h3>
+              </div>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>Coordination des secours</p>
+            </div>
+            <div className="feat-card">
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+                <div style={{ width: 40, height: 40, borderRadius: 10, background: "#7c3aed18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>📊</div>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>Dashboard</h3>
+              </div>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>Vue temps réel de la situation</p>
             </div>
           </div>
         </div>
 
-        {/* Bouton alerte */}
-        <div style={{ background:CARD, border:alerted ? "1px solid rgba(239,68,68,0.3)" : BORDER, borderRadius:16, padding:"1.5rem" }}>
-          {alerted ? (
-            <div style={{ display:"flex", alignItems:"center", gap:12, justifyContent:"center" }}>
-              <span style={{ animation:"blink 1s infinite", fontSize:24 }}>🚨</span>
-              <div style={{ textAlign:"center" }}>
-                <div style={{ fontWeight:700, fontSize:16, color:"#ef4444" }}>ALERTE NIVEAU 4 ACTIVÉE</div>
-                <div style={{ fontSize:12, color:MUTED, marginTop:4 }}>Toutes les équipes ont été notifiées · {time.toLocaleTimeString("fr-FR")}</div>
-              </div>
-              <span style={{ animation:"blink 1s infinite", fontSize:24 }}>🚨</span>
-            </div>
-          ) : (
-            <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:12 }}>
-              <div>
-                <div style={{ fontWeight:700, fontSize:14, color:TEXT }}>Escalader le niveau d'alerte</div>
-                <div style={{ fontSize:12, color:MUTED, marginTop:2 }}>Actuellement Niveau 3 — Passage au Niveau 4 requis si occupancy &gt; 95%</div>
-              </div>
-              <button onClick={() => setShowModal(true)} style={{
-                display:"flex", alignItems:"center", gap:8, padding:"10px 20px", borderRadius:10,
-                border:`1px solid ${ACCENT}60`, background:`${ACCENT}15`,
-                color:ACCENT, fontWeight:700, fontSize:13, cursor:"pointer",
-                transition:"all 0.2s"
-              }}>
-                <span style={{ animation:"pulse 2s infinite", width:8, height:8, borderRadius:"50%", background:ACCENT, display:"inline-block" }}></span>
-                Déclencher Alerte Niveau 4
-              </button>
-            </div>
-          )}
+        {/* CTA */}
+        <div className="au4" style={{ background: "#7c3aed10", border: "1px solid #7c3aed25", borderRadius: 16, padding: "2rem", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "1.5rem" }}>
+          <div>
+            <h3 style={{ fontSize: "clamp(1.1rem, 2vw, 1.4rem)", fontWeight: 800, marginBottom: 8 }}>Prêt à intégrer ce module ?</h3>
+            <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)" }}>Contactez Processingenierie pour déployer Magal-Surge dans votre infrastructure.</p>
+          </div>
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <a href="mailto:contact@processingenierie.sn" style={{ background: "#7c3aed", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}>
+              ✉️ Nous contacter
+            </a>
+            <Link href="/" style={{ background: "rgba(255,255,255,0.05)", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", border: "1px solid rgba(255,255,255,0.1)" }}>
+              ← Retour Portail
+            </Link>
+          </div>
         </div>
 
-      </div>
-    </div>
-  );
+      </main>
+
+      <footer style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "1.5rem", marginTop: "3rem", textAlign: "center" }}>
+        <p style={{ fontSize: 11, color: "rgba(255,255,255,0.3)" }}>Développé par <span style={{ color: "#7c3aed", fontWeight: 700 }}>Processingenierie</span> · Hôpital Ndamatou Touba 🇸🇳</p>
+      </footer>
+    </>
+  )
 }

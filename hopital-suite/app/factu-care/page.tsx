@@ -87,8 +87,8 @@ export default function FactuCarePage() {
 
       {/* BACK NAV */}
       <div style={{ position:"sticky", top:0, zIndex:200, background:"rgba(5,13,26,0.96)", backdropFilter:"blur(20px)", borderBottom:"1px solid rgba(14,165,233,0.12)", padding:"0 1.5rem", height:52, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.5)", textDecoration:"none", fontSize:13, fontWeight:600 }}>← Portail CHNCAK</a>
-        <span style={{ fontSize:11, color:"rgba(255,255,255,0.3)", fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase" }}>CHNCAK Suite</span>
+        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.5)", textDecoration:"none", fontSize:13, fontWeight:600 }}>← Portail Ndamatou</a>
+        <span style={{ fontSize:11, color:"rgba(255,255,255,0.3)", fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase" }}>Ndamatou Suite</span>
       </div>
 
       {/* HEADER */}
@@ -98,7 +98,7 @@ export default function FactuCarePage() {
             <div>
               <div style={{ display:"inline-flex", alignItems:"center", gap:8, background:"rgba(21,128,61,0.12)", border:"1px solid rgba(21,128,61,0.3)", borderRadius:40, padding:"4px 14px", marginBottom:10 }}>
                 <span style={{ width:7, height:7, borderRadius:"50%", background:green, display:"inline-block", animation:"pulse 2s infinite" }}></span>
-                <span style={{ color:green, fontSize:11, fontWeight:700, letterSpacing:"0.08em" }}>GESTION FINANCIÈRE CHNCAK</span>
+                <span style={{ color:green, fontSize:11, fontWeight:700, letterSpacing:"0.08em" }}>GESTION FINANCIÈRE Ndamatou</span>
               </div>
               <h1 style={{ fontSize:"clamp(20px,2.5vw,28px)", fontWeight:800, color:"#e2e8f0", margin:0 }}>
                 FactuCare — <span style={{ color:green }}>Facturation & Assurances</span>

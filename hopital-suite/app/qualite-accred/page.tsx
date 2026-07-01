@@ -59,7 +59,7 @@ function StatutBadge({ statut }: { statut: string }) {
 }
 
 function GraviteBadge({ n }: { n: number }) {
-  const colors = ["", "#10b981", "#fbbf24", "#fb923c", "#ef4444", "#7c3aed"]
+  const colors = ["", "#0ea5e9", "#fbbf24", "#fb923c", "#ef4444", "#7c3aed"]
   return (
     <div style={{ display: "flex", gap: 2 }}>
       {[1,2,3,4,5].map(i => (
@@ -77,7 +77,7 @@ export default function QualiteAccredPage() {
 
   const handleExport = () => {
     setExportMsg("Export PDF en cours de génération...")
-    setTimeout(() => setExportMsg("Rapport_JCI_CHNCAK_Juin2026.pdf téléchargé ✓"), 1500)
+    setTimeout(() => setExportMsg("Rapport_JCI_Ndamatou_Juin2026.pdf téléchargé ✓"), 1500)
   }
 
   const sections: { key: Section; label: string; icon: string }[] = [
@@ -93,17 +93,17 @@ export default function QualiteAccredPage() {
       {/* BACK NAV */}
       <div style={{ position:"sticky", top:0, zIndex:100, background:"rgba(10,22,40,0.95)", backdropFilter:"blur(20px)", borderBottom:"1px solid rgba(255,255,255,0.08)", padding:"0 1.5rem", height:52, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
         <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.6)", textDecoration:"none", fontSize:13, fontWeight:600 }}>
-          ← Retour au Portail CHNCAK
+          ← Retour au Portail Ndamatou
         </a>
-        <span style={{ fontSize:11, color:"rgba(255,255,255,0.3)", fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase" }}>CHNCAK Suite</span>
+        <span style={{ fontSize:11, color:"rgba(255,255,255,0.3)", fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase" }}>Ndamatou Suite</span>
       </div>
 
       {/* Header accréditation */}
       <div style={{ background: "#fff", borderBottom: "1px solid #e2e8f0", padding: "20px 32px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
           <div>
-            <h1 style={{ margin: 0, fontSize: 22, fontWeight: 800, color: "#1e3a5f" }}>Qualité & Accréditation CHNCAK</h1>
-            <p style={{ margin: "4px 0 0", fontSize: 13, color: "#64748b" }}>Centre Hospitalier National Cheikh Ahmadou Khadim — Touba, Sénégal</p>
+            <h1 style={{ margin: 0, fontSize: 22, fontWeight: 800, color: "#1e3a5f" }}>Qualité & Accréditation Ndamatou</h1>
+            <p style={{ margin: "4px 0 0", fontSize: 13, color: "#64748b" }}>Centre Hospitalier National Ndamatou de Touba — Touba, Sénégal</p>
           </div>
           <div style={{ textAlign: "right" }}>
             <div style={{ background: "#1e3a5f", color: "#fff", padding: "6px 16px", borderRadius: 24, fontSize: 13, fontWeight: 700, marginBottom: 4 }}>

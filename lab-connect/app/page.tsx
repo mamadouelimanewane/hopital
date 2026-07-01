@@ -52,7 +52,7 @@ export default function LabConnect() {
                 <FlaskConical className="w-6 h-6" />
               </div>
               <div>
-                <h1 className="text-xl font-black tracking-tight">Lab Connect <span className="font-light">CHNCAK</span></h1>
+                <h1 className="text-xl font-black tracking-tight">Lab Connect <span className="font-light">Ndamatou</span></h1>
                 <p className="text-blue-200 text-xs">Laboratoire d'analyses connecté en temps réel</p>
               </div>
             </div>

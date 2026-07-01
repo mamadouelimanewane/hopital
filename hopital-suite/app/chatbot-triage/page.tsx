@@ -11,19 +11,19 @@ interface Message {
 }
 
 const conversationFr: Message[] = [
-  { role: "bot", text: "Bonjour ! Je suis l'assistant de triage CHNCAK. Décrivez vos symptômes ou choisissez une catégorie ci-dessous.", time: "10:02" },
+  { role: "bot", text: "Bonjour ! Je suis l'assistant de triage Ndamatou. Décrivez vos symptômes ou choisissez une catégorie ci-dessous.", time: "10:02" },
   { role: "user", text: "J'ai des douleurs thoraciques depuis 1 heure", time: "10:03" },
   { role: "bot", text: "⚠️ Symptômes cardiaques potentiels détectés. Avez-vous également des douleurs dans le bras gauche ou la mâchoire ?", time: "10:03" },
   { role: "user", text: "Oui, et je transpire beaucoup, j'ai du mal à respirer", time: "10:04" },
-  { role: "bot", text: "🚨 URGENCE P1 — Ces symptômes sont compatibles avec un syndrome coronarien aigu (infarctus). Appelez le 15 (SAMU) immédiatement ou rendez-vous aux Urgences CHNCAK. Ne conduisez pas vous-même.", time: "10:04" },
+  { role: "bot", text: "🚨 URGENCE P1 — Ces symptômes sont compatibles avec un syndrome coronarien aigu (infarctus). Appelez le 15 (SAMU) immédiatement ou rendez-vous aux Urgences Ndamatou. Ne conduisez pas vous-même.", time: "10:04" },
 ]
 
 const conversationWo: Message[] = [
-  { role: "bot", text: "Asalaamu aleekum ! Maa ngi ci CHNCAK yi wax ñu ci ak yéen ci mbind bu kanam. Wax ma ci sa yaram yi doy sa yaram.", time: "10:02" },
+  { role: "bot", text: "Asalaamu aleekum ! Maa ngi ci Ndamatou yi wax ñu ci ak yéen ci mbind bu kanam. Wax ma ci sa yaram yi doy sa yaram.", time: "10:02" },
   { role: "user", text: "Dafa may daw biir sama xol ci diggante ak biir yoon wu ndaw bi.", time: "10:03" },
   { role: "bot", text: "⚠️ Mbëggël — Dafa di bind ci xol bi. Ndax dafa dëgël ak sa kanam wala sa bakkan ci kanam?", time: "10:03" },
   { role: "user", text: "Waaw, dafa may daw ak dafa wëñ ci sama yaram", time: "10:04" },
-  { role: "bot", text: "🚨 TOGG TOPP P1 — Dem ci kër si yu ndaw ndaw! Woo li 15 (SAMU) wala dem ci Urgences bi ci CHNCAK. Bul dem ak sa kanam.", time: "10:04" },
+  { role: "bot", text: "🚨 TOGG TOPP P1 — Dem ci kër si yu ndaw ndaw! Woo li 15 (SAMU) wala dem ci Urgences bi ci Ndamatou. Bul dem ak sa kanam.", time: "10:04" },
 ]
 
 const suggestions = {
@@ -89,8 +89,8 @@ export default function ChatbotTriage() {
 
       {/* BACK NAV */}
       <div style={{ position:"sticky", top:0, zIndex:200, background:"rgba(5,13,26,0.96)", backdropFilter:"blur(20px)", borderBottom:"1px solid rgba(14,165,233,0.12)", padding:"0 1.5rem", height:52, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.5)", textDecoration:"none", fontSize:13, fontWeight:600 }}>← Portail CHNCAK</a>
-        <span style={{ fontSize:11, color:"rgba(255,255,255,0.3)", fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase" }}>CHNCAK Suite</span>
+        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.5)", textDecoration:"none", fontSize:13, fontWeight:600 }}>← Portail Ndamatou</a>
+        <span style={{ fontSize:11, color:"rgba(255,255,255,0.3)", fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase" }}>Ndamatou Suite</span>
       </div>
 
       {/* HEADER */}
@@ -99,7 +99,7 @@ export default function ChatbotTriage() {
           <div style={{ display:"flex", alignItems:"center", gap:12 }}>
             <div style={{ width:44, height:44, background:"rgba(6,95,70,0.3)", border:"1px solid rgba(6,95,70,0.5)", borderRadius:12, display:"flex", alignItems:"center", justifyContent:"center", fontSize:22 }}>🏥</div>
             <div>
-              <h1 style={{ fontWeight:800, fontSize:18, color:"#e2e8f0", margin:0 }}>Assistant Triage CHNCAK</h1>
+              <h1 style={{ fontWeight:800, fontSize:18, color:"#e2e8f0", margin:0 }}>Assistant Triage Ndamatou</h1>
               <p style={{ color:"#64748b", fontSize:12, margin:0 }}>IA de triage médical 24h/7j — Trilingue</p>
             </div>
           </div>

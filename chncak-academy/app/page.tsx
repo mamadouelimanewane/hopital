@@ -37,7 +37,7 @@ const staffsVirtuels = [
   { titre: "Gestion post-opératoire laparoscopie", date: "18 Juin 2026", participants: 6, statut: "Archivé" },
 ]
 
-export default function CHNCAKAcademy() {
+export default function NdamatouAcademy() {
   const [onglet, setOnglet] = useState<Onglet>("formations")
   const [simActive, setSimActive] = useState<number | null>(null)
   const [reponseSim, setReponseSim] = useState<number | null>(null)
@@ -61,7 +61,7 @@ export default function CHNCAKAcademy() {
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-2xl">🎓</div>
               <div>
-                <h1 className="text-2xl font-black text-white">CHNCAK <span className="font-light">Academy</span></h1>
+                <h1 className="text-2xl font-black text-white">Ndamatou <span className="font-light">Academy</span></h1>
                 <p className="text-purple-200 text-xs">Centre de Référence Médicale — Afrique de l'Ouest</p>
               </div>
             </div>
@@ -257,7 +257,7 @@ export default function CHNCAKAcademy() {
         {/* RESSOURCES */}
         {onglet === "ressources" && (
           <div className="fade grid grid-cols-1 md:grid-cols-3 gap-4">
-            {["Protocoles CHNCAK 2026", "Guide Paludisme Grave — OMS", "Manuel Obstétrique d'Urgence", "Atlas Anatomique Interactif", "Pharmacopée Hospitalière", "Guides de Bonne Pratique"].map((r, i) => (
+            {["Protocoles Ndamatou 2026", "Guide Paludisme Grave — OMS", "Manuel Obstétrique d'Urgence", "Atlas Anatomique Interactif", "Pharmacopée Hospitalière", "Guides de Bonne Pratique"].map((r, i) => (
               <div key={i} className="card p-5 flex items-center gap-4 cursor-pointer hover:border-purple-500">
                 <div className="w-10 h-10 bg-purple-900/50 rounded-xl flex items-center justify-center flex-shrink-0">
                   <FileText className="w-5 h-5 text-purple-400" />

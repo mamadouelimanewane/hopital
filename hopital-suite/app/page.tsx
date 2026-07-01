@@ -9,7 +9,7 @@ const SECTIONS = [
     desc: "Les fondamentaux du quotidien hospitalier",
     icon: "🏥",
     apps: [
-      { id: "connect",       name: "CHNCAK Connect",   href: "/connect",       icon: "🏥", desc: "Portail Patient & Télémédecine",         hexColor: "#2563eb" },
+      { id: "connect",       name: "Ndamatou Connect",   href: "/connect",       icon: "🏥", desc: "Portail Patient & Télémédecine",         hexColor: "#2563eb" },
       { id: "pharma",        name: "SmartPharma",       href: "/pharma",        icon: "💊", desc: "Pharmacie, Stocks & Ordonnances",         hexColor: "#14b8a6" },
       { id: "blood",         name: "BloodSync",         href: "/blood",         icon: "🩸", desc: "Banque de Sang Connectée",               hexColor: "#ef4444" },
       { id: "ambu",          name: "AmbuTrack",         href: "/ambu",          icon: "🚑", desc: "Suivi & Dispatch des Ambulances",         hexColor: "#f97316" },
@@ -17,6 +17,8 @@ const SECTIONS = [
       { id: "smart-beds",    name: "Smart Beds",        href: "/smart-beds",    icon: "🛏️", desc: "Gestion Intelligente des Lits",           hexColor: "#2563eb" },
       { id: "factu-care",    name: "FactuCare",         href: "/factu-care",    icon: "💳", desc: "Facturation & Assurance Maladie",         hexColor: "#15803d" },
       { id: "rh-medical",    name: "RH Médical",        href: "/rh-medical",    icon: "👥", desc: "Ressources Humaines Médicales",           hexColor: "#4338ca" },
+      { id: "hemo",          name: "Hemo-Care",         href: "/hemo",          icon: "🩸", desc: "Centre d'Hémodialyse",                  hexColor: "#0ea5e9" },
+      { id: "mater",         name: "Mater-Neo",         href: "/mater",         icon: "👶", desc: "Maternité & Néonatologie",              hexColor: "#ec4899" },
     ],
   },
   {
@@ -33,6 +35,9 @@ const SECTIONS = [
       { id: "organes",       name: "DonOrganes",        href: "/organes",       icon: "❤️", desc: "Registre National Don d'Organes",         hexColor: "#e11d48" },
       { id: "epidemio-watch",name: "Épidémio-Watch",    href: "/epidemio-watch",icon: "🦠", desc: "Surveillance Épidémique Sénégal",         hexColor: "#991b1b" },
       { id: "don-financement",name: "Don & Diaspora",   href: "/don-financement",icon:"🌍", desc: "Financement & Dons Diaspora",             hexColor: "#b45309" },
+      { id: "gmao",          name: "GMAO-Track",        href: "/gmao",          icon: "🔧", desc: "Maintenance des Équipements",           hexColor: "#64748b" },
+      { id: "supply",        name: "Supply-Chain",      href: "/supply",        icon: "📦", desc: "Logistique & Fournisseurs",             hexColor: "#eab308" },
+      { id: "dmp",           name: "DMP-Gateway",       href: "/dmp",           icon: "🌍", desc: "Interopérabilité HL7/FHIR",             hexColor: "#10b981" },
     ],
   },
   {
@@ -45,6 +50,9 @@ const SECTIONS = [
       { id: "magal",         name: "Magal Surge",       href: "/magal",         icon: "🚨", desc: "Cellule de Crise & Montée en Charge",     hexColor: "#f97316" },
       { id: "eco",           name: "Éco-Hôpital",       href: "/eco",           icon: "⚡", desc: "Gestion Énergétique & Durabilité",         hexColor: "#22c55e" },
       { id: "patient-mobile",name: "Patient Mobile",    href: "/patient-mobile",icon: "📱", desc: "Application Mobile Patient PWA",           hexColor: "#0284c7" },
+      { id: "waste",         name: "Waste-Control",     href: "/waste",         icon: "🗑️", desc: "Gestion des Déchets Médicaux",          hexColor: "#84cc16" },
+      { id: "indoor",        name: "Indoor-Guide",      href: "/indoor",        icon: "🗺️", desc: "Guidage 3D & Visiteurs",                hexColor: "#3b82f6" },
+      { id: "morgue",        name: "Morgue-Sync",       href: "/morgue",        icon: "🕊️", desc: "Gestion Funéraire",                     hexColor: "#94a3b8" },
     ],
   },
   {
@@ -57,7 +65,7 @@ const SECTIONS = [
       { id: "neuro",         name: "NeuroScan IA",      href: "/neuro",         icon: "🧬", desc: "Assistant Radiologique par IA",            hexColor: "#8b5cf6" },
       { id: "ia-diagnostic", name: "IA-Diagnostic",     href: "/ia-diagnostic", icon: "🔬", desc: "Diagnostic Multi-Pathologies IA",          hexColor: "#7c3aed" },
       { id: "predict",       name: "Predict IA",        href: "/predict",       icon: "🧠", desc: "Prédictions & Tableau de Bord IA",         hexColor: "#6366f1" },
-      { id: "chncak-academy",name: "CHNCAK Academy",    href: "/chncak-academy",icon: "🎓", desc: "Formation & Simulation Médicale",          hexColor: "#6d28d9" },
+      { id: "ndamatou-academy",name: "Ndamatou Academy",    href: "/ndamatou-academy",icon: "🎓", desc: "Formation & Simulation Médicale",          hexColor: "#6d28d9" },
       { id: "learn",         name: "MedLearn",          href: "/learn",         icon: "📚", desc: "E-Learning Médical & Certifications",      hexColor: "#f59e0b" },
     ],
   },
@@ -66,7 +74,7 @@ const SECTIONS = [
 const APPS = SECTIONS.flatMap(s => s.apps)
 
 const BG = "#0a1628"
-const ACCENT = "#10b981"
+const ACCENT = "#0ea5e9"
 
 function Particles() {
   return (
@@ -77,7 +85,7 @@ function Particles() {
           width: Math.random() > 0.8 ? "2px" : "1px",
           height: Math.random() > 0.8 ? "2px" : "1px",
           borderRadius: "50%",
-          background: Math.random() > 0.6 ? "#10b981" : "rgba(255,255,255,0.4)",
+          background: Math.random() > 0.6 ? "#0ea5e9" : "rgba(255,255,255,0.4)",
           left: `${Math.random() * 100}%`,
           top: `${Math.random() * 100}%`,
           animation: `twinkle ${2 + Math.random() * 4}s ${Math.random() * 3}s infinite`,
@@ -130,13 +138,13 @@ export default function Home() {
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <div style={{
                 width: 40, height: 40, borderRadius: 12, fontSize: 20,
-                background: "linear-gradient(135deg, #10b981, #059669)",
+                background: "linear-gradient(135deg, #0ea5e9, #0284c7)",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 boxShadow: "0 0 20px rgba(16,185,129,0.3)",
               }}>🏥</div>
               <div>
                 <p style={{ fontSize: 15, fontWeight: 800, color: "#fff", letterSpacing: "0.03em" }}>
-                  CHNCAK <span style={{ color: ACCENT }}>Suite</span>
+                  Ndamatou <span style={{ color: ACCENT }}>Suite</span>
                 </p>
                 <p style={{ fontSize: 9, color: "rgba(16,185,129,0.7)", fontWeight: 600,
                   letterSpacing: "0.15em", textTransform: "uppercase" }}>
@@ -180,10 +188,10 @@ export default function Home() {
                 L'Écosystème Digital
               </span>
               <span style={{
-                background: "linear-gradient(135deg, #fff 0%, #d1fae5 50%, #10b981 100%)",
+                background: "linear-gradient(135deg, #fff 0%, #d1fae5 50%, #0ea5e9 100%)",
                 WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
               }}>
-                Hôpital CHNCAK
+                Hôpital Ndamatou
               </span>
               <span style={{ display: "block", fontSize: "0.65em", fontWeight: 700,
                 color: ACCENT, marginTop: "0.4rem" }}>
@@ -202,7 +210,7 @@ export default function Home() {
           <div className="au4" style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
             <a href="#applications" style={{
               display: "inline-flex", alignItems: "center", gap: 8,
-              background: "linear-gradient(135deg, #10b981, #059669)",
+              background: "linear-gradient(135deg, #0ea5e9, #0284c7)",
               color: "#fff", padding: "14px 32px", borderRadius: 12,
               fontSize: 16, fontWeight: 700, textDecoration: "none",
               boxShadow: "0 0 30px rgba(16,185,129,0.3)", transition: "all 0.2s",
@@ -221,7 +229,7 @@ export default function Home() {
               Notre Mission
             </p>
             <p style={{ fontSize: "clamp(1rem, 2vw, 1.2rem)", color: "rgba(255,255,255,0.7)", lineHeight: 1.8 }}>
-              Le CHNCAK de Touba est une infrastructure de référence nationale.
+              Le Ndamatou de Touba est une infrastructure de référence nationale.
               Cet écosystème digital de <strong style={{ color: "#fff" }}>26 applications d'avant-garde</strong> place
               l'excellence médicale au cœur de la transformation numérique sénégalaise.
             </p>
@@ -318,7 +326,7 @@ export default function Home() {
                     <div style={{ width: 5, height: 5, borderRadius: "50%",
                       background: app.hexColor, animation: "pulse-dot 2s infinite" }} />
                     <span style={{ fontSize: 11, color: "rgba(255,255,255,0.25)", fontFamily: "monospace" }}>
-                      chncak/{app.id}
+                      ndamatou/{app.id}
                     </span>
                   </div>
                   <span style={{ fontSize: 13, fontWeight: 700,
@@ -351,7 +359,7 @@ export default function Home() {
                   Soigner, Innover, Protéger
                 </h2>
                 <p style={{ fontSize: 15, color: "rgba(255,255,255,0.6)", lineHeight: 1.85 }}>
-                  Le CHNCAK de Touba est le fleuron de la santé sénégalaise.
+                  Le Ndamatou de Touba est le fleuron de la santé sénégalaise.
                   Avec cet écosystème de <strong style={{ color: "#fff" }}>14 applications</strong>,
                   Processingenierie propulse l'hôpital au rang des établissements
                   hospitaliers les plus avancés technologiquement d'Afrique de l'Ouest.
@@ -373,8 +381,8 @@ export default function Home() {
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
               <span style={{ fontSize: 20 }}>🇸🇳</span>
               <div>
-                <p style={{ fontSize: 14, fontWeight: 700, color: "#ddeaf7" }}>CHNCAK · Touba</p>
-                <p style={{ fontSize: 12, color: "rgba(255,255,255,0.35)" }}>Centre Hospitalier National Cheikh Ahmadoul Khadim</p>
+                <p style={{ fontSize: 14, fontWeight: 700, color: "#ddeaf7" }}>Ndamatou · Touba</p>
+                <p style={{ fontSize: 12, color: "rgba(255,255,255,0.35)" }}>Centre Hospitalier National Ndamatoul Khadim</p>
               </div>
             </div>
             <p style={{ fontSize: 11, color: "rgba(255,255,255,0.3)" }}>

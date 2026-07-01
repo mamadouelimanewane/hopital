@@ -40,13 +40,13 @@ export default function LandingPage() {
               <div style={{ width:32, height:32, borderRadius:8, background:"linear-gradient(135deg,#1e3a8a,#2563eb)",
                 border:`1px solid rgba(59,130,246,0.4)`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:16 }}>🏛️</div>
               <div>
-                <p style={{ fontSize:13, fontWeight:700, color:"#fff", margin:0 }}>CHNCAK Med-Learn</p>
-                <p style={{ fontSize:9, color:COLOR, fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase", margin:0 }}>CNRA · Participation CHNCAK Med-Learnne</p>
+                <p style={{ fontSize:13, fontWeight:700, color:"#fff", margin:0 }}>Ndamatou Med-Learn</p>
+                <p style={{ fontSize:9, color:COLOR, fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase", margin:0 }}>CNRA · Participation Ndamatou Med-Learnne</p>
               </div>
             </div>
             <div style={{ display:"flex", alignItems:"center", gap:8 }}>
-              <div className="pulse" style={{ width:6, height:6, borderRadius:"50%", background:"#10b981" }} />
-              <span style={{ fontSize:11, color:"#10b981", fontWeight:600 }}>PORTAIL ACTIF</span>
+              <div className="pulse" style={{ width:6, height:6, borderRadius:"50%", background:"#0ea5e9" }} />
+              <span style={{ fontSize:11, color:"#0ea5e9", fontWeight:600 }}>PORTAIL ACTIF</span>
             </div>
           </div>
         </header>
@@ -68,7 +68,7 @@ export default function LandingPage() {
               </span>
               <span style={{ background:`linear-gradient(135deg,#fff 0%,#bfdbfe 50%,${COLOR} 100%)`,
                 WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text" }}>
-                CHNCAK Med-Learn
+                Ndamatou Med-Learn
               </span>
             </h1>
           </div>
@@ -113,7 +113,7 @@ export default function LandingPage() {
 
         <footer style={{ borderTop:"1px solid rgba(255,255,255,0.06)", padding:"1.5rem 2rem", textAlign:"center" }}>
           <p style={{ fontSize:11, color:"rgba(255,255,255,0.2)", margin:0 }}>
-            © 2025 CNRA · CHNCAK Med-Learn · Développé par <span style={{ color:"rgba(255,255,255,0.4)", fontWeight:600 }}>Processingenierie</span>
+            © 2025 CNRA · Ndamatou Med-Learn · Développé par <span style={{ color:"rgba(255,255,255,0.4)", fontWeight:600 }}>Processingenierie</span>
           </p>
         </footer>
       </div>

@@ -1,296 +1,128 @@
-"use client";
-import { useState } from "react";
+"use client"
+import Link from "next/link"
 
-const ACCENT = "#06b6d4";
-const BG = "#050d1a";
-const CARD = "#0a1628";
-const BORDER = "1px solid rgba(255,255,255,0.06)";
-const TEXT = "#e2e8f0";
-const MUTED = "#64748b";
-
-const patients = [
-  { nom: "Moussa Diallo", pathologie: "AVC ischémique", programme: "Rééducation neuromotrice", kine: "K. Badji", progression: 72, prochaine: "23 Jun 09h00" },
-  { nom: "Awa Ndiaye", pathologie: "Fracture du genou", programme: "Réhabilitation orthopédique", kine: "S. Faye", progression: 55, prochaine: "23 Jun 14h00" },
-  { nom: "Lamine Sarr", pathologie: "Chirurgie épaule", programme: "Récupération post-op", kine: "K. Badji", progression: 38, prochaine: "24 Jun 10h30" },
-  { nom: "Binta Mbaye", pathologie: "Sclérose en plaques", programme: "Maintien fonctionnel", kine: "O. Diop", progression: 61, prochaine: "25 Jun 08h00" },
-  { nom: "Oumar Fall", pathologie: "Lombalgie chronique", programme: "Rééducation rachidienne", kine: "S. Faye", progression: 84, prochaine: "26 Jun 11h00" },
-  { nom: "Mariama Sow", pathologie: "Hémiplégie droite", programme: "Rééducation neuromotrice", kine: "O. Diop", progression: 29, prochaine: "23 Jun 16h00" },
-];
-
-const jours = ["Lun 23", "Mar 24", "Mer 25", "Jeu 26", "Ven 27"];
-const creneaux = ["08h00", "10h00", "14h00", "16h00"];
-const planning: (string | null)[][] = [
-  ["M. Diallo", "L. Sarr", "B. Mbaye", null],
-  ["A. Ndiaye", null, "O. Fall", "M. Sow"],
-  ["M. Diallo", "B. Mbaye", null, "A. Ndiaye"],
-  ["L. Sarr", "O. Fall", "M. Sow", null],
-  [null, "M. Diallo", "A. Ndiaye", "O. Fall"],
-];
-
-const equipements = [
-  { nom: "Vélo ergomètre A1", type: "Cardio", statut: "Disponible", plateau: "Plateau 1" },
-  { nom: "Tapis roulant T3", type: "Cardio", statut: "Occupé", plateau: "Plateau 1" },
-  { nom: "Bain bouillonnant", type: "Hydrothérapie", statut: "Disponible", plateau: "Plateau 2" },
-  { nom: "Poulie de rééducation", type: "Musculation", statut: "Disponible", plateau: "Plateau 3" },
-  { nom: "Cycloergomètre bras", type: "Cardio", statut: "Maintenance", plateau: "Plateau 1" },
-  { nom: "Plateforme de stabilité", type: "Proprioception", statut: "Disponible", plateau: "Plateau 4" },
-  { nom: "Table d'électrostimulation", type: "Électrothérapie", statut: "Occupé", plateau: "Plateau 2" },
-  { nom: "Échelle thérapeutique", type: "Rééducation", statut: "Disponible", plateau: "Plateau 3" },
-];
-
-const progresPts = [
-  { nom: "M. Diallo", color: ACCENT, pts: [20, 28, 35, 44, 52, 61, 68, 72] },
-  { nom: "A. Ndiaye", color: "#84cc16", pts: [10, 18, 24, 30, 38, 45, 50, 55] },
-  { nom: "O. Fall", color: "#f59e0b", pts: [40, 50, 58, 65, 70, 76, 81, 84] },
-];
-
-function statutColor(s: string) {
-  if (s === "Disponible") return "#84cc16";
-  if (s === "Occupé") return ACCENT;
-  return "#f59e0b";
-}
-
-function progressBar(pct: number) {
+export default function RehabTrackPage() {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-      <div style={{ flex: 1, height: 6, background: "rgba(255,255,255,0.06)", borderRadius: 3, overflow: "hidden" }}>
-        <div style={{ width: `${pct}%`, height: "100%", background: pct > 70 ? "#84cc16" : pct > 40 ? ACCENT : "#f59e0b", borderRadius: 3 }} />
-      </div>
-      <span style={{ fontSize: 12, fontWeight: 700, color: pct > 70 ? "#84cc16" : pct > 40 ? ACCENT : "#f59e0b", minWidth: 32 }}>{pct}%</span>
-    </div>
-  );
-}
-
-export default function RehabPage() {
-  const [tab, setTab] = useState(0);
-  const tabs = ["Patients", "Séances", "Équipements", "Progrès"];
-
-  // SVG chart helpers
-  const W = 480, H = 160, PX = 40, PY = 16;
-  function ptX(i: number) { return PX + (i / 7) * (W - PX * 2); }
-  function ptY(v: number) { return H - PY - (v / 100) * (H - PY * 2); }
-  function polyline(pts: number[]) {
-    return pts.map((v, i) => `${ptX(i)},${ptY(v)}`).join(" ");
-  }
-
-  return (
-    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "'Inter', system-ui, sans-serif" }}>
+    <>
       <style>{`
-        @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
-        *{box-sizing:border-box;}
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: #0a1628; color: #fff; }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        .au1{animation:fadeUp .6s .1s both} .au2{animation:fadeUp .6s .2s both}
+        .au3{animation:fadeUp .6s .3s both} .au4{animation:fadeUp .6s .4s both}
+        .stat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 1.5rem; text-align: center; transition: all 0.3s; }
+        .stat-card:hover { border-color: #16a34a44; background: rgba(255,255,255,0.05); transform: translateY(-3px); }
+        .feat-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1.25rem; transition: all 0.3s; }
+        .feat-card:hover { border-color: #16a34a44; background: rgba(255,255,255,0.04); }
+        .back-btn { display: inline-flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.5); text-decoration: none; font-size: 14px; font-weight: 600; transition: color 0.2s; }
+        .back-btn:hover { color: #fff; }
       `}</style>
 
-      {/* Nav */}
-      <div style={{ position: "sticky", top: 0, zIndex: 200, background: "rgba(5,13,26,0.96)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(14,165,233,0.12)", padding: "0 1.5rem", height: 52, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <a href="/" style={{ display: "inline-flex", alignItems: "center", gap: 8, color: "rgba(255,255,255,0.5)", textDecoration: "none", fontSize: 13, fontWeight: 600 }}>← Portail CHNCAK</a>
-        <span style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" }}>CHNCAK Suite</span>
-      </div>
+      {/* Header */}
+      <header style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(10,22,40,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "0 1.5rem", height: 60, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <Link href="/" className="back-btn">← Retour au Portail Ndamatou</Link>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#16a34a" }} />
+          <span style={{ fontSize: 12, color: "#16a34a", fontWeight: 700, letterSpacing: "0.1em" }}>SYSTÈME ACTIF</span>
+        </div>
+      </header>
 
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "2rem 1.5rem" }}>
-        {/* Header */}
-        <div style={{ animation: "fadeUp .5s ease both", marginBottom: "2rem" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-            <div style={{ width: 48, height: 48, borderRadius: 14, background: `${ACCENT}22`, border: `1px solid ${ACCENT}44`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>🏃</div>
-            <div>
-              <h1 style={{ fontSize: 28, fontWeight: 800, color: TEXT, margin: 0 }}>RehabTrack <span style={{ color: ACCENT }}>CHNCAK</span></h1>
-              <p style={{ color: MUTED, fontSize: 13, margin: 0 }}>Rééducation & Kinésithérapie — Suivi de physiothérapie</p>
+      <main style={{ maxWidth: 1200, margin: "0 auto", padding: "3rem 1.5rem" }}>
+
+        {/* HERO */}
+        <div className="au1" style={{ display: "flex", alignItems: "flex-start", gap: 20, marginBottom: "3rem" }}>
+          <div style={{ width: 72, height: 72, borderRadius: 18, background: "#16a34a20", border: "2px solid #16a34a40", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 36, flexShrink: 0, boxShadow: "0 0 30px #16a34a30" }}>
+            🦴
+          </div>
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+              <span style={{ fontSize: 11, color: "#16a34a", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", background: "#16a34a15", padding: "3px 10px", borderRadius: 6, border: "1px solid #16a34a30" }}>
+                Application Hospitalière
+              </span>
+            </div>
+            <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 900, lineHeight: 1.1, marginBottom: 10 }}>
+              <span style={{ background: "linear-gradient(135deg, #fff, #16a34a)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+                Rehab-Track
+              </span>
+            </h1>
+            <p style={{ fontSize: "clamp(0.95rem, 2vw, 1.15rem)", color: "rgba(255,255,255,0.55)", lineHeight: 1.7, maxWidth: 600 }}>
+              Suivi numérique des programmes de kinésithérapie et de rééducation.
+            </p>
+          </div>
+        </div>
+
+        {/* STATS */}
+        <div className="au2" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 12, marginBottom: "3rem" }}>
+          <div className="stat-card">
+            <p style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", fontWeight: 900, color: "#16a34a", marginBottom: 4 }}>+40%</p>
+            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>Observance</p>
+          </div>
+          <div className="stat-card">
+            <p style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", fontWeight: 900, color: "#16a34a", marginBottom: 4 }}>-20%</p>
+            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>Temps Récupération</p>
+          </div>
+          <div className="stat-card">
+            <p style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", fontWeight: 900, color: "#16a34a", marginBottom: 4 }}>100+</p>
+            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>Protocoles</p>
+          </div>
+        </div>
+
+        {/* FEATURES */}
+        <div className="au3" style={{ marginBottom: "3rem" }}>
+          <h2 style={{ fontSize: "clamp(1.3rem, 2.5vw, 1.8rem)", fontWeight: 800, marginBottom: "1.5rem" }}>Fonctionnalités Clés</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: 12 }}>
+            <div className="feat-card">
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+                <div style={{ width: 40, height: 40, borderRadius: 10, background: "#16a34a18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>🏃</div>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>Exercices</h3>
+              </div>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>Vidéos personnalisées</p>
+            </div>
+            <div className="feat-card">
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+                <div style={{ width: 40, height: 40, borderRadius: 10, background: "#16a34a18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>📈</div>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>Progrès</h3>
+              </div>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>Suivi des amplitudes</p>
+            </div>
+            <div className="feat-card">
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+                <div style={{ width: 40, height: 40, borderRadius: 10, background: "#16a34a18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>📱</div>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>App Patient</h3>
+              </div>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>Rappels et motivation</p>
+            </div>
+            <div className="feat-card">
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+                <div style={{ width: 40, height: 40, borderRadius: 10, background: "#16a34a18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>🤝</div>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>Lien Kiné</h3>
+              </div>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>Feedback continu</p>
             </div>
           </div>
         </div>
 
-        {/* Stats */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "1rem", marginBottom: "2rem", animation: "fadeUp .5s .1s ease both" }}>
-          {[
-            { label: "Patients en rééducation", val: "156", icon: "🏥", color: ACCENT },
-            { label: "Kinésithérapeutes", val: "18", icon: "💪", color: "#8b5cf6" },
-            { label: "Objectifs atteints", val: "92%", icon: "🎯", color: "#84cc16" },
-            { label: "Plateaux thérapeutiques", val: "4", icon: "🏋️", color: "#f59e0b" },
-          ].map((s, i) => (
-            <div key={i} style={{ background: CARD, border: BORDER, borderRadius: 14, padding: "1.25rem", borderTop: `2px solid ${s.color}` }}>
-              <div style={{ fontSize: 24, marginBottom: 8 }}>{s.icon}</div>
-              <div style={{ fontSize: 30, fontWeight: 800, color: s.color }}>{s.val}</div>
-              <div style={{ fontSize: 12, color: MUTED, marginTop: 4 }}>{s.label}</div>
-            </div>
-          ))}
+        {/* CTA */}
+        <div className="au4" style={{ background: "#16a34a10", border: "1px solid #16a34a25", borderRadius: 16, padding: "2rem", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "1.5rem" }}>
+          <div>
+            <h3 style={{ fontSize: "clamp(1.1rem, 2vw, 1.4rem)", fontWeight: 800, marginBottom: 8 }}>Prêt à intégrer ce module ?</h3>
+            <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)" }}>Contactez Processingenierie pour déployer Rehab-Track dans votre infrastructure.</p>
+          </div>
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <a href="mailto:contact@processingenierie.sn" style={{ background: "#16a34a", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}>
+              ✉️ Nous contacter
+            </a>
+            <Link href="/" style={{ background: "rgba(255,255,255,0.05)", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", border: "1px solid rgba(255,255,255,0.1)" }}>
+              ← Retour Portail
+            </Link>
+          </div>
         </div>
 
-        {/* Tabs */}
-        <div style={{ display: "flex", gap: 4, background: CARD, border: BORDER, borderRadius: 12, padding: 4, marginBottom: "1.5rem", width: "fit-content" }}>
-          {tabs.map((t, i) => (
-            <button key={i} onClick={() => setTab(i)} style={{ padding: "8px 20px", borderRadius: 9, fontSize: 13, fontWeight: 600, cursor: "pointer", border: "none", background: tab === i ? `${ACCENT}22` : "transparent", color: tab === i ? ACCENT : MUTED, transition: "all .2s" }}>
-              {t}
-            </button>
-          ))}
-        </div>
+      </main>
 
-        {/* Tab Patients */}
-        {tab === 0 && (
-          <div style={{ animation: "fadeUp .3s ease both" }}>
-            <div style={{ background: CARD, border: BORDER, borderRadius: 16, overflow: "hidden" }}>
-              <div style={{ padding: "1rem 1.5rem", borderBottom: BORDER }}>
-                <h2 style={{ fontSize: 16, fontWeight: 700, margin: 0 }}>Patients en rééducation active</h2>
-              </div>
-              <div style={{ overflowX: "auto" }}>
-                <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                  <thead>
-                    <tr style={{ background: "rgba(255,255,255,0.03)" }}>
-                      {["Patient", "Pathologie", "Programme", "Kiné assigné", "Progression", "Prochaine séance"].map((h, i) => (
-                        <th key={i} style={{ padding: "12px 16px", textAlign: "left", fontSize: 11, color: MUTED, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", borderBottom: BORDER }}>{h}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {patients.map((p, i) => (
-                      <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
-                        <td style={{ padding: "14px 16px", fontWeight: 600, fontSize: 14 }}>{p.nom}</td>
-                        <td style={{ padding: "14px 16px", fontSize: 13, color: MUTED }}>{p.pathologie}</td>
-                        <td style={{ padding: "14px 16px", fontSize: 13, color: ACCENT }}>{p.programme}</td>
-                        <td style={{ padding: "14px 16px", fontSize: 13 }}>{p.kine}</td>
-                        <td style={{ padding: "14px 16px", minWidth: 160 }}>{progressBar(p.progression)}</td>
-                        <td style={{ padding: "14px 16px", fontSize: 12, color: MUTED }}>{p.prochaine}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Tab Séances */}
-        {tab === 1 && (
-          <div style={{ animation: "fadeUp .3s ease both" }}>
-            <div style={{ background: CARD, border: BORDER, borderRadius: 16, overflow: "hidden" }}>
-              <div style={{ padding: "1rem 1.5rem", borderBottom: BORDER }}>
-                <h2 style={{ fontSize: 16, fontWeight: 700, margin: 0 }}>Planning hebdomadaire — Semaine 26</h2>
-              </div>
-              <div style={{ overflowX: "auto", padding: "1rem" }}>
-                <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                  <thead>
-                    <tr>
-                      <th style={{ padding: "10px 12px", fontSize: 11, color: MUTED, textAlign: "left", fontWeight: 700, width: 80 }}>Créneau</th>
-                      {jours.map((j, i) => (
-                        <th key={i} style={{ padding: "10px 12px", fontSize: 12, color: TEXT, textAlign: "center", fontWeight: 700 }}>{j}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {creneaux.map((cr, ri) => (
-                      <tr key={ri}>
-                        <td style={{ padding: "8px 12px", fontSize: 12, color: MUTED, fontWeight: 600 }}>{cr}</td>
-                        {jours.map((_, ci) => {
-                          const val = planning[ci][ri];
-                          return (
-                            <td key={ci} style={{ padding: "6px 8px", textAlign: "center" }}>
-                              {val ? (
-                                <div style={{ background: `${ACCENT}22`, border: `1px solid ${ACCENT}44`, borderRadius: 8, padding: "6px 10px", fontSize: 12, color: ACCENT, fontWeight: 600 }}>{val}</div>
-                              ) : (
-                                <div style={{ height: 34, borderRadius: 8, background: "rgba(255,255,255,0.02)", border: "1px dashed rgba(255,255,255,0.06)" }} />
-                              )}
-                            </td>
-                          );
-                        })}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Tab Équipements */}
-        {tab === 2 && (
-          <div style={{ animation: "fadeUp .3s ease both", display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: "1rem" }}>
-            {equipements.map((eq, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${statutColor(eq.statut)}33`, borderRadius: 14, padding: "1.25rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <div>
-                  <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{eq.nom}</div>
-                  <div style={{ fontSize: 12, color: MUTED }}>{eq.type} · {eq.plateau}</div>
-                </div>
-                <span style={{ background: `${statutColor(eq.statut)}22`, color: statutColor(eq.statut), border: `1px solid ${statutColor(eq.statut)}44`, borderRadius: 8, padding: "4px 14px", fontSize: 12, fontWeight: 700, whiteSpace: "nowrap" }}>
-                  {eq.statut === "Disponible" ? "✓ " : eq.statut === "Maintenance" ? "⚙ " : "● "}{eq.statut}
-                </span>
-              </div>
-            ))}
-            <div style={{ gridColumn: "1/-1", background: CARD, border: BORDER, borderRadius: 14, padding: "1rem 1.5rem" }}>
-              <div style={{ display: "flex", gap: "2rem" }}>
-                {[{ label: "Disponibles", val: equipements.filter(e => e.statut === "Disponible").length, color: "#84cc16" },
-                  { label: "Occupés", val: equipements.filter(e => e.statut === "Occupé").length, color: ACCENT },
-                  { label: "Maintenance", val: equipements.filter(e => e.statut === "Maintenance").length, color: "#f59e0b" }
-                ].map((r, i) => (
-                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <div style={{ width: 10, height: 10, borderRadius: "50%", background: r.color }} />
-                    <span style={{ fontSize: 13, color: MUTED }}>{r.label} :</span>
-                    <span style={{ fontSize: 13, fontWeight: 700, color: r.color }}>{r.val}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Tab Progrès */}
-        {tab === 3 && (
-          <div style={{ animation: "fadeUp .3s ease both", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-            <div style={{ background: CARD, border: BORDER, borderRadius: 16, padding: "1.5rem" }}>
-              <h3 style={{ fontSize: 15, fontWeight: 700, margin: "0 0 1.5rem" }}>Évolution de la progression — 8 semaines</h3>
-              <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", background: "rgba(255,255,255,0.02)", borderRadius: 10 }}>
-                {/* Grid horizontal */}
-                {[0, 25, 50, 75, 100].map((v, i) => (
-                  <g key={i}>
-                    <line x1={PX} y1={ptY(v)} x2={W - PX} y2={ptY(v)} stroke="rgba(255,255,255,0.05)" strokeWidth={1} />
-                    <text x={PX - 6} y={ptY(v) + 4} textAnchor="end" fill={MUTED} fontSize={9}>{v}%</text>
-                  </g>
-                ))}
-                {/* Grid vertical */}
-                {[0, 1, 2, 3, 4, 5, 6, 7].map(i => (
-                  <g key={i}>
-                    <line x1={ptX(i)} y1={PY} x2={ptX(i)} y2={H - PY} stroke="rgba(255,255,255,0.04)" strokeWidth={1} />
-                    <text x={ptX(i)} y={H - 2} textAnchor="middle" fill={MUTED} fontSize={9}>S{i + 1}</text>
-                  </g>
-                ))}
-                {/* Lignes */}
-                {progresPts.map((p, i) => (
-                  <g key={i}>
-                    <polyline points={polyline(p.pts)} fill="none" stroke={p.color} strokeWidth={2.5} strokeLinejoin="round" strokeLinecap="round" />
-                    {p.pts.map((v, j) => (
-                      <circle key={j} cx={ptX(j)} cy={ptY(v)} r={3.5} fill={p.color} />
-                    ))}
-                  </g>
-                ))}
-              </svg>
-              {/* Légende */}
-              <div style={{ display: "flex", gap: "2rem", marginTop: "1rem" }}>
-                {progresPts.map((p, i) => (
-                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <div style={{ width: 24, height: 3, background: p.color, borderRadius: 2 }} />
-                    <span style={{ fontSize: 13, color: MUTED }}>{p.nom}</span>
-                    <span style={{ fontSize: 13, fontWeight: 700, color: p.color }}>{p.pts[p.pts.length - 1]}%</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            {/* Mini stats individuelles */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "1rem" }}>
-              {patients.slice(0, 3).map((p, i) => (
-                <div key={i} style={{ background: CARD, border: BORDER, borderRadius: 14, padding: "1.25rem" }}>
-                  <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{p.nom}</div>
-                  <div style={{ fontSize: 12, color: MUTED, marginBottom: "1rem" }}>{p.pathologie}</div>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-                    <span style={{ fontSize: 12, color: MUTED }}>Progression globale</span>
-                    <span style={{ fontSize: 14, fontWeight: 800, color: ACCENT }}>{p.progression}%</span>
-                  </div>
-                  <div style={{ height: 8, background: "rgba(255,255,255,0.06)", borderRadius: 4 }}>
-                    <div style={{ width: `${p.progression}%`, height: "100%", background: `linear-gradient(90deg, ${ACCENT}, #0284c7)`, borderRadius: 4 }} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
+      <footer style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "1.5rem", marginTop: "3rem", textAlign: "center" }}>
+        <p style={{ fontSize: 11, color: "rgba(255,255,255,0.3)" }}>Développé par <span style={{ color: "#16a34a", fontWeight: 700 }}>Processingenierie</span> · Hôpital Ndamatou Touba 🇸🇳</p>
+      </footer>
+    </>
+  )
 }

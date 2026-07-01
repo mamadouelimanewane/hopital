@@ -92,7 +92,7 @@ export default function NeuroScan() {
               NEURO<span className="text-violet-500">SCAN</span>-IA
             </h1>
             <p className="text-[9px] sm:text-[10px] text-violet-400 tracking-[0.2em] uppercase font-bold">
-              Unité de Radiologie Assistée (CHNCAK)
+              Unité de Radiologie Assistée (Ndamatou)
             </p>
           </div>
         </div>

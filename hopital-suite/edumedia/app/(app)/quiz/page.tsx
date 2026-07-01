@@ -24,7 +24,7 @@ const NIVEAU_LABEL: Record<string, string> = {
 }
 
 function ReussiteBar({ taux }: { taux: number }) {
-  const color = taux >= 75 ? "#10b981" : taux >= 60 ? "#f59e0b" : "#ef4444"
+  const color = taux >= 75 ? "#0ea5e9" : taux >= 60 ? "#f59e0b" : "#ef4444"
   return (
     <div className="space-y-1">
       <div className="flex justify-between text-xs">

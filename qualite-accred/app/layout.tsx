@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Qualité & Accréditation — CHNCAK",
+  title: "Qualité & Accréditation — Ndamatou",
   description: "Tableau de bord qualité OMS et accréditation JCI",
 }
 

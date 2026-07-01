@@ -6,7 +6,7 @@ export default function Navbar() {
         <div style={{ width: 40, height: 40, background: "#3b82f6", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>🏅</div>
         <div>
           <div style={{ fontWeight: 700, fontSize: 16, color: "#fff" }}>Qualité & Accréditation</div>
-          <div style={{ fontSize: 11, color: "#93c5fd" }}>CHNCAK — Centre Hospitalier National Cheikh Ahmadou Khadim</div>
+          <div style={{ fontSize: 11, color: "#93c5fd" }}>Ndamatou — Centre Hospitalier National Ndamatou de Touba</div>
         </div>
       </div>
       <div style={{ display: "flex", gap: 16, fontSize: 13, color: "#bfdbfe" }}>

@@ -5,16 +5,16 @@ import { Users, Calendar, Award, Plane, Star, AlertTriangle, Phone, Mail, CheckC
 type Onglet = "personnel" | "gardes" | "competences" | "conges" | "evaluations"
 
 const personnel = [
-  { nom: "Dr. Ousmane Ndiaye", matricule: "MED-001", specialite: "Cardiologie", service: "Cardiologie", statut: "En service", tel: "+221 77 123 45 67", email: "o.ndiaye@chncak.sn" },
-  { nom: "Dr. Fatou Ba", matricule: "MED-002", specialite: "Pédiatrie", service: "Pédiatrie", statut: "En garde", tel: "+221 77 234 56 78", email: "f.ba@chncak.sn" },
-  { nom: "Dr. Ibrahima Diallo", matricule: "MED-003", specialite: "Chirurgie Générale", service: "Bloc Opératoire", statut: "En service", tel: "+221 77 345 67 89", email: "i.diallo@chncak.sn" },
-  { nom: "Inf. Moussa Seck", matricule: "INF-001", specialite: "Urgences", service: "Urgences", statut: "En service", tel: "+221 77 456 78 90", email: "m.seck@chncak.sn" },
-  { nom: "Dr. Aissatou Fall", matricule: "MED-004", specialite: "Gynécologie-Obstétrique", service: "Maternité", statut: "En congé", tel: "+221 77 567 89 01", email: "a.fall@chncak.sn" },
-  { nom: "Dr. Cheikh Mbaye", matricule: "MED-005", specialite: "Neurologie", service: "Neurologie", statut: "Formation", tel: "+221 77 678 90 12", email: "c.mbaye@chncak.sn" },
-  { nom: "Inf. Mariama Gueye", matricule: "INF-002", specialite: "Réanimation", service: "Réanimation", statut: "En garde", tel: "+221 77 789 01 23", email: "m.gueye@chncak.sn" },
-  { nom: "Dr. Lamine Diagne", matricule: "MED-006", specialite: "Radiologie", service: "Imagerie Médicale", statut: "En service", tel: "+221 77 890 12 34", email: "l.diagne@chncak.sn" },
-  { nom: "Dr. Rokhaya Cissé", matricule: "MED-007", specialite: "Anesthésie-Réanimation", service: "Bloc Opératoire", statut: "En service", tel: "+221 77 901 23 45", email: "r.cisse@chncak.sn" },
-  { nom: "Inf. Omar Sarr", matricule: "INF-003", specialite: "Pédiatrie", service: "Pédiatrie", statut: "En service", tel: "+221 77 012 34 56", email: "o.sarr@chncak.sn" },
+  { nom: "Dr. Ousmane Ndiaye", matricule: "MED-001", specialite: "Cardiologie", service: "Cardiologie", statut: "En service", tel: "+221 77 123 45 67", email: "o.ndiaye@ndamatou.sn" },
+  { nom: "Dr. Fatou Ba", matricule: "MED-002", specialite: "Pédiatrie", service: "Pédiatrie", statut: "En garde", tel: "+221 77 234 56 78", email: "f.ba@ndamatou.sn" },
+  { nom: "Dr. Ibrahima Diallo", matricule: "MED-003", specialite: "Chirurgie Générale", service: "Bloc Opératoire", statut: "En service", tel: "+221 77 345 67 89", email: "i.diallo@ndamatou.sn" },
+  { nom: "Inf. Moussa Seck", matricule: "INF-001", specialite: "Urgences", service: "Urgences", statut: "En service", tel: "+221 77 456 78 90", email: "m.seck@ndamatou.sn" },
+  { nom: "Dr. Aissatou Fall", matricule: "MED-004", specialite: "Gynécologie-Obstétrique", service: "Maternité", statut: "En congé", tel: "+221 77 567 89 01", email: "a.fall@ndamatou.sn" },
+  { nom: "Dr. Cheikh Mbaye", matricule: "MED-005", specialite: "Neurologie", service: "Neurologie", statut: "Formation", tel: "+221 77 678 90 12", email: "c.mbaye@ndamatou.sn" },
+  { nom: "Inf. Mariama Gueye", matricule: "INF-002", specialite: "Réanimation", service: "Réanimation", statut: "En garde", tel: "+221 77 789 01 23", email: "m.gueye@ndamatou.sn" },
+  { nom: "Dr. Lamine Diagne", matricule: "MED-006", specialite: "Radiologie", service: "Imagerie Médicale", statut: "En service", tel: "+221 77 890 12 34", email: "l.diagne@ndamatou.sn" },
+  { nom: "Dr. Rokhaya Cissé", matricule: "MED-007", specialite: "Anesthésie-Réanimation", service: "Bloc Opératoire", statut: "En service", tel: "+221 77 901 23 45", email: "r.cisse@ndamatou.sn" },
+  { nom: "Inf. Omar Sarr", matricule: "INF-003", specialite: "Pédiatrie", service: "Pédiatrie", statut: "En service", tel: "+221 77 012 34 56", email: "o.sarr@ndamatou.sn" },
 ]
 
 const gardes = [
@@ -67,7 +67,7 @@ export default function RHMedical() {
                 <Users className="w-6 h-6" />
               </div>
               <div>
-                <h1 className="text-xl font-black">RH Médical <span className="font-light">CHNCAK</span></h1>
+                <h1 className="text-xl font-black">RH Médical <span className="font-light">Ndamatou</span></h1>
                 <p className="text-indigo-200 text-xs">Gestion des ressources humaines médicales</p>
               </div>
             </div>

@@ -67,13 +67,13 @@ for (const [appId, data] of Object.entries(APPS)) {
   
   // layout.tsx
   const layoutPath = path.join(dir, 'app/(site)/layout.tsx');
-  replaceInFile(layoutPath, /(Citoyen|CNRA Analytics|CHNCAK Predict-IA)/g, data.name);
+  replaceInFile(layoutPath, /(Citoyen|CNRA Analytics|Ndamatou Predict-IA)/g, data.name);
   replaceInFile(layoutPath, /#1A3A6B/g, data.hex1);
   replaceInFile(layoutPath, /#C9A84C/g, data.hex2);
 
   // page.tsx (accueil)
   const pagePath = path.join(dir, 'app/page.tsx');
-  replaceInFile(pagePath, /(Citoyen|CNRA Analytics|CHNCAK Predict-IA)/g, data.name);
+  replaceInFile(pagePath, /(Citoyen|CNRA Analytics|Ndamatou Predict-IA)/g, data.name);
   replaceInFile(pagePath, /(Le portail.*audiovisuelle|Centre de Commandement Stratégique)/g, data.title);
   replaceInFile(pagePath, /(Signalez.*audiovisuelle|Agrégez et analysez toutes les données de régulation via IA)/g, data.desc);
   
@@ -84,11 +84,11 @@ for (const [appId, data] of Object.entries(APPS)) {
   replaceInFile(pagePath, /text-\[\#C9A84C\]/g, `text-[${data.hex2}]`);
   
   // Replace names for IA templates (Neuroscan, Eco-Hopital copied from analytics)
-  replaceInFile(pagePath, /CNRA/g, 'CHNCAK');
+  replaceInFile(pagePath, /CNRA/g, 'Ndamatou');
 
   // Navbar
   const navPath = path.join(dir, 'components/Navbar.tsx');
-  replaceInFile(navPath, /(Citoyen|CNRA Analytics|CHNCAK Predict-IA)/g, data.name);
+  replaceInFile(navPath, /(Citoyen|CNRA Analytics|Ndamatou Predict-IA)/g, data.name);
   replaceInFile(navPath, /#1A3A6B/g, data.hex1);
 }
 
@@ -100,7 +100,7 @@ if (fs.existsSync(suitePagePath)) {
   let suiteContent = fs.readFileSync(suitePagePath, 'utf8');
   
   const newAppsContent = `const APPS = [
-  { id: "connect", name: "CHNCAK Connect", url: "http://localhost:3001", icon: "🏥", desc: "Portail Patient & Télémédecine", color: "from-blue-600 to-blue-400", bg: "bg-blue-50" },
+  { id: "connect", name: "Ndamatou Connect", url: "http://localhost:3001", icon: "🏥", desc: "Portail Patient & Télémédecine", color: "from-blue-600 to-blue-400", bg: "bg-blue-50" },
   { id: "predict", name: "Predict-IA", url: "http://localhost:3002", icon: "🧠", desc: "Tableau de Bord Direction & IA", color: "from-emerald-600 to-emerald-400", bg: "bg-emerald-50" },
   { id: "pharma", name: "SmartPharma", url: "http://localhost:3003", icon: "💊", desc: "Pharmacie, Stocks & Blockchain", color: "from-teal-600 to-teal-400", bg: "bg-teal-50" },
   { id: "learn", name: "Med-Learn", url: "http://localhost:3004", icon: "🎓", desc: "Université & Staffs Médicaux", color: "from-indigo-600 to-indigo-400", bg: "bg-indigo-50" },

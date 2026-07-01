@@ -4,16 +4,16 @@ import { useState } from "react"
 type Onglet = "personnel" | "gardes" | "competences" | "conges" | "evaluations"
 
 const personnel = [
-  { nom: "Dr. Ousmane Ndiaye", matricule: "MED-001", specialite: "Cardiologie", service: "Cardiologie", statut: "En service", tel: "+221 77 123 45 67", email: "o.ndiaye@chncak.sn" },
-  { nom: "Dr. Fatou Ba", matricule: "MED-002", specialite: "Pédiatrie", service: "Pédiatrie", statut: "En garde", tel: "+221 77 234 56 78", email: "f.ba@chncak.sn" },
-  { nom: "Dr. Ibrahima Diallo", matricule: "MED-003", specialite: "Chirurgie Générale", service: "Bloc Opératoire", statut: "En service", tel: "+221 77 345 67 89", email: "i.diallo@chncak.sn" },
-  { nom: "Inf. Moussa Seck", matricule: "INF-001", specialite: "Urgences", service: "Urgences", statut: "En service", tel: "+221 77 456 78 90", email: "m.seck@chncak.sn" },
-  { nom: "Dr. Aissatou Fall", matricule: "MED-004", specialite: "Gynécologie-Obstétrique", service: "Maternité", statut: "En congé", tel: "+221 77 567 89 01", email: "a.fall@chncak.sn" },
-  { nom: "Dr. Cheikh Mbaye", matricule: "MED-005", specialite: "Neurologie", service: "Neurologie", statut: "Formation", tel: "+221 77 678 90 12", email: "c.mbaye@chncak.sn" },
-  { nom: "Inf. Mariama Gueye", matricule: "INF-002", specialite: "Réanimation", service: "Réanimation", statut: "En garde", tel: "+221 77 789 01 23", email: "m.gueye@chncak.sn" },
-  { nom: "Dr. Lamine Diagne", matricule: "MED-006", specialite: "Radiologie", service: "Imagerie Médicale", statut: "En service", tel: "+221 77 890 12 34", email: "l.diagne@chncak.sn" },
-  { nom: "Dr. Rokhaya Cissé", matricule: "MED-007", specialite: "Anesthésie-Réanimation", service: "Bloc Opératoire", statut: "En service", tel: "+221 77 901 23 45", email: "r.cisse@chncak.sn" },
-  { nom: "Inf. Omar Sarr", matricule: "INF-003", specialite: "Pédiatrie", service: "Pédiatrie", statut: "En service", tel: "+221 77 012 34 56", email: "o.sarr@chncak.sn" },
+  { nom: "Dr. Ousmane Ndiaye", matricule: "MED-001", specialite: "Cardiologie", service: "Cardiologie", statut: "En service", tel: "+221 77 123 45 67", email: "o.ndiaye@ndamatou.sn" },
+  { nom: "Dr. Fatou Ba", matricule: "MED-002", specialite: "Pédiatrie", service: "Pédiatrie", statut: "En garde", tel: "+221 77 234 56 78", email: "f.ba@ndamatou.sn" },
+  { nom: "Dr. Ibrahima Diallo", matricule: "MED-003", specialite: "Chirurgie Générale", service: "Bloc Opératoire", statut: "En service", tel: "+221 77 345 67 89", email: "i.diallo@ndamatou.sn" },
+  { nom: "Inf. Moussa Seck", matricule: "INF-001", specialite: "Urgences", service: "Urgences", statut: "En service", tel: "+221 77 456 78 90", email: "m.seck@ndamatou.sn" },
+  { nom: "Dr. Aissatou Fall", matricule: "MED-004", specialite: "Gynécologie-Obstétrique", service: "Maternité", statut: "En congé", tel: "+221 77 567 89 01", email: "a.fall@ndamatou.sn" },
+  { nom: "Dr. Cheikh Mbaye", matricule: "MED-005", specialite: "Neurologie", service: "Neurologie", statut: "Formation", tel: "+221 77 678 90 12", email: "c.mbaye@ndamatou.sn" },
+  { nom: "Inf. Mariama Gueye", matricule: "INF-002", specialite: "Réanimation", service: "Réanimation", statut: "En garde", tel: "+221 77 789 01 23", email: "m.gueye@ndamatou.sn" },
+  { nom: "Dr. Lamine Diagne", matricule: "MED-006", specialite: "Radiologie", service: "Imagerie Médicale", statut: "En service", tel: "+221 77 890 12 34", email: "l.diagne@ndamatou.sn" },
+  { nom: "Dr. Rokhaya Cissé", matricule: "MED-007", specialite: "Anesthésie-Réanimation", service: "Bloc Opératoire", statut: "En service", tel: "+221 77 901 23 45", email: "r.cisse@ndamatou.sn" },
+  { nom: "Inf. Omar Sarr", matricule: "INF-003", specialite: "Pédiatrie", service: "Pédiatrie", statut: "En service", tel: "+221 77 012 34 56", email: "o.sarr@ndamatou.sn" },
 ]
 
 const gardes = [
@@ -81,8 +81,8 @@ export default function RHMedical() {
 
       {/* BACK NAV */}
       <div style={{ position:"sticky", top:0, zIndex:200, background:"rgba(5,13,26,0.96)", backdropFilter:"blur(20px)", borderBottom:"1px solid rgba(14,165,233,0.12)", padding:"0 1.5rem", height:52, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.5)", textDecoration:"none", fontSize:13, fontWeight:600 }}>← Portail CHNCAK</a>
-        <span style={{ fontSize:11, color:"rgba(255,255,255,0.3)", fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase" }}>CHNCAK Suite</span>
+        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.5)", textDecoration:"none", fontSize:13, fontWeight:600 }}>← Portail Ndamatou</a>
+        <span style={{ fontSize:11, color:"rgba(255,255,255,0.3)", fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase" }}>Ndamatou Suite</span>
       </div>
 
       {/* HEADER */}
@@ -92,12 +92,12 @@ export default function RHMedical() {
             <div>
               <div style={{ display:"inline-flex", alignItems:"center", gap:8, background:"rgba(67,56,202,0.12)", border:`1px solid rgba(67,56,202,0.3)`, borderRadius:40, padding:"4px 14px", marginBottom:10 }}>
                 <span style={{ width:7, height:7, borderRadius:"50%", background:"#6366f1", display:"inline-block", animation:"pulse 2s infinite" }}></span>
-                <span style={{ color:"#818cf8", fontSize:11, fontWeight:700, letterSpacing:"0.08em" }}>RH MÉDICAL CHNCAK</span>
+                <span style={{ color:"#818cf8", fontSize:11, fontWeight:700, letterSpacing:"0.08em" }}>RH MÉDICAL Ndamatou</span>
               </div>
               <h1 style={{ fontSize:"clamp(20px,2.5vw,28px)", fontWeight:800, color:"#e2e8f0", margin:0 }}>
                 RH Médical — <span style={{ color:"#818cf8" }}>Ressources Humaines</span>
               </h1>
-              <p style={{ color:"#64748b", fontSize:13, marginTop:4 }}>Gestion du personnel médical et paramédical CHNCAK</p>
+              <p style={{ color:"#64748b", fontSize:13, marginTop:4 }}>Gestion du personnel médical et paramédical Ndamatou</p>
             </div>
             <div style={{ background:"rgba(239,68,68,0.12)", border:"1px solid rgba(239,68,68,0.3)", borderRadius:10, padding:"8px 14px", fontSize:12, fontWeight:600, color:"#f87171" }}>
               ⚠️ Sous-effectif Urgences — Mer 25/06

@@ -53,7 +53,7 @@ for (const [appId, data] of Object.entries(APPS)) {
   replaceInFile(pagePath, /(Signalez.*audiovisuelle|Agrégez et analysez toutes les données de régulation via IA)/g, data.desc);
   replaceInFile(pagePath, /bg-\[\#1A3A6B\]/g, `bg-[${data.hex1}]`);
   replaceInFile(pagePath, /text-\[\#1A3A6B\]/g, `text-[${data.hex1}]`);
-  replaceInFile(pagePath, /CNRA/g, 'CHNCAK');
+  replaceInFile(pagePath, /CNRA/g, 'Ndamatou');
   const navPath = path.join(dir, 'components/Navbar.tsx');
   replaceInFile(navPath, /(Citoyen|CNRA Analytics)/g, data.name);
   replaceInFile(navPath, /#1A3A6B/g, data.hex1);
@@ -64,7 +64,7 @@ const suitePagePath = path.join(ROOT, 'hopital-suite', 'app', 'page.tsx');
 if (fs.existsSync(suitePagePath)) {
   let content = fs.readFileSync(suitePagePath, 'utf8');
   const newApps = `const APPS = [
-  { id: "connect", name: "CHNCAK Connect", url: "http://localhost:3001", icon: "🏥", desc: "Portail Patient & Télémédecine", color: "from-blue-600 to-blue-400", bg: "bg-blue-50" },
+  { id: "connect", name: "Ndamatou Connect", url: "http://localhost:3001", icon: "🏥", desc: "Portail Patient & Télémédecine", color: "from-blue-600 to-blue-400", bg: "bg-blue-50" },
   { id: "predict", name: "Predict-IA", url: "http://localhost:3002", icon: "🧠", desc: "Tableau de Bord Direction & IA", color: "from-emerald-600 to-emerald-400", bg: "bg-emerald-50" },
   { id: "pharma", name: "SmartPharma", url: "http://localhost:3003", icon: "💊", desc: "Pharmacie, Stocks & Blockchain", color: "from-teal-600 to-teal-400", bg: "bg-teal-50" },
   { id: "learn", name: "Med-Learn", url: "http://localhost:3004", icon: "🎓", desc: "Université & Staffs Médicaux", color: "from-indigo-600 to-indigo-400", bg: "bg-indigo-50" },
@@ -84,4 +84,4 @@ if (fs.existsSync(suitePagePath)) {
   fs.writeFileSync(suitePagePath, content, 'utf8');
 }
 
-console.log('✅ Patch CHNCAK Phase 3 completed! 14 apps total.');
+console.log('✅ Patch Ndamatou Phase 3 completed! 14 apps total.');

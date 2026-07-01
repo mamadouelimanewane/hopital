@@ -18,7 +18,7 @@ type Stats = {
   ressourcesParCategorie: { name: string; value: number }[]
 }
 
-const COLORS = ["#10b981", "#3b82f6", "#f59e0b", "#8b5cf6", "#ef4444", "#06b6d4"]
+const COLORS = ["#0ea5e9", "#3b82f6", "#f59e0b", "#8b5cf6", "#ef4444", "#06b6d4"]
 const CAT_LABEL: Record<string, string> = {
   litteratie_mediatique: "Littératie",
   fake_news: "Fake news",
@@ -147,7 +147,7 @@ export default function DashboardPage() {
                   <XAxis dataKey="name" tick={{ fill: "#9ca3af", fontSize: 10 }} axisLine={false} tickLine={false} />
                   <YAxis tick={{ fill: "#9ca3af", fontSize: 11 }} axisLine={false} tickLine={false} />
                   <Tooltip contentStyle={{ background: "#0f172a", border: "1px solid #1e293b", borderRadius: 8, color: "#fff" }} />
-                  <Bar dataKey="value" fill="#10b981" radius={[4, 4, 0, 0]} name="Ressources" />
+                  <Bar dataKey="value" fill="#0ea5e9" radius={[4, 4, 0, 0]} name="Ressources" />
                 </BarChart>
               </ResponsiveContainer>
             </div>

@@ -78,7 +78,7 @@ export default function EpidémioWatch() {
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-red-900/50 rounded-xl flex items-center justify-center text-xl">🦠</div>
             <div>
-              <h1 className="text-xl font-black text-white">Épidémio-Watch <span className="font-light text-red-300">CHNCAK — Sénégal</span></h1>
+              <h1 className="text-xl font-black text-white">Épidémio-Watch <span className="font-light text-red-300">Ndamatou — Sénégal</span></h1>
               <p className="text-red-400 text-xs">Système de surveillance épidémiologique en temps réel</p>
             </div>
           </div>

@@ -43,7 +43,7 @@ export default function PatientPortal() {
               <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
                 <Activity className="text-white w-6 h-6" />
               </div>
-              <span className="text-white font-bold text-xl tracking-tight">CHNCAK <span className="font-light">Connect</span></span>
+              <span className="text-white font-bold text-xl tracking-tight">Ndamatou <span className="font-light">Connect</span></span>
             </div>
             <div className="flex items-center gap-4">
               <button className="relative p-2 text-blue-100 hover:text-white transition">
@@ -61,7 +61,7 @@ export default function PatientPortal() {
 
           <div className="relative z-10 fade-in">
             <h1 className="text-3xl font-bold text-white mb-2">Bonjour, Awa 👋</h1>
-            <p className="text-blue-100 max-w-xl">Bienvenue sur votre portail santé CHNCAK. Votre prochain rendez-vous est dans <strong className="text-white">3 jours</strong>.</p>
+            <p className="text-blue-100 max-w-xl">Bienvenue sur votre portail santé Ndamatou. Votre prochain rendez-vous est dans <strong className="text-white">3 jours</strong>.</p>
           </div>
         </div>
       </div>
@@ -188,7 +188,7 @@ export default function PatientPortal() {
                 <MapPin className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h3 className="font-bold text-lg">Comment se repérer au CHNCAK ?</h3>
+                <h3 className="font-bold text-lg">Comment se repérer au Ndamatou ?</h3>
                 <p className="text-slate-300 text-sm max-w-xl">Le complexe hospitalier de Touba est immense. Utilisez notre navigateur GPS 3D pour trouver votre chambre ou votre pavillon de consultation instantanément.</p>
               </div>
             </div>

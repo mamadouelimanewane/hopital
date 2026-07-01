@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react"
 
 const hopitaux = [
-  { id: 1, nom: "CHNCAK Touba", region: "Diourbel", statut: "en-ligne", patients: 1247, sync: "il y a 2 min", lat: 48, lng: 52 },
+  { id: 1, nom: "Ndamatou Touba", region: "Diourbel", statut: "en-ligne", patients: 1247, sync: "il y a 2 min", lat: 48, lng: 52 },
   { id: 2, nom: "CHU Fann Dakar", region: "Dakar", statut: "en-ligne", patients: 2834, sync: "il y a 1 min", lat: 78, lng: 20 },
   { id: 3, nom: "Hôpital Principal Dakar", region: "Dakar", statut: "en-ligne", patients: 1956, sync: "il y a 3 min", lat: 76, lng: 22 },
   { id: 4, nom: "CHR Thiès", region: "Thiès", statut: "en-ligne", patients: 876, sync: "il y a 5 min", lat: 65, lng: 28 },
@@ -13,10 +13,10 @@ const hopitaux = [
 
 const transferts = [
   { patient: "Fatou Diallo", origine: "CHR Thiès", destination: "CHU Fann Dakar", motif: "Chirurgie cardiaque", statut: "En transit" },
-  { patient: "Moussa Sow", origine: "CHR Kaolack", destination: "CHNCAK Touba", motif: "Dialyse urgente", statut: "Confirmé" },
+  { patient: "Moussa Sow", origine: "CHR Kaolack", destination: "Ndamatou Touba", motif: "Dialyse urgente", statut: "Confirmé" },
   { patient: "Aminata Ba", origine: "CHR Saint-Louis", destination: "Hôpital Principal", motif: "Neurologie", statut: "En attente" },
   { patient: "Ibrahim Ndiaye", origine: "CHU Fann Dakar", destination: "CHR Thiès", motif: "Rééducation", statut: "En transit" },
-  { patient: "Rokhaya Ciss", origine: "CHNCAK Touba", destination: "CHU Fann Dakar", motif: "Oncologie pédiatrique", statut: "Confirmé" },
+  { patient: "Rokhaya Ciss", origine: "Ndamatou Touba", destination: "CHU Fann Dakar", motif: "Oncologie pédiatrique", statut: "Confirmé" },
 ]
 
 const indicateursNationaux = [
@@ -44,7 +44,7 @@ export default function HomePage() {
       setDossierTrouve({
         nom: "Mamadou Diop",
         age: 42,
-        etablissements: ["CHU Fann Dakar (2023)", "CHR Thiès (2024)", "CHNCAK Touba (2025)"],
+        etablissements: ["CHU Fann Dakar (2023)", "CHR Thiès (2024)", "Ndamatou Touba (2025)"],
       })
     }
   }
@@ -56,15 +56,15 @@ export default function HomePage() {
       {/* BACK NAV */}
       <div style={{ position:"sticky", top:0, zIndex:100, background:"rgba(10,22,40,0.95)", backdropFilter:"blur(20px)", borderBottom:"1px solid rgba(255,255,255,0.08)", padding:"0 1.5rem", height:52, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
         <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.6)", textDecoration:"none", fontSize:13, fontWeight:600 }}>
-          ← Retour au Portail CHNCAK
+          ← Retour au Portail Ndamatou
         </a>
-        <span style={{ fontSize:11, color:"rgba(255,255,255,0.3)", fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase" }}>CHNCAK Suite</span>
+        <span style={{ fontSize:11, color:"rgba(255,255,255,0.3)", fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase" }}>Ndamatou Suite</span>
       </div>
 
       {/* Header Stats Bar */}
       <div style={{ background: "#064e3b", borderBottom: "1px solid #065f46", padding: "10px 24px", display: "flex", gap: 40, alignItems: "center" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <div style={{ width: 10, height: 10, borderRadius: "50%", background: pulse ? "#10b981" : "#059669", boxShadow: pulse ? "0 0 8px #10b981" : "none", transition: "all 0.5s" }} />
+          <div style={{ width: 10, height: 10, borderRadius: "50%", background: pulse ? "#0ea5e9" : "#0284c7", boxShadow: pulse ? "0 0 8px #0ea5e9" : "none", transition: "all 0.5s" }} />
           <span style={{ fontSize: 13, color: "#6ee7b7" }}>{nbConnectes} hôpitaux connectés</span>
         </div>
         <StatChip label="Dossiers partagés" valeur="12,847" />
@@ -79,13 +79,13 @@ export default function HomePage() {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: 20 }}>
           {/* Carte CSS */}
           <div style={{ background: "#0f1f15", border: "1px solid #065f46", borderRadius: 16, padding: 20 }}>
-            <h2 style={{ margin: "0 0 16px", fontSize: 16, color: "#10b981", fontWeight: 700 }}>Carte du Réseau National</h2>
+            <h2 style={{ margin: "0 0 16px", fontSize: 16, color: "#0ea5e9", fontWeight: 700 }}>Carte du Réseau National</h2>
             <div style={{ position: "relative", height: 320, background: "#0a2e1a", borderRadius: 12, overflow: "hidden", border: "1px solid #064e3b" }}>
               {/* Forme Sénégal simplifiée */}
               <svg viewBox="0 0 120 100" style={{ width: "100%", height: "100%", position: "absolute" }}>
                 <polygon points="10,15 55,10 95,18 110,35 105,55 90,70 75,80 60,85 40,82 20,70 8,50 5,30" fill="#0d3320" stroke="#1a5c35" strokeWidth="1.5" />
                 {/* Gambie */}
-                <rect x="28" y="52" width="30" height="8" fill="#0a2e1a" stroke="#10b981" strokeWidth="0.5" rx="2" />
+                <rect x="28" y="52" width="30" height="8" fill="#0a2e1a" stroke="#0ea5e9" strokeWidth="0.5" rx="2" />
                 {/* Points hôpitaux */}
                 {hopitaux.map(h => (
                   <g key={h.id}>
@@ -93,7 +93,7 @@ export default function HomePage() {
                       cx={h.lng}
                       cy={h.lat}
                       r={5}
-                      fill={h.statut === "en-ligne" ? "#10b981" : "#ef4444"}
+                      fill={h.statut === "en-ligne" ? "#0ea5e9" : "#ef4444"}
                       opacity={pulse && h.statut === "en-ligne" ? 0.9 : 0.6}
                     />
                     <circle
@@ -101,7 +101,7 @@ export default function HomePage() {
                       cy={h.lat}
                       r={8}
                       fill="none"
-                      stroke={h.statut === "en-ligne" ? "#10b981" : "#ef4444"}
+                      stroke={h.statut === "en-ligne" ? "#0ea5e9" : "#ef4444"}
                       strokeWidth="1"
                       opacity={pulse ? 0.5 : 0.1}
                     />
@@ -112,7 +112,7 @@ export default function HomePage() {
               {/* Légende */}
               <div style={{ position: "absolute", bottom: 8, left: 8, display: "flex", gap: 12, fontSize: 11 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                  <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#10b981" }} />
+                  <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#0ea5e9" }} />
                   <span style={{ color: "#6ee7b7" }}>En ligne</span>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
@@ -125,7 +125,7 @@ export default function HomePage() {
 
           {/* Liste hôpitaux */}
           <div style={{ background: "#0f1f15", border: "1px solid #065f46", borderRadius: 16, padding: 20 }}>
-            <h2 style={{ margin: "0 0 16px", fontSize: 16, color: "#10b981", fontWeight: 700 }}>Hôpitaux du Réseau</h2>
+            <h2 style={{ margin: "0 0 16px", fontSize: 16, color: "#0ea5e9", fontWeight: 700 }}>Hôpitaux du Réseau</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {hopitaux.map(h => (
                 <div key={h.id} style={{
@@ -140,8 +140,8 @@ export default function HomePage() {
                   <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                     <div style={{
                       width: 10, height: 10, borderRadius: "50%",
-                      background: h.statut === "en-ligne" ? "#10b981" : "#ef4444",
-                      boxShadow: h.statut === "en-ligne" && pulse ? "0 0 6px #10b981" : "none"
+                      background: h.statut === "en-ligne" ? "#0ea5e9" : "#ef4444",
+                      boxShadow: h.statut === "en-ligne" && pulse ? "0 0 6px #0ea5e9" : "none"
                     }} />
                     <div>
                       <div style={{ fontWeight: 600, fontSize: 13 }}>{h.nom}</div>
@@ -149,7 +149,7 @@ export default function HomePage() {
                     </div>
                   </div>
                   <div style={{ textAlign: "right" }}>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: h.statut === "en-ligne" ? "#10b981" : "#ef4444" }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: h.statut === "en-ligne" ? "#0ea5e9" : "#ef4444" }}>
                       {h.statut === "en-ligne" ? `${h.patients.toLocaleString()} patients` : "Hors ligne"}
                     </div>
                     <div style={{ fontSize: 10, color: "#6ee7b7" }}>Sync {h.sync}</div>
@@ -162,7 +162,7 @@ export default function HomePage() {
 
         {/* Transferts en cours */}
         <div style={{ background: "#0f1f15", border: "1px solid #065f46", borderRadius: 16, padding: 20 }}>
-          <h2 style={{ margin: "0 0 16px", fontSize: 16, color: "#10b981", fontWeight: 700 }}>Transferts en Cours <span style={{ background: "#064e3b", color: "#6ee7b7", fontSize: 12, padding: "2px 10px", borderRadius: 10, marginLeft: 8 }}>{transferts.length} actifs</span></h2>
+          <h2 style={{ margin: "0 0 16px", fontSize: 16, color: "#0ea5e9", fontWeight: 700 }}>Transferts en Cours <span style={{ background: "#064e3b", color: "#6ee7b7", fontSize: 12, padding: "2px 10px", borderRadius: 10, marginLeft: 8 }}>{transferts.length} actifs</span></h2>
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
               <thead>
@@ -183,11 +183,11 @@ export default function HomePage() {
                       <span style={{
                         padding: "3px 10px", borderRadius: 20, fontSize: 11, fontWeight: 700,
                         background: t.statut === "En transit" ? "#064e3b" : t.statut === "Confirmé" ? "#1e3a5f" : "#3f2000",
-                        color: t.statut === "En transit" ? "#10b981" : t.statut === "Confirmé" ? "#60a5fa" : "#fb923c"
+                        color: t.statut === "En transit" ? "#0ea5e9" : t.statut === "Confirmé" ? "#60a5fa" : "#fb923c"
                       }}>{t.statut}</span>
                     </td>
                     <td style={{ padding: "10px 12px" }}>
-                      <button style={{ background: "#065f46", color: "#10b981", border: "none", padding: "4px 10px", borderRadius: 6, cursor: "pointer", fontSize: 11, marginRight: 6 }}>Voir</button>
+                      <button style={{ background: "#065f46", color: "#0ea5e9", border: "none", padding: "4px 10px", borderRadius: 6, cursor: "pointer", fontSize: 11, marginRight: 6 }}>Voir</button>
                       <button style={{ background: "#1e3a5f", color: "#60a5fa", border: "none", padding: "4px 10px", borderRadius: 6, cursor: "pointer", fontSize: 11 }}>Modifier</button>
                     </td>
                   </tr>
@@ -200,7 +200,7 @@ export default function HomePage() {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
           {/* Recherche dossier */}
           <div style={{ background: "#0f1f15", border: "1px solid #065f46", borderRadius: 16, padding: 20 }}>
-            <h2 style={{ margin: "0 0 16px", fontSize: 16, color: "#10b981", fontWeight: 700 }}>Dossiers Partagés Inter-Etablissements</h2>
+            <h2 style={{ margin: "0 0 16px", fontSize: 16, color: "#0ea5e9", fontWeight: 700 }}>Dossiers Partagés Inter-Etablissements</h2>
             <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
               <input
                 type="text"
@@ -211,20 +211,20 @@ export default function HomePage() {
               />
               <button
                 onClick={handleSearch}
-                style={{ background: "#10b981", color: "#000", border: "none", padding: "10px 18px", borderRadius: 8, cursor: "pointer", fontWeight: 700, fontSize: 13 }}
+                style={{ background: "#0ea5e9", color: "#000", border: "none", padding: "10px 18px", borderRadius: 8, cursor: "pointer", fontWeight: 700, fontSize: 13 }}
               >Rechercher</button>
             </div>
             {dossierTrouve && (
-              <div style={{ background: "#0a2e1a", border: "1px solid #10b981", borderRadius: 10, padding: 16 }}>
+              <div style={{ background: "#0a2e1a", border: "1px solid #0ea5e9", borderRadius: 10, padding: 16 }}>
                 <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 8 }}>{dossierTrouve.nom} <span style={{ fontSize: 13, color: "#6ee7b7" }}>• {dossierTrouve.age} ans</span></div>
                 <div style={{ fontSize: 12, color: "#6ee7b7", marginBottom: 8 }}>Historique inter-établissements :</div>
                 {dossierTrouve.etablissements.map((e, i) => (
                   <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                    <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#10b981" }} />
+                    <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#0ea5e9" }} />
                     <span style={{ fontSize: 13 }}>{e}</span>
                   </div>
                 ))}
-                <button style={{ marginTop: 12, background: "#064e3b", color: "#10b981", border: "1px solid #10b981", padding: "6px 16px", borderRadius: 8, cursor: "pointer", fontSize: 12 }}>
+                <button style={{ marginTop: 12, background: "#064e3b", color: "#0ea5e9", border: "1px solid #0ea5e9", padding: "6px 16px", borderRadius: 8, cursor: "pointer", fontSize: 12 }}>
                   Voir dossier complet
                 </button>
               </div>
@@ -238,17 +238,17 @@ export default function HomePage() {
 
           {/* Reporting Ministère */}
           <div style={{ background: "#0f1f15", border: "1px solid #065f46", borderRadius: 16, padding: 20 }}>
-            <h2 style={{ margin: "0 0 4px", fontSize: 16, color: "#10b981", fontWeight: 700 }}>Reporting Ministère de la Santé</h2>
+            <h2 style={{ margin: "0 0 4px", fontSize: 16, color: "#0ea5e9", fontWeight: 700 }}>Reporting Ministère de la Santé</h2>
             <div style={{ fontSize: 11, color: "#6ee7b7", marginBottom: 16 }}>Dernière transmission : 19/06/2026 à 08h00</div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 16 }}>
               {indicateursNationaux.map((ind, i) => (
                 <div key={i} style={{ background: "#0a1a10", border: "1px solid #064e3b", borderRadius: 8, padding: "10px 12px" }}>
                   <div style={{ fontSize: 11, color: "#6ee7b7", marginBottom: 4 }}>{ind.label}</div>
-                  <div style={{ fontSize: 18, fontWeight: 700, color: "#10b981" }}>{ind.valeur} <span style={{ fontSize: 14 }}>{ind.tendance}</span></div>
+                  <div style={{ fontSize: 18, fontWeight: 700, color: "#0ea5e9" }}>{ind.valeur} <span style={{ fontSize: 14 }}>{ind.tendance}</span></div>
                 </div>
               ))}
             </div>
-            <button style={{ width: "100%", background: "linear-gradient(135deg, #10b981, #059669)", color: "#000", border: "none", padding: "12px", borderRadius: 10, cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
+            <button style={{ width: "100%", background: "linear-gradient(135deg, #0ea5e9, #0284c7)", color: "#000", border: "none", padding: "12px", borderRadius: 10, cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
               Exporter Rapport Mensuel (PDF)
             </button>
           </div>

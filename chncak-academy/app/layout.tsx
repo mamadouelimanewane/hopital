@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { Geist } from "next/font/google"
 import "./globals.css"
 const geist = Geist({ variable: "--font-sans", subsets: ["latin"] })
-export const metadata: Metadata = { title: "CHNCAK Academy — Formation Médicale", description: "Centre de formation et simulation médicale de référence en Afrique de l'Ouest" }
+export const metadata: Metadata = { title: "Ndamatou Academy — Formation Médicale", description: "Centre de formation et simulation médicale de référence en Afrique de l'Ouest" }
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" className={`${geist.variable} h-full antialiased`}>

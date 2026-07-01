@@ -8,7 +8,7 @@ export default function Navbar() {
           style={{ background: "linear-gradient(135deg,#6366f1,#8b5cf6)" }}>
           <span className="text-white text-sm font-bold">IA</span>
         </div>
-        <span className="font-semibold text-white text-lg">IA-Diagnostic <span style={{ color: "#6366f1" }}>CHNCAK</span></span>
+        <span className="font-semibold text-white text-lg">IA-Diagnostic <span style={{ color: "#6366f1" }}>Ndamatou</span></span>
       </div>
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium"

@@ -57,7 +57,7 @@ const etapesAccred = [
 
 function StatutBadge({ statut }: { statut: string }) {
   const map: Record<string, { bg: string; color: string }> = {
-    ok: { bg: "#064e3b", color: "#10b981" },
+    ok: { bg: "#064e3b", color: "#0ea5e9" },
     warning: { bg: "#78350f", color: "#fbbf24" },
     danger: { bg: "#7f1d1d", color: "#f87171" },
   }
@@ -66,7 +66,7 @@ function StatutBadge({ statut }: { statut: string }) {
 }
 
 function GraviteBadge({ n }: { n: number }) {
-  const colors = ["", "#10b981", "#fbbf24", "#fb923c", "#ef4444", "#7c3aed"]
+  const colors = ["", "#0ea5e9", "#fbbf24", "#fb923c", "#ef4444", "#7c3aed"]
   return (
     <div style={{ display: "flex", gap: 2 }}>
       {[1,2,3,4,5].map(i => (
@@ -84,7 +84,7 @@ export default function QualiteAccredPage() {
 
   const handleExport = () => {
     setExportMsg("Export PDF en cours de génération...")
-    setTimeout(() => setExportMsg("Rapport_JCI_CHNCAK_Juin2026.pdf téléchargé ✓"), 1500)
+    setTimeout(() => setExportMsg("Rapport_JCI_Ndamatou_Juin2026.pdf téléchargé ✓"), 1500)
   }
 
   const sections: { key: Section; label: string; icon: string }[] = [
@@ -103,8 +103,8 @@ export default function QualiteAccredPage() {
       <div style={{ background: "#fff", borderBottom: "1px solid #e2e8f0", padding: "20px 32px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
           <div>
-            <h1 style={{ margin: 0, fontSize: 22, fontWeight: 800, color: "#1e3a5f" }}>Qualité & Accréditation CHNCAK</h1>
-            <p style={{ margin: "4px 0 0", fontSize: 13, color: "#64748b" }}>Centre Hospitalier National Cheikh Ahmadou Khadim — Touba, Sénégal</p>
+            <h1 style={{ margin: 0, fontSize: 22, fontWeight: 800, color: "#1e3a5f" }}>Qualité & Accréditation Ndamatou</h1>
+            <p style={{ margin: "4px 0 0", fontSize: 13, color: "#64748b" }}>Centre Hospitalier National Ndamatou de Touba — Touba, Sénégal</p>
           </div>
           <div style={{ textAlign: "right" }}>
             <div style={{ background: "#1e3a5f", color: "#fff", padding: "6px 16px", borderRadius: 24, fontSize: 13, fontWeight: 700, marginBottom: 4 }}>

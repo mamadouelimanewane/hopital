@@ -40,7 +40,7 @@ const accent = "#6d28d9"
 const card = "#0a1628"
 const border = "rgba(255,255,255,0.06)"
 
-export default function CHNCAKAcademy() {
+export default function NdamatouAcademy() {
   const [onglet, setOnglet] = useState<Onglet>("formations")
   const [simActive, setSimActive] = useState<number | null>(null)
   const [reponseSim, setReponseSim] = useState<number | null>(null)
@@ -62,8 +62,8 @@ export default function CHNCAKAcademy() {
 
       {/* BACK NAV */}
       <div style={{ position:"sticky", top:0, zIndex:200, background:"rgba(5,13,26,0.96)", backdropFilter:"blur(20px)", borderBottom:"1px solid rgba(14,165,233,0.12)", padding:"0 1.5rem", height:52, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.5)", textDecoration:"none", fontSize:13, fontWeight:600 }}>← Portail CHNCAK</a>
-        <span style={{ fontSize:11, color:"rgba(255,255,255,0.3)", fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase" }}>CHNCAK Suite</span>
+        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.5)", textDecoration:"none", fontSize:13, fontWeight:600 }}>← Portail Ndamatou</a>
+        <span style={{ fontSize:11, color:"rgba(255,255,255,0.3)", fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase" }}>Ndamatou Suite</span>
       </div>
 
       {/* HEADER */}
@@ -76,7 +76,7 @@ export default function CHNCAKAcademy() {
                 <span style={{ color:"#a78bfa", fontSize:11, fontWeight:700, letterSpacing:"0.08em" }}>CENTRE DE RÉFÉRENCE MÉDICALE</span>
               </div>
               <h1 style={{ fontSize:"clamp(20px,2.5vw,28px)", fontWeight:800, color:"#e2e8f0", margin:0 }}>
-                CHNCAK <span style={{ color:"#a78bfa" }}>Academy</span>
+                Ndamatou <span style={{ color:"#a78bfa" }}>Academy</span>
               </h1>
               <p style={{ color:"#64748b", fontSize:13, marginTop:4 }}>Afrique de l'Ouest — Plateforme de formation médicale de référence</p>
             </div>
@@ -291,7 +291,7 @@ export default function CHNCAKAcademy() {
         {/* RESSOURCES */}
         {onglet === "ressources" && (
           <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))", gap:16, animation:"fadeUp 0.3s ease both" }}>
-            {["Protocoles CHNCAK 2026", "Guide Paludisme Grave — OMS", "Manuel Obstétrique d'Urgence", "Atlas Anatomique Interactif", "Pharmacopée Hospitalière", "Guides de Bonne Pratique"].map((r, i) => (
+            {["Protocoles Ndamatou 2026", "Guide Paludisme Grave — OMS", "Manuel Obstétrique d'Urgence", "Atlas Anatomique Interactif", "Pharmacopée Hospitalière", "Guides de Bonne Pratique"].map((r, i) => (
               <div key={i} style={{ background:card, border:`1px solid ${border}`, borderRadius:14, padding:"1.25rem", display:"flex", alignItems:"center", gap:14, cursor:"pointer" }}>
                 <div style={{ width:44, height:44, background:"rgba(109,40,217,0.15)", border:"1px solid rgba(109,40,217,0.25)", borderRadius:12, display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, flexShrink:0 }}>📄</div>
                 <div>

@@ -118,7 +118,7 @@ export default function PatientMobilePage() {
                 </div>
               </div>
               <div style={{ color: "#fff", fontSize: 14, marginBottom: 8 }}>SN-2024-00847-DIOP</div>
-              <div style={{ color: "#8888bb", fontSize: 12, marginBottom: 20 }}>Scannez ce code à l&apos;accueil CHNCAK</div>
+              <div style={{ color: "#8888bb", fontSize: 12, marginBottom: 20 }}>Scannez ce code à l&apos;accueil Ndamatou</div>
               <button onClick={() => setShowQR(false)} style={{ background: "#6366f1", color: "#fff", border: "none", padding: "12px 32px", borderRadius: 24, cursor: "pointer", fontWeight: 700 }}>Fermer</button>
             </div>
           )}
@@ -132,7 +132,7 @@ export default function PatientMobilePage() {
               <div style={{ fontSize: 13, color: "#fff", marginBottom: 24 }}>Votre position GPS a été partagée avec les services d&apos;urgence</div>
               <div style={{ background: "rgba(255,255,255,0.1)", padding: "10px 24px", borderRadius: 12, marginBottom: 24, textAlign: "center" }}>
                 <div style={{ fontSize: 12, color: "#ffaaaa" }}>En route vers vous</div>
-                <div style={{ fontSize: 18, fontWeight: 700, color: "#fff" }}>Ambulance CHNCAK — ~8 min</div>
+                <div style={{ fontSize: 18, fontWeight: 700, color: "#fff" }}>Ambulance Ndamatou — ~8 min</div>
               </div>
               <button onClick={() => setShowSOS(false)} style={{ background: "#fff", color: "#c00", border: "none", padding: "12px 32px", borderRadius: 24, cursor: "pointer", fontWeight: 700, fontSize: 15 }}>Annuler l&apos;alerte</button>
             </div>
@@ -156,7 +156,7 @@ export default function PatientMobilePage() {
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 16 }}>
                 <Raccourci icon="📱" label="QR Code" color="#6366f1" onClick={() => setShowQR(true)} />
                 <Raccourci icon="🔬" label="Résultats" color="#0891b2" onClick={() => {}} />
-                <Raccourci icon="💊" label="Médicaments" color="#059669" onClick={() => {}} />
+                <Raccourci icon="💊" label="Médicaments" color="#0284c7" onClick={() => {}} />
               </div>
 
               {/* Actualités santé */}
@@ -164,7 +164,7 @@ export default function PatientMobilePage() {
               {[
                 { titre: "Campagne vaccination rougeole — Touba", date: "Aujourd'hui" },
                 { titre: "Nouvelles horaires consultations Cardiologie", date: "Hier" },
-                { titre: "Don de sang — Centre CHNCAK", date: "20 Jun" },
+                { titre: "Don de sang — Centre Ndamatou", date: "20 Jun" },
               ].map((a, i) => (
                 <div key={i} style={{ background: "#15152a", borderRadius: 10, padding: "10px 12px", marginBottom: 8, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ fontSize: 13, color: "#e2e8f0", flex: 1, marginRight: 8 }}>{a.titre}</div>
@@ -194,7 +194,7 @@ export default function PatientMobilePage() {
                 <div key={i} style={{ background: "#12123a", borderRadius: 12, padding: 14, marginBottom: 10, border: "1px solid #2d2d6e" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
                     <span style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>{r.medecin}</span>
-                    <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 10, background: r.statut === "Confirmé" ? "#064e3b" : "#3f2000", color: r.statut === "Confirmé" ? "#10b981" : "#fb923c" }}>{r.statut}</span>
+                    <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 10, background: r.statut === "Confirmé" ? "#064e3b" : "#3f2000", color: r.statut === "Confirmé" ? "#0ea5e9" : "#fb923c" }}>{r.statut}</span>
                   </div>
                   <div style={{ fontSize: 13, color: "#8888bb" }}>{r.service}</div>
                   <div style={{ fontSize: 13, color: "#a78bfa", marginTop: 4 }}>📅 {r.date} à {r.heure}</div>
@@ -300,7 +300,7 @@ export default function PatientMobilePage() {
                       <div style={{ fontSize: 13, color: "#e2e8f0" }}>{v.nom}</div>
                       <div style={{ fontSize: 11, color: "#555577" }}>{v.date}</div>
                     </div>
-                    <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 10, background: v.statut === "OK" ? "#064e3b" : "#7f3000", color: v.statut === "OK" ? "#10b981" : "#fb923c" }}>{v.statut}</span>
+                    <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 10, background: v.statut === "OK" ? "#064e3b" : "#7f3000", color: v.statut === "OK" ? "#0ea5e9" : "#fb923c" }}>{v.statut}</span>
                   </div>
                 ))}
               </div>
