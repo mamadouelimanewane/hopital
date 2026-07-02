@@ -1,22 +1,22 @@
 "use client"
 import { useState, useEffect } from "react"
-import { Activity, ShieldAlert, Zap, Globe, BarChart4, Target, Cpu, Radio } from "lucide-react"
+import { Activity, Cpu, Radio, Globe, BarChart4, Target } from "lucide-react"
 
 // --- Données Mockées pour l'effet "Temps Réel" ---
 const AI_ALERTS = [
-  "🚨 [IA-DETECT] Pic de temps de parole non déclaré (RTS1) - +45% (12:00)",
-  "⚠️ [DEEPFAKE] Contenu suspect détecté sur TikTok (Score: 89%) - Source: DakarLive",
-  "🛡️ [KIDS-PROTECT] Programme inadapté signalé sur SenTV à 14h30",
-  "📊 [AD-WATCH] Infraction: Dépassement volume publicitaire TFM (+12 min)",
-  "🤖 [IA-PREDICT] Risque de désinformation élevé (Secteur Nord) - Mots clés: 'Fraude'",
-  "📡 [STREAM-REGUL] 3 nouvelles Web-TVs non déclarées détectées sur YouTube",
+  "🚨 [IA-PREDICT] Pic d'affluence prévu aux Urgences - +38% (18h00)",
+  "🛏️ [BED-WATCH] Taux d'occupation Réanimation à 92% - Seuil critique approché",
+  "👥 [STAFF-ALERT] Sous-effectif prévu Maternité (Nuit) - Renfort recommandé",
+  "💰 [BUDGET-IA] Dépassement budgétaire Pharmacie (+4.2M FCFA ce mois)",
+  "📈 [FLUX-PREDICT] Affluence Grand Magal : pic estimé dans 6 jours",
+  "⚙️ [MAINT-PREDICT] Risque de panne détecté — Scanner GE Optima (Radiologie)",
 ]
 
 const STATS = [
-  { label: "Heures TV Analysées (24h)", value: 1420, suffix: "h", color: "#14b8a6" },
-  { label: "Deepfakes Bloqués", value: 47, suffix: "", color: "#a855f7" },
-  { label: "Alertes Pluralisme", value: 12, suffix: "", color: "#eab308" },
-  { label: "Fiabilité Globale", value: 98, suffix: "%", color: "#0ea5e9" },
+  { label: "Précision IA (Prévisions)", value: 95, suffix: "%", color: "#14b8a6" },
+  { label: "Lits Disponibles", value: 47, suffix: "", color: "#0ea5e9" },
+  { label: "Personnel en Service", value: 312, suffix: "", color: "#a855f7" },
+  { label: "Économies Réalisées (Mois)", value: 18, suffix: "M FCFA", color: "#eab308" },
 ]
 
 export default function CommandCenter() {
@@ -30,7 +30,7 @@ export default function CommandCenter() {
     const alertInterval = setInterval(() => {
       setAlertIndex(prev => (prev + 1) % AI_ALERTS.length)
     }, 4500)
-    
+
     const chartInterval = setInterval(() => {
       setRandomData(prev => prev.map(v => Math.max(20, Math.min(100, v + (Math.random() * 20 - 10)))))
     }, 2000)
@@ -45,8 +45,7 @@ export default function CommandCenter() {
     <>
       <style>{`
         body { margin: 0; background: #030712; color: #fff; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
-        
-        /* Animations CSS pures */
+
         @keyframes scanline {
           0% { transform: translateY(-100%); }
           100% { transform: translateY(100vh); }
@@ -71,14 +70,14 @@ export default function CommandCenter() {
           from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }
         }
-        
+
         .grid-bg {
           background-size: 40px 40px;
-          background-image: 
+          background-image:
             linear-gradient(to right, rgba(20, 184, 166, 0.05) 1px, transparent 1px),
             linear-gradient(to bottom, rgba(20, 184, 166, 0.05) 1px, transparent 1px);
         }
-        
+
         .glass-panel {
           background: rgba(17, 24, 39, 0.7);
           backdrop-filter: blur(12px);
@@ -91,27 +90,25 @@ export default function CommandCenter() {
           color: #5eead4;
           text-shadow: 0 0 10px rgba(94, 234, 212, 0.5);
         }
-        
+
         .typewriter {
           overflow: hidden;
           border-right: .15em solid #14b8a6;
           white-space: nowrap;
           margin: 0 auto;
           letter-spacing: .05em;
-          animation: 
+          animation:
             typing 3s steps(40, end),
             blink-caret .75s step-end infinite;
         }
-        
-        /* Custom Scrollbar */
+
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #030712; }
         ::-webkit-scrollbar-thumb { background: #14b8a6; border-radius: 10px; }
       `}</style>
 
       <div className="min-h-screen relative grid-bg">
-        {/* Ligne de scan radar style matrice */}
-        <div 
+        <div
           className="absolute inset-0 pointer-events-none opacity-20"
           style={{
             background: 'linear-gradient(to bottom, transparent, #14b8a6, transparent)',
@@ -120,7 +117,6 @@ export default function CommandCenter() {
           }}
         />
 
-        {/* Effet lueur radiale globale */}
         <div className="absolute inset-0 pointer-events-none" style={{
           background: "radial-gradient(circle at 50% 30%, rgba(20,184,166,0.1), transparent 60%)"
         }} />
@@ -134,10 +130,10 @@ export default function CommandCenter() {
             </div>
             <div>
               <h1 className="text-xl font-black text-white tracking-widest">
-                Ndamatou <span className="cyber-text">ANALYTICS</span>
+                Predict-<span className="cyber-text">IA</span>
               </h1>
               <p className="text-[10px] text-teal-500 tracking-[0.2em] uppercase font-bold">
-                Gestion Prédictive des Flux
+                Gestion Prédictive des Ressources · Hôpital Ndamatou
               </p>
             </div>
           </div>
@@ -154,10 +150,9 @@ export default function CommandCenter() {
 
         {/* --- MAIN CONTENT --- */}
         <main className="max-w-[1400px] mx-auto p-4 md:p-6 mt-4 grid gap-6 grid-cols-1 lg:grid-cols-12 relative z-10">
-          
-          {/* Section 1 : Flux d'alerte IA & Radar (Top Left) */}
+
           <div className="lg:col-span-8 flex flex-col gap-6">
-            
+
             {/* Terminal AI Feed */}
             <div className="glass-panel p-6 border-l-4 border-l-red-500 flex flex-col" style={{ animation: "floatUp 0.6s ease-out" }}>
               <div className="flex justify-between items-center mb-4">
@@ -201,16 +196,16 @@ export default function CommandCenter() {
               <div className="flex justify-between items-center mb-6">
                 <h2 className="flex items-center gap-2 text-sm font-bold text-gray-300 uppercase tracking-wider">
                   <BarChart4 className="w-4 h-4 text-teal-400" />
-                  Densité de Flux Audiovisuel (Toute Bande)
+                  Prévision du Flux Patients (Toutes Unités)
                 </h2>
               </div>
-              
+
               <div className="h-48 flex items-end gap-2 justify-between px-2">
                 {randomData.map((val, idx) => (
                   <div key={idx} className="relative w-full bg-teal-950/40 rounded-t-sm group">
-                    <div 
+                    <div
                       className="absolute bottom-0 w-full bg-gradient-to-t from-teal-600 to-teal-300 rounded-t-sm transition-all duration-700 ease-out"
-                      style={{ 
+                      style={{
                         height: `${val}%`,
                         boxShadow: '0 0 10px rgba(20,184,166,0.3)'
                       }}
@@ -222,48 +217,45 @@ export default function CommandCenter() {
                 ))}
               </div>
             </div>
-            
+
           </div>
 
           {/* Section 2 : Analyse Sectorielle & Radar (Right Sidebar) */}
           <div className="lg:col-span-4 flex flex-col gap-6">
-            
+
             {/* Composant Radar Visuel */}
             <div className="glass-panel p-6 flex flex-col items-center justify-center relative overflow-hidden" style={{ animation: "pulse-glow 4s infinite" }}>
-              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay" />
               <h2 className="text-sm font-bold text-teal-400 uppercase tracking-widest mb-6 w-full flex items-center gap-2">
                 <Globe className="w-4 h-4" />
-                Cartographie Réseau
+                Cartographie Hospitalière
               </h2>
-              
-              {/* Cercle Radar */}
+
               <div className="relative w-48 h-48 rounded-full border border-teal-500/30 flex items-center justify-center">
                 <div className="absolute inset-2 rounded-full border border-teal-500/20" />
                 <div className="absolute inset-8 rounded-full border border-teal-500/10" />
                 <div className="absolute w-full h-full rounded-full border-t border-teal-400" style={{ animation: "radar-spin 4s linear infinite" }}>
                   <div className="absolute top-0 left-1/2 w-1/2 h-full bg-gradient-to-r from-transparent to-teal-500/20 origin-left" />
                 </div>
-                {/* Blips */}
                 <div className="absolute top-[20%] left-[30%] w-2 h-2 bg-red-500 rounded-full animate-ping" />
                 <div className="absolute bottom-[40%] right-[20%] w-2 h-2 bg-teal-400 rounded-full animate-ping" style={{ animationDelay: "1s" }} />
                 <div className="absolute top-[60%] left-[70%] w-2 h-2 bg-yellow-400 rounded-full animate-ping" style={{ animationDelay: "2s" }} />
                 <Target className="w-6 h-6 text-teal-500/50 absolute z-10" />
               </div>
-              
+
               <div className="mt-6 w-full space-y-2 font-mono text-xs">
-                <div className="flex justify-between text-gray-400"><span>Canaux Numériques:</span><span className="text-teal-400">42 Actifs</span></div>
+                <div className="flex justify-between text-gray-400"><span>Services Connectés:</span><span className="text-teal-400">18 Actifs</span></div>
                 <div className="flex justify-between text-gray-400"><span>Charge Serveurs IA:</span><span className="text-yellow-400">78%</span></div>
-                <div className="flex justify-between text-gray-400"><span>Dernier Scan:</span><span className="text-white">Il y a 0.4s</span></div>
+                <div className="flex justify-between text-gray-400"><span>Dernière Prévision:</span><span className="text-white">Il y a 0.4s</span></div>
               </div>
             </div>
 
             {/* Modules d'action rapide */}
             <div className="glass-panel p-6 flex-1">
                <h2 className="text-sm font-bold text-gray-300 uppercase tracking-wider mb-4 border-b border-gray-800 pb-2">
-                Modules Sous-Systèmes
+                Modules Prédictifs
               </h2>
               <div className="space-y-3">
-                {['ElectroWatch', 'MediaWatch', 'AntiDeep', 'KidsProtect', 'AdWatch'].map((sys, idx) => (
+                {['Prévision Flux', 'Lits Disponibles', 'Planning Staff', 'Budget Temps Réel', 'Maintenance Prédictive'].map((sys, idx) => (
                   <button key={idx} className="w-full text-left px-4 py-3 rounded-xl bg-gray-900/50 border border-gray-800 hover:border-teal-500/50 hover:bg-teal-900/20 transition-all flex justify-between items-center group">
                     <span className="text-sm font-bold text-gray-400 group-hover:text-white transition-colors">{sys}</span>
                     <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
@@ -288,7 +280,7 @@ function AnimatedNumber({ value }: { value: number }) {
     const end = value
     const duration = 1500
     const increment = end / (duration / 16)
-    
+
     const timer = setInterval(() => {
       start += increment
       if (start >= end) {

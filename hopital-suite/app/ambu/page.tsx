@@ -20,7 +20,7 @@ export default function AmbuTrackPage() {
 
       {/* Header */}
       <header style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(10,22,40,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "0 1.5rem", height: 60, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <Link href="/" className="back-btn">← Retour au Portail Ndamatou</Link>
+        <Link href="/#applications" className="back-btn">← Retour au Portail Ndamatou</Link>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#f97316" }} />
           <span style={{ fontSize: 12, color: "#f97316", fontWeight: 700, letterSpacing: "0.1em" }}>SYSTÈME ACTIF</span>
@@ -102,6 +102,43 @@ export default function AmbuTrackPage() {
           </div>
         </div>
 
+        {/* DONNÉES EN TEMPS RÉEL */}
+        <div className="au3" style={{ marginBottom: "3rem" }}>
+          <h2 style={{ fontSize: "clamp(1.3rem, 2.5vw, 1.8rem)", fontWeight: 800, marginBottom: "1.5rem" }}>Flotte en Service</h2>
+          <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 16, overflow: "hidden" }}>
+            <div style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+                <thead>
+                  <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                    {["Véhicule","Localisation actuelle","Mission","Statut","ETA"].map(h => (
+                      <th key={h} style={{ padding: "10px 14px", textAlign: "left", color: "rgba(255,255,255,0.4)", fontWeight: 600, fontSize: 11, textTransform: "uppercase" }}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { veh: "AMB-01", loc: "Route de Touba, Mbacké", mission: "Transfert patient → Ndamatou", statut: "En route", eta: "8 min", color: "#0ea5e9" },
+                    { veh: "AMB-02", loc: "Urgences Ndamatou", mission: "En attente", statut: "Disponible", eta: "—", color: "#22c55e" },
+                    { veh: "AMB-03", loc: "Quartier Darou Marnane", mission: "Intervention à domicile", statut: "En intervention", eta: "—", color: "#f59e0b" },
+                    { veh: "AMB-04", loc: "Axe Touba-Dakar", mission: "Transfert CHU Fann", statut: "En route", eta: "42 min", color: "#0ea5e9" },
+                    { veh: "AMB-05", loc: "Garage central", mission: "Maintenance programmée", statut: "Indisponible", eta: "—", color: "#ef4444" },
+                  ].map((r, i) => (
+                    <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                      <td style={{ padding: "10px 14px", fontFamily: "monospace", fontWeight: 700, color: "#fff" }}>{r.veh}</td>
+                      <td style={{ padding: "10px 14px", color: "rgba(255,255,255,0.6)" }}>{r.loc}</td>
+                      <td style={{ padding: "10px 14px", color: "rgba(255,255,255,0.6)" }}>{r.mission}</td>
+                      <td style={{ padding: "10px 14px" }}>
+                        <span style={{ background: `${r.color}22`, color: r.color, padding: "3px 10px", borderRadius: 20, fontSize: 11, fontWeight: 700 }}>{r.statut}</span>
+                      </td>
+                      <td style={{ padding: "10px 14px", color: "rgba(255,255,255,0.6)" }}>{r.eta}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
         {/* CTA */}
         <div className="au4" style={{ background: "#f9731610", border: "1px solid #f9731625", borderRadius: 16, padding: "2rem", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "1.5rem" }}>
           <div>
@@ -112,7 +149,7 @@ export default function AmbuTrackPage() {
             <a href="mailto:contact@processingenierie.sn" style={{ background: "#f97316", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}>
               ✉️ Nous contacter
             </a>
-            <Link href="/" style={{ background: "rgba(255,255,255,0.05)", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", border: "1px solid rgba(255,255,255,0.1)" }}>
+            <Link href="/#applications" style={{ background: "rgba(255,255,255,0.05)", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", border: "1px solid rgba(255,255,255,0.1)" }}>
               ← Retour Portail
             </Link>
           </div>

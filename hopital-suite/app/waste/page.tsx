@@ -20,7 +20,7 @@ export default function WasteControlPage() {
 
       {/* Header */}
       <header style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(10,22,40,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "0 1.5rem", height: 60, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <Link href="/" className="back-btn">← Retour au Portail Ndamatou</Link>
+        <Link href="/#applications" className="back-btn">← Retour au Portail Ndamatou</Link>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#84cc16" }} />
           <span style={{ fontSize: 12, color: "#84cc16", fontWeight: 700, letterSpacing: "0.1em" }}>SYSTÈME ACTIF</span>
@@ -102,6 +102,41 @@ export default function WasteControlPage() {
           </div>
         </div>
 
+        {/* DONNÉES EN TEMPS RÉEL */}
+        <div className="au3" style={{ marginBottom: "3rem" }}>
+          <h2 style={{ fontSize: "clamp(1.3rem, 2.5vw, 1.8rem)", fontWeight: 800, marginBottom: "1.5rem" }}>Collectes de Déchets — Aujourd'hui</h2>
+          <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 16, overflow: "hidden" }}>
+            <div style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+                <thead>
+                  <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                    {["Type","Poids collecté","Service","Statut"].map(h => (
+                      <th key={h} style={{ padding: "10px 14px", textAlign: "left", color: "rgba(255,255,255,0.4)", fontWeight: 600, fontSize: 11, textTransform: "uppercase" }}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { type: "Déchets infectieux (DASRI)", poids: "84 kg", service: "Bloc opératoire", statut: "Traité", color: "#22c55e" },
+                    { type: "Déchets piquants/coupants", poids: "22 kg", service: "Urgences", statut: "Traité", color: "#22c55e" },
+                    { type: "Déchets pharmaceutiques", poids: "14 kg", service: "Pharmacie", statut: "En traitement", color: "#f59e0b" },
+                    { type: "Déchets ménagers", poids: "310 kg", service: "Tous services", statut: "Collecté", color: "#84cc16" },
+                  ].map((r, i) => (
+                    <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                      <td style={{ padding: "10px 14px", fontWeight: 600, color: "#fff" }}>{r.type}</td>
+                      <td style={{ padding: "10px 14px", color: "rgba(255,255,255,0.6)" }}>{r.poids}</td>
+                      <td style={{ padding: "10px 14px", color: "rgba(255,255,255,0.6)" }}>{r.service}</td>
+                      <td style={{ padding: "10px 14px" }}>
+                        <span style={{ background: `${r.color}22`, color: r.color, padding: "3px 10px", borderRadius: 20, fontSize: 11, fontWeight: 700 }}>{r.statut}</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
         {/* CTA */}
         <div className="au4" style={{ background: "#84cc1610", border: "1px solid #84cc1625", borderRadius: 16, padding: "2rem", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "1.5rem" }}>
           <div>
@@ -112,7 +147,7 @@ export default function WasteControlPage() {
             <a href="mailto:contact@processingenierie.sn" style={{ background: "#84cc16", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}>
               ✉️ Nous contacter
             </a>
-            <Link href="/" style={{ background: "rgba(255,255,255,0.05)", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", border: "1px solid rgba(255,255,255,0.1)" }}>
+            <Link href="/#applications" style={{ background: "rgba(255,255,255,0.05)", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", border: "1px solid rgba(255,255,255,0.1)" }}>
               ← Retour Portail
             </Link>
           </div>

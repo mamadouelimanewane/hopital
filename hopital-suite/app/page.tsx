@@ -229,7 +229,7 @@ export default function Home() {
               Notre Mission
             </p>
             <p style={{ fontSize: "clamp(1rem, 2vw, 1.2rem)", color: "rgba(255,255,255,0.7)", lineHeight: 1.8 }}>
-              Le Ndamatou de Touba est une infrastructure de référence nationale.
+              Le SI Ndamatou de Touba est une infrastructure de référence nationale.
               Cet écosystème digital de <strong style={{ color: "#fff" }}>34 applications d'avant-garde</strong> place
               l'excellence médicale au cœur de la transformation numérique sénégalaise.
             </p>

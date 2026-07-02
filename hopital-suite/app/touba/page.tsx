@@ -20,7 +20,7 @@ export default function ToubaMedCarePage() {
 
       {/* Header */}
       <header style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(10,22,40,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "0 1.5rem", height: 60, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <Link href="/" className="back-btn">← Retour au Portail Ndamatou</Link>
+        <Link href="/#applications" className="back-btn">← Retour au Portail Ndamatou</Link>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#eab308" }} />
           <span style={{ fontSize: 12, color: "#eab308", fontWeight: 700, letterSpacing: "0.1em" }}>SYSTÈME ACTIF</span>
@@ -102,6 +102,42 @@ export default function ToubaMedCarePage() {
           </div>
         </div>
 
+        {/* DONNÉES EN TEMPS RÉEL */}
+        <div className="au3" style={{ marginBottom: "3rem" }}>
+          <h2 style={{ fontSize: "clamp(1.3rem, 2.5vw, 1.8rem)", fontWeight: 800, marginBottom: "1.5rem" }}>Postes Médicaux Avancés — Grand Magal</h2>
+          <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 16, overflow: "hidden" }}>
+            <div style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+                <thead>
+                  <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                    {["Poste","Localisation","Effectif","Capacité","Statut"].map(h => (
+                      <th key={h} style={{ padding: "10px 14px", textAlign: "left", color: "rgba(255,255,255,0.4)", fontWeight: 600, fontSize: 11, textTransform: "uppercase" }}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { poste: "Poste Avancé 1", loc: "Place Massalikoul Djinane", eff: "8 soignants", cap: "200 patients/j", statut: "Opérationnel", color: "#22c55e" },
+                    { poste: "Poste Avancé 2", loc: "Gare routière Touba", eff: "6 soignants", cap: "150 patients/j", statut: "Opérationnel", color: "#22c55e" },
+                    { poste: "Poste Avancé 3", loc: "Marché Ocass", eff: "5 soignants", cap: "120 patients/j", statut: "Opérationnel", color: "#22c55e" },
+                    { poste: "Unité mobile SAMU", loc: "Axe Dakar-Touba", eff: "4 soignants", cap: "—", statut: "En patrouille", color: "#f59e0b" },
+                  ].map((r, i) => (
+                    <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                      <td style={{ padding: "10px 14px", fontWeight: 600, color: "#fff" }}>{r.poste}</td>
+                      <td style={{ padding: "10px 14px", color: "rgba(255,255,255,0.6)" }}>{r.loc}</td>
+                      <td style={{ padding: "10px 14px", color: "rgba(255,255,255,0.6)" }}>{r.eff}</td>
+                      <td style={{ padding: "10px 14px", color: "rgba(255,255,255,0.6)" }}>{r.cap}</td>
+                      <td style={{ padding: "10px 14px" }}>
+                        <span style={{ background: `${r.color}22`, color: r.color, padding: "3px 10px", borderRadius: 20, fontSize: 11, fontWeight: 700 }}>{r.statut}</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
         {/* CTA */}
         <div className="au4" style={{ background: "#eab30810", border: "1px solid #eab30825", borderRadius: 16, padding: "2rem", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "1.5rem" }}>
           <div>
@@ -112,7 +148,7 @@ export default function ToubaMedCarePage() {
             <a href="mailto:contact@processingenierie.sn" style={{ background: "#eab308", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}>
               ✉️ Nous contacter
             </a>
-            <Link href="/" style={{ background: "rgba(255,255,255,0.05)", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", border: "1px solid rgba(255,255,255,0.1)" }}>
+            <Link href="/#applications" style={{ background: "rgba(255,255,255,0.05)", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", border: "1px solid rgba(255,255,255,0.1)" }}>
               ← Retour Portail
             </Link>
           </div>

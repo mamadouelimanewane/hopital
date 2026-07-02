@@ -20,7 +20,7 @@ export default function PredictIAPage() {
 
       {/* Header */}
       <header style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(10,22,40,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "0 1.5rem", height: 60, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <Link href="/" className="back-btn">← Retour au Portail Ndamatou</Link>
+        <Link href="/#applications" className="back-btn">← Retour au Portail Ndamatou</Link>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#0ea5e9" }} />
           <span style={{ fontSize: 12, color: "#0ea5e9", fontWeight: 700, letterSpacing: "0.1em" }}>SYSTÈME ACTIF</span>
@@ -102,6 +102,38 @@ export default function PredictIAPage() {
           </div>
         </div>
 
+        {/* DONNÉES EN TEMPS RÉEL */}
+        <div className="au3" style={{ marginBottom: "3rem" }}>
+          <h2 style={{ fontSize: "clamp(1.3rem, 2.5vw, 1.8rem)", fontWeight: 800, marginBottom: "1.5rem" }}>Prévisions IA — Cette Semaine</h2>
+          <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 16, overflow: "hidden" }}>
+            <div style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+                <thead>
+                  <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                    {["Indicateur","Prévision","Confiance"].map(h => (
+                      <th key={h} style={{ padding: "10px 14px", textAlign: "left", color: "rgba(255,255,255,0.4)", fontWeight: 600, fontSize: 11, textTransform: "uppercase" }}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { ind: "Admissions Urgences (pic)", prev: "+18% jeudi", conf: "87%" },
+                    { ind: "Lits libérés (72h)", prev: "47", conf: "91%" },
+                    { ind: "Besoin en personnel supp.", prev: "6 infirmiers vendredi", conf: "79%" },
+                    { ind: "Consommation pharmacie", prev: "+12%", conf: "84%" },
+                  ].map((r, i) => (
+                    <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                      <td style={{ padding: "10px 14px", fontWeight: 600, color: "#fff" }}>{r.ind}</td>
+                      <td style={{ padding: "10px 14px", color: "#0ea5e9", fontWeight: 700 }}>{r.prev}</td>
+                      <td style={{ padding: "10px 14px", color: "rgba(255,255,255,0.6)" }}>{r.conf}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
         {/* CTA */}
         <div className="au4" style={{ background: "#0ea5e910", border: "1px solid #0ea5e925", borderRadius: 16, padding: "2rem", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "1.5rem" }}>
           <div>
@@ -112,7 +144,7 @@ export default function PredictIAPage() {
             <a href="mailto:contact@processingenierie.sn" style={{ background: "#0ea5e9", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}>
               ✉️ Nous contacter
             </a>
-            <Link href="/" style={{ background: "rgba(255,255,255,0.05)", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", border: "1px solid rgba(255,255,255,0.1)" }}>
+            <Link href="/#applications" style={{ background: "rgba(255,255,255,0.05)", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", border: "1px solid rgba(255,255,255,0.1)" }}>
               ← Retour Portail
             </Link>
           </div>

@@ -1,121 +1,123 @@
 "use client"
 import { useState } from "react"
-import Link from "next/link"
 
-const FEATURES = [
-  { icon: "📢", title: "Signalement d'infractions", desc: "Programme de physiothérapie à distance via caméra smartphone.s constatée sur les médias sénégalais." },
-  { icon: "🗳️", title: "Consultations publiques", desc: "Participez aux consultations du Ndamatou et faites entendre votre voix dans la régulation des médias." },
-  { icon: "📋", title: "Suivi des décisions", desc: "Consultez les décisions officielles, sanctions et mises en demeure rendues par le Conseil." },
-  { icon: "📊", title: "Observatoire citoyen", desc: "Accédez aux statistiques de temps de parole et aux données du paysage audiovisuel national." },
+const STATS = [
+  { label: "Observance", value: "+40%", unit: "vs suivi papier", icon: "📈", color: "#16a34a" },
+  { label: "Patients Actifs", value: "76", unit: "programmes en cours", icon: "🏃", color: "#0ea5e9" },
+  { label: "Protocoles Disponibles", value: "100+", unit: "chirurgies couvertes", icon: "🤝", color: "#8b5cf6" },
+  { label: "Temps de Récupération", value: "-20%", unit: "en moyenne", icon: "📱", color: "#f59e0b" },
 ]
 
-const COLOR = "#3b82f6"
-const GLOW = "rgba(59,130,246,0.18)"
+const PATIENTS = [
+  { nom: "Abdou Karim Sy", chirurgie: "Prothèse genou", kine: "Awa Cissé", statut: "Actif" },
+  { nom: "Rokhaya Gaye", chirurgie: "Ligament croisé", kine: "Babacar Sène", statut: "Actif" },
+  { nom: "Lamine Faye", chirurgie: "Prothèse hanche", kine: "Awa Cissé", statut: "Actif" },
+  { nom: "Mariama Sow", chirurgie: "Épaule (coiffe rotateurs)", kine: "Ndeye Fatou Diack", statut: "Terminé" },
+  { nom: "Souleymane Ba", chirurgie: "Rachis lombaire", kine: "Babacar Sène", statut: "Actif" },
+  { nom: "Adja Coumba Ndoye", chirurgie: "Prothèse genou", kine: "Ndeye Fatou Diack", statut: "Terminé" },
+]
 
-export default function LandingPage() {
-  const [hovered, setHovered] = useState<number | null>(null)
+const COLOR = "#16a34a"
+
+export default function RehabTrackPage() {
+  const [search, setSearch] = useState("")
+  const filtered = PATIENTS.filter(p =>
+    p.nom.toLowerCase().includes(search.toLowerCase()) ||
+    p.chirurgie.toLowerCase().includes(search.toLowerCase())
+  )
 
   return (
     <>
       <style>{`
-        @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
-        @keyframes pulse { 0%,100%{opacity:.6} 50%{opacity:1} }
-        .au1{animation:fadeUp .6s .1s both} .au2{animation:fadeUp .6s .25s both}
-        .au3{animation:fadeUp .6s .4s both}  .au4{animation:fadeUp .6s .55s both}
-        .fc{animation:fadeUp .5s both} .fc1{animation-delay:.7s} .fc2{animation-delay:.8s} .fc3{animation-delay:.9s} .fc4{animation-delay:1s}
-        .card{transition:all .3s cubic-bezier(.4,0,.2,1)} .card:hover{transform:translateY(-4px)}
-        .pulse{animation:pulse 2s infinite} a{text-decoration:none}
+        @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        .fade{animation:fadeUp .5s both}
+        .row:hover{background:rgba(255,255,255,0.04) !important}
+        input:focus{outline:2px solid #16a34a;border-color:transparent}
+        button{cursor:pointer;border:none}
       `}</style>
-      <div style={{ minHeight:"100vh", background:"#080f20", color:"#fff", fontFamily:"system-ui,sans-serif", position:"relative", overflow:"hidden" }}>
+      <div style={{ minHeight: "100vh", background: "#0a1628", color: "#fff", fontFamily: "system-ui,sans-serif" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "2rem 1.5rem" }}>
 
-        <div style={{ position:"fixed", inset:0, pointerEvents:"none",
-          background:`radial-gradient(ellipse 80% 60% at 50% -10%, rgba(59,130,246,0.12), transparent)` }} />
-        <div style={{ position:"fixed", inset:0, pointerEvents:"none",
-          background:"radial-gradient(ellipse 50% 50% at 90% 90%, rgba(26,58,107,0.15), transparent)" }} />
-
-        <header style={{ position:"sticky", top:0, zIndex:50, borderBottom:"1px solid rgba(255,255,255,0.06)",
-          background:"rgba(8,15,32,0.88)", backdropFilter:"blur(20px)" }}>
-          <div style={{ maxWidth:1100, margin:"0 auto", padding:"0 2rem", height:60, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-            <div style={{ display:"flex", alignItems:"center", gap:10 }}>
-              <div style={{ width:32, height:32, borderRadius:8, background:"linear-gradient(135deg,#1e3a8a,#2563eb)",
-                border:`1px solid rgba(59,130,246,0.4)`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:16 }}>🏛️</div>
-              <div>
-                <p style={{ fontSize:13, fontWeight:700, color:"#fff", margin:0 }}>Rehab-Track</p>
-                <p style={{ fontSize:9, color:COLOR, fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase", margin:0 }}>Ndamatou · Participation Rehab-Trackne</p>
-              </div>
-            </div>
-            <div style={{ display:"flex", alignItems:"center", gap:8 }}>
-              <div className="pulse" style={{ width:6, height:6, borderRadius:"50%", background:"#0ea5e9" }} />
-              <span style={{ fontSize:11, color:"#0ea5e9", fontWeight:600 }}>PORTAIL ACTIF</span>
-            </div>
-          </div>
-        </header>
-
-        <section style={{ maxWidth:1100, margin:"0 auto", padding:"5rem 2rem 4rem", textAlign:"center" }}>
-          <div className="au1" style={{ display:"inline-flex", alignItems:"center", gap:6,
-            background:"rgba(59,130,246,0.08)", border:`1px solid rgba(59,130,246,0.25)`,
-            borderRadius:100, padding:"5px 14px", marginBottom:"2rem" }}>
-            <span style={{ fontSize:10 }}>🇸🇳</span>
-            <span style={{ fontSize:10, color:COLOR, fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase" }}>
-              Conseil National de Régulation de l&apos;Audiovisuel
+          <div className="fade" style={{ marginBottom: "2rem" }}>
+            <span style={{ fontSize: 11, color: COLOR, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", background: `${COLOR}15`, padding: "3px 10px", borderRadius: 6, border: `1px solid ${COLOR}30` }}>
+              Rééducation Post-Opératoire
             </span>
+            <h1 style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", fontWeight: 900, margin: "12px 0 6px" }}>Rehab-Track</h1>
+            <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", maxWidth: 600, lineHeight: 1.6 }}>
+              Suivi numérique des programmes de kinésithérapie et de rééducation à l&apos;Hôpital Ndamatou de Touba.
+            </p>
           </div>
 
-          <div className="au2">
-            <h1 style={{ fontSize:"clamp(2.2rem,5vw,4rem)", fontWeight:900, lineHeight:1.05, letterSpacing:"-0.03em", margin:"0 0 1.25rem" }}>
-              <span style={{ display:"block", color:"rgba(255,255,255,0.45)", fontSize:".42em", fontWeight:500, letterSpacing:".15em", textTransform:"uppercase", marginBottom:".5rem" }}>
-                Application
-              </span>
-              <span style={{ background:`linear-gradient(135deg,#fff 0%,#bfdbfe 50%,${COLOR} 100%)`,
-                WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text" }}>
-                Rehab-Track
-              </span>
-            </h1>
-          </div>
-
-          <p className="au3" style={{ fontSize:"clamp(1rem,2vw,1.2rem)", color:"rgba(255,255,255,0.5)",
-            maxWidth:560, margin:"0 auto 2.5rem", lineHeight:1.8 }}>
-            Le portail officiel du Ndamatou pour <strong style={{ color:"rgba(255,255,255,0.85)" }}>la participation citoyenne</strong> —
-            signalez, consultez, suivez les décisions et contribuez à un audiovisuel sénégalais de qualité.
-          </p>
-
-          <div className="au4" style={{ display:"flex", gap:12, justifyContent:"center", flexWrap:"wrap" }}>
-            <Link href="/accueil" style={{
-              display:"inline-flex", alignItems:"center", gap:8,
-              background:`linear-gradient(135deg,#1e3a8a,${COLOR})`,
-              border:`1px solid rgba(59,130,246,0.5)`,
-              color:"#fff", padding:"13px 32px", borderRadius:12, fontSize:15, fontWeight:700,
-              boxShadow:`0 8px 30px rgba(59,130,246,0.3)`,
-            }}>
-              Accéder au portail →
-            </Link>
-          </div>
-        </section>
-
-        <section style={{ maxWidth:1100, margin:"0 auto", padding:"2rem 2rem 5rem" }}>
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(240px,1fr))", gap:16 }}>
-            {FEATURES.map((f, i) => (
-              <div key={i} className={`card fc fc${i+1}`}
-                onMouseEnter={() => setHovered(i)} onMouseLeave={() => setHovered(null)}
-                style={{
-                  background: hovered===i ? `linear-gradient(135deg,rgba(255,255,255,0.05),${GLOW})` : "rgba(255,255,255,0.03)",
-                  border: `1px solid ${hovered===i ? "rgba(59,130,246,0.3)" : "rgba(255,255,255,0.07)"}`,
-                  borderRadius:16, padding:"1.5rem",
-                  boxShadow: hovered===i ? `0 16px 40px ${GLOW}` : "none",
-                }}>
-                <div style={{ fontSize:28, marginBottom:12 }}>{f.icon}</div>
-                <h3 style={{ fontSize:15, fontWeight:700, color:"#fff", margin:"0 0 8px" }}>{f.title}</h3>
-                <p style={{ fontSize:13, color:"rgba(255,255,255,0.45)", lineHeight:1.7, margin:0 }}>{f.desc}</p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16, marginBottom: "2rem" }}>
+            {STATS.map((s, i) => (
+              <div key={s.label} className="fade" style={{ animationDelay: `${i * 0.1}s`, background: "rgba(255,255,255,0.03)", border: `1px solid ${s.color}30`, borderRadius: 16, padding: "1.5rem" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                  <div>
+                    <p style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.1em", margin: 0 }}>{s.label}</p>
+                    <p style={{ fontSize: 32, fontWeight: 800, color: s.color, margin: "8px 0 2px" }}>{s.value}</p>
+                    <p style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", margin: 0 }}>{s.unit}</p>
+                  </div>
+                  <span style={{ fontSize: 28 }}>{s.icon}</span>
+                </div>
               </div>
             ))}
           </div>
-        </section>
 
-        <footer style={{ borderTop:"1px solid rgba(255,255,255,0.06)", padding:"1.5rem 2rem", textAlign:"center" }}>
-          <p style={{ fontSize:11, color:"rgba(255,255,255,0.2)", margin:0 }}>
-            © 2025 Ndamatou · Rehab-Track · Développé par <span style={{ color:"rgba(255,255,255,0.4)", fontWeight:600 }}>Processingenierie</span>
-          </p>
-        </footer>
+          <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 20, overflow: "hidden" }}>
+            <div style={{ padding: "1.5rem", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
+              <div>
+                <h2 style={{ fontSize: 18, fontWeight: 800, color: "#fff", margin: 0 }}>Patients en rééducation</h2>
+                <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", margin: 0 }}>{filtered.length} patients affichés</p>
+              </div>
+              <input
+                type="text"
+                placeholder="🔍  Rechercher un patient ou une chirurgie..."
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 10, padding: "8px 16px", color: "#fff", fontSize: 13, width: 300 }}
+              />
+            </div>
+            <div style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                <thead>
+                  <tr style={{ background: "rgba(255,255,255,0.03)" }}>
+                    {["Patient", "Chirurgie", "Kinésithérapeute", "Statut"].map(h => (
+                      <th key={h} style={{ padding: "12px 16px", textAlign: "left", fontSize: 11, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700 }}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {filtered.map((p) => {
+                    const statutColor = p.statut === "Actif" ? "#0ea5e9" : "#10b981"
+                    return (
+                      <tr key={p.nom} className="row" style={{ borderTop: "1px solid rgba(255,255,255,0.04)", transition: "background 0.2s", cursor: "pointer" }}>
+                        <td style={{ padding: "14px 16px", fontSize: 14, fontWeight: 700, color: "#fff" }}>{p.nom}</td>
+                        <td style={{ padding: "14px 16px", fontSize: 13, color: "rgba(255,255,255,0.55)" }}>{p.chirurgie}</td>
+                        <td style={{ padding: "14px 16px", fontSize: 13, color: "rgba(255,255,255,0.55)" }}>{p.kine}</td>
+                        <td style={{ padding: "14px 16px" }}>
+                          <span style={{ background: `${statutColor}18`, color: statutColor, padding: "4px 12px", borderRadius: 100, fontSize: 11, fontWeight: 700 }}>{p.statut}</span>
+                        </td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12, marginTop: "1.5rem" }}>
+            {[
+              { label: "Nouveau protocole", icon: "🦴", color: "#16a34a" },
+              { label: "Assigner exercices", icon: "🏃", color: "#0ea5e9" },
+              { label: "Voir progrès", icon: "📈", color: "#8b5cf6" },
+              { label: "Feedback kiné", icon: "🤝", color: "#f59e0b" },
+            ].map(a => (
+              <button key={a.label} style={{ background: `${a.color}15`, border: `1px solid ${a.color}30`, borderRadius: 12, padding: "14px", color: a.color, fontWeight: 700, fontSize: 13, display: "flex", alignItems: "center", gap: 8, transition: "all 0.2s" }}>
+                <span style={{ fontSize: 20 }}>{a.icon}</span>{a.label}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
     </>
   )

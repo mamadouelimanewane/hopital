@@ -11,7 +11,7 @@ const BOT_SIGNATURES = [
   'ia_archiver', 'zgrab', 'censys', 'shodan', 'nmap', 'sqlmap', 'nikto'
 ];
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const userAgent = request.headers.get('user-agent')?.toLowerCase() || '';
 
   // Vérification de la présence d'une signature de robot/scraper dans le User-Agent

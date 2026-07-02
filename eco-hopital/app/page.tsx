@@ -1,22 +1,22 @@
 "use client"
 import { useState, useEffect } from "react"
-import { Activity, ShieldAlert, Zap, Globe, BarChart4, Target, Cpu, Radio } from "lucide-react"
+import { Activity, Cpu, Radio, Globe, BarChart4, Target } from "lucide-react"
 
 // --- Données Mockées pour l'effet "Temps Réel" ---
 const AI_ALERTS = [
-  "🚨 [IA-DETECT] Pic de temps de parole non déclaré (RTS1) - +45% (12:00)",
-  "⚠️ [DEEPFAKE] Contenu suspect détecté sur TikTok (Score: 89%) - Source: DakarLive",
-  "🛡️ [KIDS-PROTECT] Programme inadapté signalé sur SenTV à 14h30",
-  "📊 [AD-WATCH] Infraction: Dépassement volume publicitaire TFM (+12 min)",
-  "🤖 [IA-PREDICT] Risque de désinformation élevé (Secteur Nord) - Mots clés: 'Fraude'",
-  "📡 [STREAM-REGUL] 3 nouvelles Web-TVs non déclarées détectées sur YouTube",
+  "⚡ [SMART-GRID] Pic de consommation détecté — Bloc Opératoire (+22%) (14h00)",
+  "☀️ [SOLAIRE] Production photovoltaïque optimale — 340 kWh générés ce matin",
+  "💧 [EAU-WATCH] Fuite potentielle détectée — Réseau Bâtiment C",
+  "♻️ [RECYCLAGE] Objectif mensuel de tri atteint à 87%",
+  "🔋 [IA-PREDICT] Risque de surcharge électrique prévu (Radiologie) — 16h00",
+  "🌱 [ECO-SCORE] Empreinte carbone réduite de 12% ce trimestre",
 ]
 
 const STATS = [
-  { label: "Heures TV Analysées (24h)", value: 1420, suffix: "h", color: "#14b8a6" },
-  { label: "Deepfakes Bloqués", value: 47, suffix: "", color: "#a855f7" },
-  { label: "Alertes Pluralisme", value: 12, suffix: "", color: "#eab308" },
-  { label: "Fiabilité Globale", value: 98, suffix: "%", color: "#0ea5e9" },
+  { label: "Consommation Énergie (24h)", value: 2840, suffix: "kWh", color: "#84cc16" },
+  { label: "Énergie Solaire Produite", value: 1120, suffix: "kWh", color: "#eab308" },
+  { label: "Alertes Environnementales", value: 3, suffix: "", color: "#f97316" },
+  { label: "Taux Énergie Verte", value: 50, suffix: "%", color: "#0ea5e9" },
 ]
 
 export default function CommandCenter() {
@@ -24,13 +24,12 @@ export default function CommandCenter() {
   const [alertIndex, setAlertIndex] = useState(0)
   const [randomData, setRandomData] = useState<number[]>([40, 60, 45, 80, 55, 90, 65, 85, 50, 75])
 
-  // Simulation Temps Réel
   useEffect(() => {
     setMounted(true)
     const alertInterval = setInterval(() => {
       setAlertIndex(prev => (prev + 1) % AI_ALERTS.length)
     }, 4500)
-    
+
     const chartInterval = setInterval(() => {
       setRandomData(prev => prev.map(v => Math.max(20, Math.min(100, v + (Math.random() * 20 - 10)))))
     }, 2000)
@@ -45,15 +44,14 @@ export default function CommandCenter() {
     <>
       <style>{`
         body { margin: 0; background: #030712; color: #fff; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
-        
-        /* Animations CSS pures */
+
         @keyframes scanline {
           0% { transform: translateY(-100%); }
           100% { transform: translateY(100vh); }
         }
         @keyframes pulse-glow {
-          0%, 100% { box-shadow: 0 0 15px rgba(20, 184, 166, 0.2); }
-          50% { box-shadow: 0 0 35px rgba(20, 184, 166, 0.6); }
+          0%, 100% { box-shadow: 0 0 15px rgba(132, 204, 22, 0.2); }
+          50% { box-shadow: 0 0 35px rgba(132, 204, 22, 0.6); }
         }
         @keyframes typing {
           from { width: 0; opacity: 0; }
@@ -61,7 +59,7 @@ export default function CommandCenter() {
         }
         @keyframes blink-caret {
           from, to { border-color: transparent }
-          50% { border-color: #14b8a6; }
+          50% { border-color: #84cc16; }
         }
         @keyframes radar-spin {
           from { transform: rotate(0deg); }
@@ -71,73 +69,70 @@ export default function CommandCenter() {
           from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }
         }
-        
+
         .grid-bg {
           background-size: 40px 40px;
-          background-image: 
-            linear-gradient(to right, rgba(20, 184, 166, 0.05) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(20, 184, 166, 0.05) 1px, transparent 1px);
+          background-image:
+            linear-gradient(to right, rgba(132, 204, 22, 0.05) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(132, 204, 22, 0.05) 1px, transparent 1px);
         }
-        
+
         .glass-panel {
           background: rgba(17, 24, 39, 0.7);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
-          border: 1px solid rgba(20, 184, 166, 0.15);
+          border: 1px solid rgba(132, 204, 22, 0.15);
           border-radius: 16px;
         }
 
         .cyber-text {
-          color: #5eead4;
-          text-shadow: 0 0 10px rgba(94, 234, 212, 0.5);
+          color: #bef264;
+          text-shadow: 0 0 10px rgba(190, 242, 100, 0.5);
         }
-        
+
         .typewriter {
           overflow: hidden;
-          border-right: .15em solid #14b8a6;
+          border-right: .15em solid #84cc16;
           white-space: nowrap;
           margin: 0 auto;
           letter-spacing: .05em;
-          animation: 
+          animation:
             typing 3s steps(40, end),
             blink-caret .75s step-end infinite;
         }
-        
-        /* Custom Scrollbar */
+
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #030712; }
-        ::-webkit-scrollbar-thumb { background: #14b8a6; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #84cc16; border-radius: 10px; }
       `}</style>
 
       <div className="min-h-screen relative grid-bg">
-        {/* Ligne de scan radar style matrice */}
-        <div 
+        <div
           className="absolute inset-0 pointer-events-none opacity-20"
           style={{
-            background: 'linear-gradient(to bottom, transparent, #14b8a6, transparent)',
+            background: 'linear-gradient(to bottom, transparent, #84cc16, transparent)',
             height: '2px',
             animation: 'scanline 8s linear infinite'
           }}
         />
 
-        {/* Effet lueur radiale globale */}
         <div className="absolute inset-0 pointer-events-none" style={{
-          background: "radial-gradient(circle at 50% 30%, rgba(20,184,166,0.1), transparent 60%)"
+          background: "radial-gradient(circle at 50% 30%, rgba(132,204,22,0.1), transparent 60%)"
         }} />
 
         {/* --- HEADER --- */}
         <header className="glass-panel sticky top-0 z-50 flex items-center justify-between px-6 py-4 mx-4 mt-4 border-b-0 rounded-2xl">
           <div className="flex items-center gap-4">
             <div className="relative">
-              <Cpu className="w-8 h-8 text-teal-400" />
-              <div className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full animate-ping" />
+              <Cpu className="w-8 h-8 text-lime-400" />
+              <div className="absolute top-0 right-0 w-2 h-2 bg-emerald-500 rounded-full animate-ping" />
             </div>
             <div>
               <h1 className="text-xl font-black text-white tracking-widest">
-                Ndamatou <span className="cyber-text">ANALYTICS</span>
+                Éco-<span className="cyber-text">Hôpital</span>
               </h1>
-              <p className="text-[10px] text-teal-500 tracking-[0.2em] uppercase font-bold">
-                Jumeau Énergétique
+              <p className="text-[10px] text-lime-500 tracking-[0.2em] uppercase font-bold">
+                Smart Grid & Jumeau Énergétique · Hôpital Ndamatou
               </p>
             </div>
           </div>
@@ -146,30 +141,29 @@ export default function CommandCenter() {
               <Radio className="w-4 h-4 text-emerald-400 animate-pulse" />
               <span className="text-xs text-emerald-400 font-mono">SYSTEM ONLINE</span>
             </div>
-            <div className="px-3 py-1 rounded bg-teal-500/10 border border-teal-500/30 text-teal-400 font-mono text-xs">
-              v2.0.4-AI-CORE
+            <div className="px-3 py-1 rounded bg-lime-500/10 border border-lime-500/30 text-lime-400 font-mono text-xs">
+              v2.0.4-ECO-CORE
             </div>
           </div>
         </header>
 
         {/* --- MAIN CONTENT --- */}
         <main className="max-w-[1400px] mx-auto p-4 md:p-6 mt-4 grid gap-6 grid-cols-1 lg:grid-cols-12 relative z-10">
-          
-          {/* Section 1 : Flux d'alerte IA & Radar (Top Left) */}
+
           <div className="lg:col-span-8 flex flex-col gap-6">
-            
+
             {/* Terminal AI Feed */}
-            <div className="glass-panel p-6 border-l-4 border-l-red-500 flex flex-col" style={{ animation: "floatUp 0.6s ease-out" }}>
+            <div className="glass-panel p-6 border-l-4 border-l-orange-500 flex flex-col" style={{ animation: "floatUp 0.6s ease-out" }}>
               <div className="flex justify-between items-center mb-4">
                 <h2 className="flex items-center gap-2 text-sm font-bold text-gray-300 uppercase tracking-wider">
-                  <Activity className="w-4 h-4 text-red-400" />
-                  Flux Cerveau IA - Temps Réel
+                  <Activity className="w-4 h-4 text-orange-400" />
+                  Flux Capteurs IA - Temps Réel
                 </h2>
-                <span className="text-xs font-mono text-red-400 bg-red-500/10 px-2 py-1 rounded">LIVE SECURE</span>
+                <span className="text-xs font-mono text-orange-400 bg-orange-500/10 px-2 py-1 rounded">LIVE SECURE</span>
               </div>
               <div className="bg-gray-950/80 rounded-xl p-4 min-h-[80px] flex items-center font-mono text-sm border border-gray-800 relative overflow-hidden">
                 {mounted && (
-                  <p key={alertIndex} className="text-red-400 typewriter m-0">
+                  <p key={alertIndex} className="text-orange-400 typewriter m-0">
                     {AI_ALERTS[alertIndex]}
                   </p>
                 )}
@@ -200,71 +194,68 @@ export default function CommandCenter() {
             <div className="glass-panel p-6 flex-1 min-h-[300px]" style={{ animation: "floatUp 0.6s 0.5s ease-out both" }}>
               <div className="flex justify-between items-center mb-6">
                 <h2 className="flex items-center gap-2 text-sm font-bold text-gray-300 uppercase tracking-wider">
-                  <BarChart4 className="w-4 h-4 text-teal-400" />
-                  Densité de Flux Audiovisuel (Toute Bande)
+                  <BarChart4 className="w-4 h-4 text-lime-400" />
+                  Densité de Consommation Énergétique (Tous Bâtiments)
                 </h2>
               </div>
-              
+
               <div className="h-48 flex items-end gap-2 justify-between px-2">
                 {randomData.map((val, idx) => (
-                  <div key={idx} className="relative w-full bg-teal-950/40 rounded-t-sm group">
-                    <div 
-                      className="absolute bottom-0 w-full bg-gradient-to-t from-teal-600 to-teal-300 rounded-t-sm transition-all duration-700 ease-out"
-                      style={{ 
+                  <div key={idx} className="relative w-full bg-lime-950/40 rounded-t-sm group">
+                    <div
+                      className="absolute bottom-0 w-full bg-gradient-to-t from-lime-600 to-lime-300 rounded-t-sm transition-all duration-700 ease-out"
+                      style={{
                         height: `${val}%`,
-                        boxShadow: '0 0 10px rgba(20,184,166,0.3)'
+                        boxShadow: '0 0 10px rgba(132,204,22,0.3)'
                       }}
                     />
-                    <div className="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 text-xs font-mono bg-teal-900 px-2 py-1 rounded text-teal-300 transition-opacity">
+                    <div className="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 text-xs font-mono bg-lime-900 px-2 py-1 rounded text-lime-300 transition-opacity">
                       {Math.round(val)}%
                     </div>
                   </div>
                 ))}
               </div>
             </div>
-            
+
           </div>
 
           {/* Section 2 : Analyse Sectorielle & Radar (Right Sidebar) */}
           <div className="lg:col-span-4 flex flex-col gap-6">
-            
+
             {/* Composant Radar Visuel */}
             <div className="glass-panel p-6 flex flex-col items-center justify-center relative overflow-hidden" style={{ animation: "pulse-glow 4s infinite" }}>
-              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay" />
-              <h2 className="text-sm font-bold text-teal-400 uppercase tracking-widest mb-6 w-full flex items-center gap-2">
+              <h2 className="text-sm font-bold text-lime-400 uppercase tracking-widest mb-6 w-full flex items-center gap-2">
                 <Globe className="w-4 h-4" />
-                Cartographie Réseau
+                Cartographie Énergétique
               </h2>
-              
-              {/* Cercle Radar */}
-              <div className="relative w-48 h-48 rounded-full border border-teal-500/30 flex items-center justify-center">
-                <div className="absolute inset-2 rounded-full border border-teal-500/20" />
-                <div className="absolute inset-8 rounded-full border border-teal-500/10" />
-                <div className="absolute w-full h-full rounded-full border-t border-teal-400" style={{ animation: "radar-spin 4s linear infinite" }}>
-                  <div className="absolute top-0 left-1/2 w-1/2 h-full bg-gradient-to-r from-transparent to-teal-500/20 origin-left" />
+
+              <div className="relative w-48 h-48 rounded-full border border-lime-500/30 flex items-center justify-center">
+                <div className="absolute inset-2 rounded-full border border-lime-500/20" />
+                <div className="absolute inset-8 rounded-full border border-lime-500/10" />
+                <div className="absolute w-full h-full rounded-full border-t border-lime-400" style={{ animation: "radar-spin 4s linear infinite" }}>
+                  <div className="absolute top-0 left-1/2 w-1/2 h-full bg-gradient-to-r from-transparent to-lime-500/20 origin-left" />
                 </div>
-                {/* Blips */}
-                <div className="absolute top-[20%] left-[30%] w-2 h-2 bg-red-500 rounded-full animate-ping" />
-                <div className="absolute bottom-[40%] right-[20%] w-2 h-2 bg-teal-400 rounded-full animate-ping" style={{ animationDelay: "1s" }} />
+                <div className="absolute top-[20%] left-[30%] w-2 h-2 bg-orange-500 rounded-full animate-ping" />
+                <div className="absolute bottom-[40%] right-[20%] w-2 h-2 bg-lime-400 rounded-full animate-ping" style={{ animationDelay: "1s" }} />
                 <div className="absolute top-[60%] left-[70%] w-2 h-2 bg-yellow-400 rounded-full animate-ping" style={{ animationDelay: "2s" }} />
-                <Target className="w-6 h-6 text-teal-500/50 absolute z-10" />
+                <Target className="w-6 h-6 text-lime-500/50 absolute z-10" />
               </div>
-              
+
               <div className="mt-6 w-full space-y-2 font-mono text-xs">
-                <div className="flex justify-between text-gray-400"><span>Canaux Numériques:</span><span className="text-teal-400">42 Actifs</span></div>
-                <div className="flex justify-between text-gray-400"><span>Charge Serveurs IA:</span><span className="text-yellow-400">78%</span></div>
-                <div className="flex justify-between text-gray-400"><span>Dernier Scan:</span><span className="text-white">Il y a 0.4s</span></div>
+                <div className="flex justify-between text-gray-400"><span>Capteurs Connectés:</span><span className="text-lime-400">64 Actifs</span></div>
+                <div className="flex justify-between text-gray-400"><span>Charge Réseau Solaire:</span><span className="text-yellow-400">61%</span></div>
+                <div className="flex justify-between text-gray-400"><span>Dernière Lecture:</span><span className="text-white">Il y a 0.4s</span></div>
               </div>
             </div>
 
             {/* Modules d'action rapide */}
             <div className="glass-panel p-6 flex-1">
                <h2 className="text-sm font-bold text-gray-300 uppercase tracking-wider mb-4 border-b border-gray-800 pb-2">
-                Modules Sous-Systèmes
+                Modules Environnementaux
               </h2>
               <div className="space-y-3">
-                {['ElectroWatch', 'MediaWatch', 'AntiDeep', 'KidsProtect', 'AdWatch'].map((sys, idx) => (
-                  <button key={idx} className="w-full text-left px-4 py-3 rounded-xl bg-gray-900/50 border border-gray-800 hover:border-teal-500/50 hover:bg-teal-900/20 transition-all flex justify-between items-center group">
+                {['Smart Grid', 'Production Solaire', "Gestion de l'Eau", 'Suivi Recyclage', 'Empreinte Carbone'].map((sys, idx) => (
+                  <button key={idx} className="w-full text-left px-4 py-3 rounded-xl bg-gray-900/50 border border-gray-800 hover:border-lime-500/50 hover:bg-lime-900/20 transition-all flex justify-between items-center group">
                     <span className="text-sm font-bold text-gray-400 group-hover:text-white transition-colors">{sys}</span>
                     <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
                   </button>
@@ -288,7 +279,7 @@ function AnimatedNumber({ value }: { value: number }) {
     const end = value
     const duration = 1500
     const increment = end / (duration / 16)
-    
+
     const timer = setInterval(() => {
       start += increment
       if (start >= end) {

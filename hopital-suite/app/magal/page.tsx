@@ -20,7 +20,7 @@ export default function MagalSurgePage() {
 
       {/* Header */}
       <header style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(10,22,40,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "0 1.5rem", height: 60, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <Link href="/" className="back-btn">← Retour au Portail Ndamatou</Link>
+        <Link href="/#applications" className="back-btn">← Retour au Portail Ndamatou</Link>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#7c3aed" }} />
           <span style={{ fontSize: 12, color: "#7c3aed", fontWeight: 700, letterSpacing: "0.1em" }}>SYSTÈME ACTIF</span>
@@ -102,6 +102,24 @@ export default function MagalSurgePage() {
           </div>
         </div>
 
+        {/* DONNÉES EN TEMPS RÉEL */}
+        <div className="au3" style={{ marginBottom: "3rem" }}>
+          <h2 style={{ fontSize: "clamp(1.3rem, 2.5vw, 1.8rem)", fontWeight: 800, marginBottom: "1.5rem" }}>Indicateurs de Crise — En Direct</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12 }}>
+            {[
+              { label: "Affluence estimée", val: "4.2M", sub: "pèlerins", trend: "↑" },
+              { label: "Consultations (24h)", val: "1 847", sub: "réalisées", trend: "↑" },
+              { label: "Lits de crise dispo.", val: "62/150", sub: "occupation", trend: "↓" },
+              { label: "Alertes actives", val: "2", sub: "en cours", trend: "→" },
+            ].map((s, i) => (
+              <div key={i} className="stat-card">
+                <p style={{ fontSize: "clamp(1.3rem, 2.5vw, 1.7rem)", fontWeight: 900, color: "#7c3aed", marginBottom: 4 }}>{s.val} <span style={{ fontSize: "0.6em" }}>{s.trend}</span></p>
+                <p style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* CTA */}
         <div className="au4" style={{ background: "#7c3aed10", border: "1px solid #7c3aed25", borderRadius: 16, padding: "2rem", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "1.5rem" }}>
           <div>
@@ -112,7 +130,7 @@ export default function MagalSurgePage() {
             <a href="mailto:contact@processingenierie.sn" style={{ background: "#7c3aed", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}>
               ✉️ Nous contacter
             </a>
-            <Link href="/" style={{ background: "rgba(255,255,255,0.05)", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", border: "1px solid rgba(255,255,255,0.1)" }}>
+            <Link href="/#applications" style={{ background: "rgba(255,255,255,0.05)", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", border: "1px solid rgba(255,255,255,0.1)" }}>
               ← Retour Portail
             </Link>
           </div>

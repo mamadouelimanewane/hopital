@@ -5,11 +5,11 @@ import "./globals.css"
 const geist = Geist({ variable: "--font-sans", subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "CNRA Citoyen — Portail Officiel",
-  description: "Plateforme citoyenne officielle du Conseil National de Régulation de l'Audiovisuel du Sénégal. Transparence, signalements, pétitions et éducation aux médias.",
+  title: "NeuroScan-IA — Hôpital Ndamatou de Touba",
+  description: "Outil d'aide au diagnostic pour l'imagerie médicale (IRM, Scanner) de l'Hôpital Ndamatou de Touba.",
   openGraph: {
-    title: "CNRA Citoyen",
-    description: "Portail officiel de participation citoyenne du CNRA Sénégal",
+    title: "NeuroScan-IA — Hôpital Ndamatou",
+    description: "Assistant Radiologique par IA",
     locale: "fr_SN",
   },
 }

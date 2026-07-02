@@ -5,12 +5,11 @@ import { useState } from "react"
 import { Menu, X, Hospital } from "lucide-react"
 
 const nav = [
-  { label: "Tableau de bord", href: "/" },
-  { label: "Gestion",         href: "/gestion" },
-  { label: "Patients",        href: "/patients" },
-  { label: "Statistiques",    href: "/stats" },
-  { label: "Rapports",        href: "/rapports" },
-  { label: "Paramètres",      href: "/parametres" },
+  { label: "Tableau de bord", href: "/dashboard" },
+  { label: "Stocks",          href: "/stocks" },
+  { label: "Donneurs",        href: "/donneurs" },
+  { label: "Urgences",        href: "/urgences" },
+  { label: "Conservation",    href: "/conservation" },
 ]
 
 export function Navbar() {
