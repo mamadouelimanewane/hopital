@@ -1,361 +1,140 @@
 "use client"
-
 import { useState, useEffect } from "react"
 
-const campaigns = [
-  { id: 1, title: "Acquisition Scanner IRM", goal: 150_000_000, raised: 102_000_000, color: "#f59e0b" },
-  { id: 2, title: "Bloc Opératoire Moderne", goal: 200_000_000, raised: 84_000_000, color: "#0ea5e9" },
-  { id: 3, title: "Unité Soins Intensifs Pédiatriques", goal: 80_000_000, raised: 72_800_000, color: "#6366f1" },
-  { id: 4, title: "Formation 50 Infirmiers", goal: 25_000_000, raised: 25_000_000, color: "#22c55e" },
+const STATS = [
+  { label: "Collectés", value: "142M", unit: "FCFA", icon: "💰", color: "#f59e0b" },
+  { label: "Donateurs", value: "2 847", unit: "personnes", icon: "🤝", color: "#10b981" },
+  { label: "Projets financés", value: "12", unit: "terminés", icon: "✅", color: "#0ea5e9" },
+  { label: "Pays représentés", value: "34", unit: "diaspora", icon: "🌍", color: "#8b5cf6" },
 ]
 
-const recentDons = [
-  { id: 1, montant: 500_000, pays: "France", flag: "🇫🇷", date: "20/06/2026", message: "Pour la santé de Touba !", anonyme: false, nom: "Mamadou D." },
-  { id: 2, montant: 1_000_000, pays: "USA", flag: "🇺🇸", date: "19/06/2026", message: "Que Dieu bénisse le Ndamatou", anonyme: false, nom: "Fatou N." },
-  { id: 3, montant: 250_000, pays: "Italie", flag: "🇮🇹", date: "19/06/2026", message: "", anonyme: true, nom: "Anonyme" },
-  { id: 4, montant: 100_000, pays: "Gabon", flag: "🇬🇦", date: "18/06/2026", message: "Solidarité depuis Libreville", anonyme: false, nom: "Ibrahima S." },
-  { id: 5, montant: 2_000_000, pays: "UAE", flag: "🇦🇪", date: "18/06/2026", message: "Bismillah", anonyme: false, nom: "Sheikh M." },
-  { id: 6, montant: 75_000, pays: "Sénégal", flag: "🇸🇳", date: "17/06/2026", message: "Petit geste grand cœur", anonyme: false, nom: "Aïssatou B." },
+const PROJETS = [
+  { nom: "Scanner IRM 3 Tesla", objectif: 85000000, collecte: 67150000, urgent: true, icon: "🧲", desc: "Acquisition d'un scanner IRM haute résolution pour le service de radiologie" },
+  { nom: "Unité Pédiatrique", objectif: 45000000, collecte: 31050000, urgent: false, icon: "👶", desc: "Construction et équipement du nouveau pavillon pédiatrique" },
+  { nom: "Générateurs hémodialyse", objectif: 28000000, collecte: 17920000, urgent: true, icon: "🩸", desc: "4 générateurs de dialyse Fresenius pour le centre d'hémodialyse" },
+  { nom: "Ambulance médicalisée", objectif: 15000000, collecte: 15000000, urgent: false, icon: "🚑", desc: "Ambulance SAMU tout-terrain pour les zones rurales de Touba" },
+  { nom: "Bloc opératoire modulaire", objectif: 120000000, collecte: 42000000, urgent: true, icon: "🏥", desc: "2ème bloc opératoire avec salle de réveil et matériel de chirurgie" },
 ]
 
-const SUGGESTED = [5_000, 25_000, 100_000, 500_000]
-const MODES = [
-  { id: "wave", label: "Wave", icon: "📱" },
-  { id: "orange", label: "Orange Money", icon: "📱" },
-  { id: "carte", label: "Carte Bancaire", icon: "💳" },
-  { id: "virement", label: "Virement International", icon: "🌐" },
-  { id: "paypal", label: "PayPal", icon: "🅿️" },
+const DONATEURS_RECENTS = [
+  { nom: "Modou Ndiaye", pays: "🇮🇹 Italie", montant: "250 000 FCFA", date: "il y a 2h" },
+  { nom: "Fatou Diallo", pays: "🇫🇷 France", montant: "500 000 FCFA", date: "il y a 5h" },
+  { nom: "Cheikh Fall", pays: "🇺🇸 USA", montant: "1 000 000 FCFA", date: "il y a 8h" },
+  { nom: "Mariama Bâ", pays: "🇪🇸 Espagne", montant: "100 000 FCFA", date: "il y a 12h" },
+  { nom: "Ibrahima Sy", pays: "🇸🇳 Sénégal", montant: "50 000 FCFA", date: "il y a 1j" },
 ]
 
-function fmt(n: number) {
-  return n.toLocaleString("fr-FR") + " FCFA"
-}
+const COLOR = "#f59e0b"
 
-export default function DonFinancement() {
-  const [montant, setMontant] = useState<number | "">("")
-  const [montantLibre, setMontantLibre] = useState("")
-  const [mode, setMode] = useState("wave")
-  const [nom, setNom] = useState("")
-  const [email, setEmail] = useState("")
-  const [message, setMessage] = useState("")
-  const [anonyme, setAnonyme] = useState(false)
-  const [certificat, setCertificat] = useState(false)
-  const [showModal, setShowModal] = useState(false)
-  const [animBar, setAnimBar] = useState(0)
-
-  useEffect(() => {
-    const t = setTimeout(() => setAnimBar(57), 600)
-    return () => clearTimeout(t)
-  }, [])
-
-  const finalMontant = montant !== "" ? montant : Number(montantLibre) || 0
-
-  function handleDon() {
-    if (!finalMontant || !nom || !email) return
-    setShowModal(true)
-  }
+export default function DonPage() {
+  const [montant, setMontant] = useState("")
+  const [methode, setMethode] = useState("")
 
   return (
-    <div style={{ background: "linear-gradient(135deg, #0a0f1e 0%, #111827 50%, #0d1b2a 100%)", minHeight: "100vh", color: "#e5e7eb" }}>
-
-      {/* HEADER HERO */}
-      <header style={{ background: "linear-gradient(135deg, #1a2035 0%, #0f2027 100%)", borderBottom: "1px solid #d97706" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "48px 24px 36px", textAlign: "center" }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 12, background: "rgba(217,119,6,0.12)", border: "1px solid #d97706", borderRadius: 40, padding: "6px 20px", marginBottom: 24 }}>
-            <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#0ea5e9", display: "inline-block", animation: "pulse 2s infinite" }}></span>
-            <span style={{ color: "#d97706", fontSize: 13, fontWeight: 600, letterSpacing: 1 }}>PLATEFORME OFFICIELLE Ndamatou</span>
+    <>
+      <style>{`
+        @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes pulse { 0%,100%{opacity:.6} 50%{opacity:1} }
+        @keyframes progressFill { from{width:0} }
+        .fade{animation:fadeUp .5s both} .pulse{animation:pulse 2s infinite}
+        .card{transition:all .3s} .card:hover{transform:translateY(-3px)}
+        .prog{animation:progressFill 1.5s ease-out}
+        button{cursor:pointer;border:none}
+      `}</style>
+      <div style={{ minHeight:"100vh", background:"#0a1628", color:"#fff", fontFamily:"system-ui,sans-serif" }}>
+        <header style={{ background:"rgba(10,22,40,0.95)", borderBottom:"1px solid rgba(245,158,11,0.2)", backdropFilter:"blur(20px)", position:"sticky", top:0, zIndex:50 }}>
+          <div style={{ maxWidth:1280, margin:"0 auto", padding:"0 1.5rem", height:64, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+            <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+              <div style={{ width:40, height:40, borderRadius:12, background:"linear-gradient(135deg,#f59e0b,#d97706)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20 }}>🌍</div>
+              <div>
+                <p style={{ fontSize:15, fontWeight:800, color:"#fff", margin:0 }}>Don & <span style={{color:COLOR}}>Diaspora</span></p>
+                <p style={{ fontSize:9, color:"rgba(245,158,11,0.7)", fontWeight:600, letterSpacing:"0.12em", textTransform:"uppercase", margin:0 }}>Financement Participatif · Hôpital Ndamatou</p>
+              </div>
+            </div>
+            <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+              <div className="pulse" style={{ width:8, height:8, borderRadius:"50%", background:COLOR }} />
+              <span style={{ fontSize:11, color:COLOR, fontWeight:700 }}>DONS OUVERTS</span>
+            </div>
           </div>
-          <h1 style={{ fontSize: "clamp(28px,5vw,52px)", fontWeight: 800, lineHeight: 1.15, marginBottom: 16 }}>
-            <span style={{ color: "#fbbf24" }}>Investissez dans la Santé</span><br />
-            <span style={{ color: "#e5e7eb" }}>de Touba </span>
-            <span style={{ fontSize: "0.8em" }}>🌍</span>
-          </h1>
-          <p style={{ fontSize: 20, color: "#9ca3af", marginBottom: 8 }}>
-            Centre Hospitalier National Cheikh Ahmad Tidiane Sy Al Maktoum — Touba, Sénégal
-          </p>
-          <p style={{ fontSize: 17, color: "#d97706", fontStyle: "italic", marginBottom: 32 }}>
-            "Sëgël sa dëkk" — Construis ton pays
-          </p>
+        </header>
 
-          {/* COMPTEURS */}
-          <div style={{ display: "flex", justifyContent: "center", gap: 40, flexWrap: "wrap" }}>
-            {[
-              { val: "1 247", label: "Donateurs" },
-              { val: "15", label: "Pays représentés" },
-              { val: "287M", label: "FCFA collectés" },
-            ].map(c => (
-              <div key={c.label} style={{ textAlign: "center" }}>
-                <div style={{ fontSize: 32, fontWeight: 800, color: "#fbbf24" }}>{c.val}</div>
-                <div style={{ fontSize: 13, color: "#6b7280", textTransform: "uppercase", letterSpacing: 1 }}>{c.label}</div>
+        <main style={{ maxWidth:1280, margin:"0 auto", padding:"2rem 1.5rem" }}>
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))", gap:16, marginBottom:"2.5rem" }}>
+            {STATS.map((s, i) => (
+              <div key={s.label} className="fade" style={{ animationDelay:`${i*0.1}s`, background:"rgba(255,255,255,0.03)", border:`1px solid ${s.color}30`, borderRadius:16, padding:"1.5rem" }}>
+                <p style={{ fontSize:11, color:"rgba(255,255,255,0.45)", textTransform:"uppercase", letterSpacing:"0.1em", margin:0 }}>{s.label}</p>
+                <p style={{ fontSize:32, fontWeight:800, color:s.color, margin:"8px 0 2px" }}>{s.value}</p>
+                <p style={{ fontSize:12, color:"rgba(255,255,255,0.35)", margin:0 }}>{s.unit}</p>
               </div>
             ))}
           </div>
-        </div>
-      </header>
 
-      <main style={{ maxWidth: 1100, margin: "0 auto", padding: "40px 24px" }}>
-
-        {/* THERMOMETRE */}
-        <section style={{ background: "linear-gradient(135deg, #1f2937,#111827)", border: "1px solid #374151", borderRadius: 16, padding: 32, marginBottom: 40 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, flexWrap: "wrap", gap: 12 }}>
-            <div>
-              <h2 style={{ fontSize: 22, fontWeight: 700, color: "#fbbf24", marginBottom: 4 }}>Objectif Global de Financement</h2>
-              <p style={{ color: "#6b7280", fontSize: 14 }}>Campagne 2025-2026 — Phase I de modernisation</p>
-            </div>
-            <div style={{ textAlign: "right" }}>
-              <div style={{ fontSize: 36, fontWeight: 800, color: "#0ea5e9" }}>287 M</div>
-              <div style={{ color: "#6b7280", fontSize: 14 }}>sur 500 M FCFA</div>
-            </div>
-          </div>
-          <div style={{ background: "#374151", borderRadius: 12, height: 28, overflow: "hidden", position: "relative" }}>
-            <div style={{
-              height: "100%", borderRadius: 12,
-              background: "linear-gradient(90deg, #d97706, #fbbf24, #0ea5e9)",
-              width: `${animBar}%`,
-              transition: "width 1.5s cubic-bezier(0.4,0,0.2,1)",
-              position: "relative"
-            }}>
-              <span style={{
-                position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)",
-                color: "#000", fontWeight: 800, fontSize: 14
-              }}>57%</span>
-            </div>
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between", marginTop: 8, fontSize: 13, color: "#6b7280" }}>
-            <span>0 FCFA</span>
-            <span style={{ color: "#0ea5e9", fontWeight: 600 }}>287 000 000 collectés</span>
-            <span>500 000 000 FCFA</span>
-          </div>
-        </section>
-
-        {/* CAMPAGNES */}
-        <section style={{ marginBottom: 48 }}>
-          <h2 style={{ fontSize: 24, fontWeight: 700, color: "#e5e7eb", marginBottom: 24 }}>
-            <span style={{ color: "#d97706" }}>◆</span> Campagnes en cours
-          </h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 20 }}>
-            {campaigns.map(c => {
-              const pct = Math.round((c.raised / c.goal) * 100)
-              const done = pct >= 100
+          <h2 style={{ fontSize:22, fontWeight:800, margin:"0 0 1.5rem" }}>Projets en cours</h2>
+          <div style={{ display:"grid", gap:16, marginBottom:"2.5rem" }}>
+            {PROJETS.map((p, i) => {
+              const pct = Math.round((p.collecte / p.objectif) * 100);
+              const done = pct >= 100;
               return (
-                <div key={c.id} style={{
-                  background: "#1f2937", border: `1px solid ${done ? "#22c55e" : "#374151"}`,
-                  borderRadius: 12, padding: 20, position: "relative", overflow: "hidden"
-                }}>
-                  {done && (
-                    <div style={{
-                      position: "absolute", top: 12, right: 12,
-                      background: "#22c55e", color: "#000", fontSize: 11, fontWeight: 700,
-                      borderRadius: 20, padding: "3px 10px"
-                    }}>✅ FINANCÉ</div>
-                  )}
-                  <h3 style={{ fontSize: 15, fontWeight: 600, color: "#e5e7eb", marginBottom: 12, paddingRight: done ? 80 : 0 }}>{c.title}</h3>
-                  <div style={{ background: "#374151", borderRadius: 6, height: 8, overflow: "hidden", marginBottom: 8 }}>
-                    <div style={{ height: "100%", borderRadius: 6, background: c.color, width: `${pct}%`, transition: "width 1s" }} />
-                  </div>
-                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13 }}>
-                    <span style={{ color: c.color, fontWeight: 700 }}>{pct}% financé</span>
-                    <span style={{ color: "#6b7280" }}>{(c.raised / 1_000_000).toFixed(0)}M / {(c.goal / 1_000_000).toFixed(0)}M</span>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </section>
-
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, alignItems: "start" }}>
-
-          {/* FORMULAIRE */}
-          <section style={{ background: "#1f2937", border: "1px solid #374151", borderRadius: 16, padding: 28 }}>
-            <h2 style={{ fontSize: 20, fontWeight: 700, color: "#fbbf24", marginBottom: 20 }}>
-              💛 Faire un Don
-            </h2>
-
-            {/* Montants suggérés */}
-            <div style={{ marginBottom: 16 }}>
-              <label style={{ fontSize: 13, color: "#9ca3af", display: "block", marginBottom: 8 }}>Montant suggéré</label>
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                {SUGGESTED.map(s => (
-                  <button key={s} onClick={() => { setMontant(s); setMontantLibre("") }}
-                    style={{
-                      padding: "8px 14px", borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: "pointer", border: "2px solid",
-                      borderColor: montant === s ? "#fbbf24" : "#374151",
-                      background: montant === s ? "rgba(251,191,36,0.12)" : "#111827",
-                      color: montant === s ? "#fbbf24" : "#9ca3af"
-                    }}>
-                    {s.toLocaleString("fr-FR")}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div style={{ marginBottom: 16 }}>
-              <label style={{ fontSize: 13, color: "#9ca3af", display: "block", marginBottom: 6 }}>Montant libre (FCFA)</label>
-              <input type="number" value={montantLibre} onChange={e => { setMontantLibre(e.target.value); setMontant("") }}
-                placeholder="Ex: 50000"
-                style={{ width: "100%", padding: "10px 14px", borderRadius: 8, background: "#111827", border: "1px solid #374151", color: "#e5e7eb", fontSize: 15, boxSizing: "border-box" }} />
-            </div>
-
-            {/* Mode de paiement */}
-            <div style={{ marginBottom: 16 }}>
-              <label style={{ fontSize: 13, color: "#9ca3af", display: "block", marginBottom: 8 }}>Mode de paiement</label>
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                {MODES.map(m => (
-                  <button key={m.id} onClick={() => setMode(m.id)}
-                    style={{
-                      padding: "7px 12px", borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: "pointer", border: "2px solid",
-                      borderColor: mode === m.id ? "#0ea5e9" : "#374151",
-                      background: mode === m.id ? "rgba(16,185,129,0.12)" : "#111827",
-                      color: mode === m.id ? "#0ea5e9" : "#9ca3af"
-                    }}>
-                    {m.icon} {m.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div style={{ marginBottom: 12 }}>
-              <input type="text" value={nom} onChange={e => setNom(e.target.value)}
-                placeholder="Votre nom complet *"
-                style={{ width: "100%", padding: "10px 14px", borderRadius: 8, background: "#111827", border: "1px solid #374151", color: "#e5e7eb", fontSize: 14, boxSizing: "border-box" }} />
-            </div>
-            <div style={{ marginBottom: 12 }}>
-              <input type="email" value={email} onChange={e => setEmail(e.target.value)}
-                placeholder="Votre email *"
-                style={{ width: "100%", padding: "10px 14px", borderRadius: 8, background: "#111827", border: "1px solid #374151", color: "#e5e7eb", fontSize: 14, boxSizing: "border-box" }} />
-            </div>
-            <div style={{ marginBottom: 16 }}>
-              <textarea value={message} onChange={e => setMessage(e.target.value)}
-                placeholder="Message optionnel..."
-                rows={3}
-                style={{ width: "100%", padding: "10px 14px", borderRadius: 8, background: "#111827", border: "1px solid #374151", color: "#e5e7eb", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
-            </div>
-
-            <div style={{ display: "flex", gap: 20, marginBottom: 20 }}>
-              <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", fontSize: 13, color: "#9ca3af" }}>
-                <input type="checkbox" checked={anonyme} onChange={e => setAnonyme(e.target.checked)}
-                  style={{ accentColor: "#fbbf24" }} />
-                Don anonyme
-              </label>
-              <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", fontSize: 13, color: "#9ca3af" }}>
-                <input type="checkbox" checked={certificat} onChange={e => setCertificat(e.target.checked)}
-                  style={{ accentColor: "#fbbf24" }} />
-                Certificat fiscal
-              </label>
-            </div>
-
-            <button onClick={handleDon}
-              disabled={!finalMontant || !nom || !email}
-              style={{
-                width: "100%", padding: "14px", borderRadius: 10, fontWeight: 800, fontSize: 16, cursor: "pointer",
-                background: (!finalMontant || !nom || !email) ? "#374151" : "linear-gradient(135deg, #d97706, #fbbf24)",
-                color: (!finalMontant || !nom || !email) ? "#6b7280" : "#000",
-                border: "none", transition: "all 0.2s"
-              }}>
-              💛 Faire un Don {finalMontant ? `— ${fmt(finalMontant)}` : ""}
-            </button>
-          </section>
-
-          {/* DONATEURS + TRANSPARENCE */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-            {/* Tableau donateurs */}
-            <section style={{ background: "#1f2937", border: "1px solid #374151", borderRadius: 16, padding: 24 }}>
-              <h2 style={{ fontSize: 18, fontWeight: 700, color: "#e5e7eb", marginBottom: 16 }}>🌍 Derniers Dons</h2>
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                {recentDons.map(d => (
-                  <div key={d.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 14px", background: "#111827", borderRadius: 8, gap: 8 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                      <span style={{ fontSize: 20 }}>{d.flag}</span>
+                <div key={p.nom} className="card fade" style={{ animationDelay:`${i*0.1}s`, background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.06)", borderRadius:16, padding:"1.5rem" }}>
+                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:12 }}>
+                    <div style={{ display:"flex", gap:12, alignItems:"center" }}>
+                      <span style={{ fontSize:28 }}>{p.icon}</span>
                       <div>
-                        <div style={{ fontSize: 13, fontWeight: 600, color: "#e5e7eb" }}>{d.anonyme ? "Anonyme" : d.nom}</div>
-                        <div style={{ fontSize: 11, color: "#6b7280" }}>{d.pays} · {d.date}</div>
-                        {d.message && <div style={{ fontSize: 11, color: "#9ca3af", fontStyle: "italic" }}>"{d.message}"</div>}
+                        <h3 style={{ fontSize:16, fontWeight:700, color:"#fff", margin:0 }}>{p.nom}</h3>
+                        <p style={{ fontSize:12, color:"rgba(255,255,255,0.45)", margin:0 }}>{p.desc}</p>
                       </div>
                     </div>
-                    <div style={{ fontSize: 15, fontWeight: 800, color: "#fbbf24", whiteSpace: "nowrap" }}>
-                      +{(d.montant / 1000).toFixed(0)}K
+                    <div style={{ display:"flex", gap:6 }}>
+                      {p.urgent && <span style={{ background:"#ef444418", color:"#ef4444", padding:"3px 10px", borderRadius:100, fontSize:10, fontWeight:700 }}>URGENT</span>}
+                      {done && <span style={{ background:"#10b98118", color:"#10b981", padding:"3px 10px", borderRadius:100, fontSize:10, fontWeight:700 }}>✅ FINANCÉ</span>}
                     </div>
                   </div>
+                  <div style={{ display:"flex", justifyContent:"space-between", fontSize:13, marginBottom:8 }}>
+                    <span style={{ color:"rgba(255,255,255,0.5)" }}>{(p.collecte/1000000).toFixed(1)}M collectés</span>
+                    <span style={{ color:COLOR, fontWeight:700 }}>{pct}%</span>
+                    <span style={{ color:"rgba(255,255,255,0.35)" }}>Objectif: {(p.objectif/1000000).toFixed(0)}M FCFA</span>
+                  </div>
+                  <div style={{ height:6, background:"rgba(255,255,255,0.06)", borderRadius:100, overflow:"hidden" }}>
+                    <div className="prog" style={{ width:`${Math.min(pct,100)}%`, height:"100%", background: done ? "#10b981" : `linear-gradient(90deg, ${COLOR}, #d97706)`, borderRadius:100 }} />
+                  </div>
+                  {!done && <button style={{ marginTop:14, background:`${COLOR}18`, color:COLOR, border:`1px solid ${COLOR}40`, borderRadius:10, padding:"8px 20px", fontSize:13, fontWeight:700, transition:"all 0.2s" }}>Contribuer à ce projet</button>}
+                </div>
+              );
+            })}
+          </div>
+
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(min(100%,380px), 1fr))", gap:20 }}>
+            <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.06)", borderRadius:16, padding:"1.5rem" }}>
+              <h3 style={{ fontSize:16, fontWeight:700, margin:"0 0 16px" }}>💳 Faire un don</h3>
+              <div style={{ display:"flex", gap:8, flexWrap:"wrap", marginBottom:16 }}>
+                {["5 000","25 000","100 000","500 000"].map(m => (
+                  <button key={m} onClick={() => setMontant(m)} style={{ background: montant===m ? COLOR+"22" : "rgba(255,255,255,0.04)", color: montant===m ? COLOR : "rgba(255,255,255,0.6)", border:`1px solid ${montant===m ? COLOR+"50" : "rgba(255,255,255,0.08)"}`, borderRadius:8, padding:"8px 16px", fontSize:13, fontWeight:600 }}>{m} FCFA</button>
                 ))}
               </div>
-            </section>
-
-            {/* Transparence */}
-            <section style={{ background: "#1f2937", border: "1px solid #374151", borderRadius: 16, padding: 24 }}>
-              <h2 style={{ fontSize: 18, fontWeight: 700, color: "#e5e7eb", marginBottom: 16 }}>📊 Transparence des Fonds</h2>
-              <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-                {/* Camembert simulé CSS */}
-                <div style={{ position: "relative", width: 90, height: 90, flexShrink: 0 }}>
-                  <svg viewBox="0 0 36 36" style={{ width: 90, height: 90, transform: "rotate(-90deg)" }}>
-                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#374151" strokeWidth="3.8" />
-                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#0ea5e9" strokeWidth="3.8"
-                      strokeDasharray="60 40" strokeDashoffset="0" />
-                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#fbbf24" strokeWidth="3.8"
-                      strokeDasharray="25 75" strokeDashoffset="-60" />
-                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#6366f1" strokeWidth="3.8"
-                      strokeDasharray="15 85" strokeDashoffset="-85" />
-                  </svg>
-                </div>
-                <div style={{ flex: 1 }}>
-                  {[
-                    { label: "Équipements médicaux", pct: 60, color: "#0ea5e9" },
-                    { label: "Infrastructures", pct: 25, color: "#fbbf24" },
-                    { label: "Formation personnels", pct: 15, color: "#6366f1" },
-                  ].map(item => (
-                    <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-                      <div style={{ width: 10, height: 10, borderRadius: "50%", background: item.color, flexShrink: 0 }} />
-                      <span style={{ fontSize: 12, color: "#9ca3af", flex: 1 }}>{item.label}</span>
-                      <span style={{ fontSize: 12, fontWeight: 700, color: item.color }}>{item.pct}%</span>
-                    </div>
-                  ))}
-                </div>
+              <p style={{ fontSize:12, color:"rgba(255,255,255,0.4)", margin:"0 0 12px" }}>Méthode de paiement</p>
+              <div style={{ display:"flex", gap:8, flexWrap:"wrap", marginBottom:16 }}>
+                {["🟠 Orange Money","🔵 Wave","💳 Carte bancaire","🏦 Virement"].map(m => (
+                  <button key={m} onClick={() => setMethode(m)} style={{ background: methode===m ? "#0ea5e918" : "rgba(255,255,255,0.04)", color: methode===m ? "#0ea5e9" : "rgba(255,255,255,0.6)", border:`1px solid ${methode===m ? "#0ea5e950" : "rgba(255,255,255,0.08)"}`, borderRadius:8, padding:"8px 14px", fontSize:12, fontWeight:600 }}>{m}</button>
+                ))}
               </div>
-              <p style={{ fontSize: 11, color: "#6b7280", marginTop: 12, textAlign: "center" }}>
-                Rapport d'utilisation certifié · Audité par cabinet international
-              </p>
-            </section>
-          </div>
-        </div>
-      </main>
-
-      {/* MODAL SUCCES */}
-      {showModal && (
-        <div style={{
-          position: "fixed", inset: 0, background: "rgba(0,0,0,0.8)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100
-        }} onClick={() => setShowModal(false)}>
-          <div style={{
-            background: "linear-gradient(135deg, #1f2937, #111827)", border: "2px solid #0ea5e9",
-            borderRadius: 20, padding: 48, maxWidth: 420, width: "90%", textAlign: "center",
-            animation: "fadeIn 0.3s ease"
-          }} onClick={e => e.stopPropagation()}>
-            <div style={{ fontSize: 56, marginBottom: 16 }}>🎉</div>
-            <h2 style={{ fontSize: 24, fontWeight: 800, color: "#0ea5e9", marginBottom: 12 }}>Merci pour votre don !</h2>
-            <p style={{ color: "#9ca3af", marginBottom: 8 }}>
-              Don de <strong style={{ color: "#fbbf24" }}>{fmt(finalMontant)}</strong> enregistré avec succès.
-            </p>
-            <p style={{ color: "#9ca3af", marginBottom: 24 }}>
-              Vous recevrez un reçu de confirmation à <strong style={{ color: "#e5e7eb" }}>{email}</strong>
-              {certificat && " ainsi que votre certificat fiscal"}.
-            </p>
-            <div style={{ background: "rgba(16,185,129,0.1)", border: "1px solid #0ea5e9", borderRadius: 10, padding: 14, marginBottom: 24 }}>
-              <p style={{ fontSize: 13, color: "#0ea5e9", margin: 0 }}>
-                "Jazak Allah khayr" — Que Dieu vous récompense au centuple 🤲
-              </p>
+              <button style={{ width:"100%", background:`linear-gradient(135deg, ${COLOR}, #d97706)`, color:"#fff", padding:"12px", borderRadius:10, fontSize:14, fontWeight:700, transition:"all 0.2s" }}>Valider mon don 🤲</button>
             </div>
-            <button onClick={() => setShowModal(false)}
-              style={{ padding: "12px 32px", borderRadius: 8, background: "#0ea5e9", color: "#000", fontWeight: 700, fontSize: 15, border: "none", cursor: "pointer" }}>
-              Fermer
-            </button>
-          </div>
-        </div>
-      )}
 
-      <style>{`
-        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-        input::placeholder, textarea::placeholder { color: #4b5563; }
-        * { box-sizing: border-box; }
-      `}</style>
-    </div>
+            <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.06)", borderRadius:16, padding:"1.5rem" }}>
+              <h3 style={{ fontSize:16, fontWeight:700, margin:"0 0 16px" }}>🕐 Derniers donateurs</h3>
+              {DONATEURS_RECENTS.map(d => (
+                <div key={d.nom} style={{ display:"flex", justifyContent:"space-between", alignItems:"center", padding:"10px 0", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                  <div>
+                    <p style={{ fontSize:14, fontWeight:600, color:"#fff", margin:0 }}>{d.nom}</p>
+                    <p style={{ fontSize:11, color:"rgba(255,255,255,0.35)", margin:0 }}>{d.pays} · {d.date}</p>
+                  </div>
+                  <span style={{ fontSize:13, fontWeight:700, color:COLOR }}>{d.montant}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </main>
+      </div>
+    </>
   )
 }

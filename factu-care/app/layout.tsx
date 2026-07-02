@@ -1,14 +1,13 @@
 import type { Metadata } from "next"
-import { Geist } from "next/font/google"
-import "./globals.css"
-const geist = Geist({ variable: "--font-sans", subsets: ["latin"] })
-export const metadata: Metadata = { title: "FactuCare Ndamatou", description: "Module de facturation et assurance maladie" }
+export const metadata: Metadata = {
+  title: "FactuCare — Facturation & Assurance",
+  description: "Système de facturation, recouvrement et assurance maladie de l'Hôpital Ndamatou.",
+  keywords: ["facturation", "assurance", "Ndamatou", "CMU", "finances"],
+}
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${geist.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col" style={{ fontFamily: "var(--font-sans)" }}>
-        {children}
-      </body>
+    <html lang="fr">
+      <body style={{ margin: 0, background: "#0a1628", fontFamily: "system-ui, sans-serif" }}>{children}</body>
     </html>
   )
 }

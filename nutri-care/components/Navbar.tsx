@@ -1,18 +1,16 @@
 "use client"
-
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
-import { Menu, X, Shield } from "lucide-react"
+import { Menu, X, Hospital } from "lucide-react"
 
 const nav = [
-  { label: "Accueil",        href: "/" },
-  { label: "Observatoire",   href: "/observatoire" },
-  { label: "Signaler",       href: "/signaler" },
-  { label: "Pétitions",      href: "/petitions" },
-  { label: "Décisions CNRA", href: "/decisions" },
-  { label: "Médias agréés",  href: "/medias" },
-  { label: "Éducation",      href: "/education" },
+  { label: "Tableau de bord", href: "/" },
+  { label: "Gestion",         href: "/gestion" },
+  { label: "Patients",        href: "/patients" },
+  { label: "Statistiques",    href: "/stats" },
+  { label: "Rapports",        href: "/rapports" },
+  { label: "Paramètres",      href: "/parametres" },
 ]
 
 export function Navbar() {
@@ -20,75 +18,39 @@ export function Navbar() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="bg-[#d97706] shadow-lg sticky top-0 z-50">
-      {/* Bandeau officiel */}
-      <div className="bg-[#0f2347] py-1 px-4 text-center">
-        <p className="text-[11px] text-blue-300 tracking-wide">
-          🇸🇳 République du Sénégal — Conseil National de Régulation de l&apos;Audiovisuel
+    <header style={{ background: "#f59e0b", boxShadow: "0 2px 12px rgba(0,0,0,0.15)", position: "sticky", top: 0, zIndex: 50 }}>
+      <div style={{ background: "#0a1628", padding: "4px 16px", textAlign: "center" }}>
+        <p style={{ fontSize: 11, color: "#0ea5e9", margin: 0, letterSpacing: "0.08em" }}>
+          🇸🇳 République du Sénégal · Hôpital Ndamatou de Touba · Ministère de la Santé
         </p>
       </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors">
-              <Shield className="size-5 text-[#C9A84C]" />
-            </div>
-            <div>
-              <p className="text-white font-black text-lg leading-none">CNRA</p>
-              <p className="text-[#C9A84C] text-[11px] font-semibold leading-none tracking-wide">CITOYEN</p>
-            </div>
-          </Link>
-
-          {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-1">
-            {nav.map(item => (
-              <Link key={item.href} href={item.href}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  pathname === item.href
-                    ? "bg-white/20 text-white"
-                    : "text-blue-200 hover:bg-white/10 hover:text-white"
-                }`}>
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-
-          {/* CTA */}
-          <div className="hidden lg:flex items-center gap-3">
-            <Link href="/signaler"
-              className="bg-[#C9A84C] hover:bg-[#b8973d] text-white text-sm font-bold px-4 py-2 rounded-lg transition-colors">
-              Signaler une infraction
-            </Link>
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 1.5rem", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+          <div style={{ width: 40, height: 40, borderRadius: 10, background: "rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>🍽️</div>
+          <div>
+            <p style={{ fontSize: 15, fontWeight: 800, color: "#fff", margin: 0 }}>NutriCare</p>
+            <p style={{ fontSize: 9, color: "rgba(255,255,255,0.7)", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", margin: 0 }}>Hôpital Ndamatou · Touba</p>
           </div>
-
-          {/* Mobile menu button */}
-          <button onClick={() => setOpen(!open)} className="lg:hidden text-white p-2">
-            {open ? <X className="size-6" /> : <Menu className="size-6" />}
-          </button>
+        </Link>
+        <nav style={{ display: "flex", alignItems: "center", gap: 4 }} className="hidden lg:flex">
+          {nav.map(item => (
+            <Link key={item.href} href={item.href}
+              style={{
+                padding: "6px 14px", borderRadius: 8, fontSize: 13, fontWeight: 600, textDecoration: "none",
+                background: pathname === item.href ? "rgba(255,255,255,0.2)" : "transparent",
+                color: pathname === item.href ? "#fff" : "rgba(255,255,255,0.75)",
+                transition: "all 0.2s",
+              }}
+            >{item.label}</Link>
+          ))}
+        </nav>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#fff", opacity: 0.9, animation: "pulse 2s infinite" }} />
+          <span style={{ fontSize: 11, color: "rgba(255,255,255,0.85)", fontWeight: 700, letterSpacing: "0.1em" }}>EN LIGNE</span>
         </div>
       </div>
-
-      {/* Mobile menu */}
-      {open && (
-        <div className="lg:hidden bg-[#0f2347] border-t border-white/10">
-          <nav className="px-4 py-3 space-y-1">
-            {nav.map(item => (
-              <Link key={item.href} href={item.href} onClick={() => setOpen(false)}
-                className={`block px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                  pathname === item.href ? "bg-white/20 text-white" : "text-blue-200 hover:bg-white/10"
-                }`}>
-                {item.label}
-              </Link>
-            ))}
-            <Link href="/signaler" onClick={() => setOpen(false)}
-              className="block mt-2 bg-[#C9A84C] text-white text-sm font-bold px-4 py-2.5 rounded-lg text-center">
-              Signaler une infraction
-            </Link>
-          </nav>
-        </div>
-      )}
     </header>
   )
 }
+
+export default Navbar

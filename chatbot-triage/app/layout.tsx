@@ -1,14 +1,13 @@
 import type { Metadata } from "next"
-import { Geist } from "next/font/google"
-import "./globals.css"
-const geist = Geist({ variable: "--font-sans", subsets: ["latin"] })
-export const metadata: Metadata = { title: "Triage IA — Ndamatou", description: "Assistant de triage médical intelligent en wolof et français" }
+export const metadata: Metadata = {
+  title: "Chatbot Triage — Hôpital Ndamatou",
+  description: "Assistant de triage médical IA multilingue pour l'Hôpital Ndamatou de Touba.",
+  keywords: ["triage", "chatbot", "Ndamatou", "urgences", "IA"],
+}
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${geist.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col" style={{ fontFamily: "var(--font-sans)" }}>
-        {children}
-      </body>
+    <html lang="fr">
+      <body style={{ margin: 0, background: "#0a1628", fontFamily: "system-ui, sans-serif" }}>{children}</body>
     </html>
   )
 }

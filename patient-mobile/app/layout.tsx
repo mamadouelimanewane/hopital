@@ -1,17 +1,13 @@
 import type { Metadata } from "next"
-import "./globals.css"
-
 export const metadata: Metadata = {
-  title: "Ndamatou Mobile — Votre santé en poche",
-  description: "Application mobile patient Ndamatou",
+  title: "Patient Mobile — Espace Patient Ndamatou",
+  description: "Application mobile patient pour l'Hôpital Ndamatou de Touba.",
+  keywords: ["patient", "mobile", "rendez-vous", "Ndamatou", "portail"],
 }
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr">
-      <body style={{ margin: 0, padding: 0, background: "#111", color: "#fff", fontFamily: "'Segoe UI', sans-serif" }}>
-        {children}
-      </body>
+      <body style={{ margin: 0, background: "#0a1628", fontFamily: "system-ui, sans-serif" }}>{children}</body>
     </html>
   )
 }

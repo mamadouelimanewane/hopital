@@ -1,247 +1,110 @@
 "use client"
-import { useState, useEffect } from "react"
-import { AlertTriangle, Activity, Globe, FileText, TrendingUp, TrendingDown, Minus } from "lucide-react"
+import { useState } from "react"
 
-const maladies = [
-  { nom: "Paludisme", cas: 127, variation: "+23%", trend: "up", couleur: "#ef4444", alerte: true },
-  { nom: "Choléra", cas: 0, variation: "0%", trend: "stable", couleur: "#22c55e", alerte: false },
-  { nom: "Dengue", cas: 8, variation: "0%", trend: "stable", couleur: "#f59e0b", alerte: false },
-  { nom: "Méningite", cas: 3, variation: "-12%", trend: "down", couleur: "#22c55e", alerte: false },
-  { nom: "COVID variants", cas: 15, variation: "+2%", trend: "stable", couleur: "#f59e0b", alerte: false },
-  { nom: "Rougeole", cas: 2, variation: "-8%", trend: "down", couleur: "#22c55e", alerte: false },
+const STATS = [
+  { label: "Cas signalés aujourd'hui", value: "47", icon: "🦠", color: "#ef4444" },
+  { label: "Maladies surveillées", value: "8", icon: "📊", color: "#f59e0b" },
+  { label: "Régions couvertes", value: "14", icon: "🗺️", color: "#0ea5e9" },
+  { label: "Alertes actives", value: "2", icon: "🚨", color: "#dc2626" },
 ]
 
-const regions = [
-  { nom: "Dakar", niveau: "normal", cases: 23 },
-  { nom: "Thiès", niveau: "surveillance", cases: 47 },
-  { nom: "Kaolack", niveau: "alerte", cases: 89 },
-  { nom: "Diourbel/Touba", niveau: "normal", cases: 12 },
-  { nom: "Saint-Louis", niveau: "normal", cases: 8 },
-  { nom: "Ziguinchor", niveau: "normal", cases: 6 },
-  { nom: "Tambacounda", niveau: "surveillance", cases: 31 },
+const MALADIES = [
+  { nom: "Paludisme", cas: 1240, tendance: "+23%", up: true, gravite: "élevée", region: "Touba, Diourbel" },
+  { nom: "Méningite", cas: 8, tendance: "stable", up: false, gravite: "critique", region: "Saint-Louis" },
+  { nom: "Choléra", cas: 0, tendance: "✓ Zéro", up: false, gravite: "surveillée", region: "—" },
+  { nom: "Dengue", cas: 34, tendance: "+5%", up: true, gravite: "modérée", region: "Dakar, Thiès" },
+  { nom: "Rougeole", cas: 2, tendance: "-80%", up: false, gravite: "faible", region: "Ziguinchor" },
+  { nom: "Tuberculose", cas: 67, tendance: "+2%", up: true, gravite: "élevée", region: "Dakar, Touba" },
+  { nom: "COVID-19", cas: 12, tendance: "-45%", up: false, gravite: "faible", region: "Dakar" },
+  { nom: "Fièvre jaune", cas: 0, tendance: "✓ Zéro", up: false, gravite: "surveillée", region: "—" },
 ]
 
-const niveauCouleur: Record<string, { bg: string; text: string; label: string }> = {
-  normal: { bg: "#14532d", text: "#4ade80", label: "Normal" },
-  surveillance: { bg: "#713f12", text: "#fbbf24", label: "Surveillance" },
-  alerte: { bg: "#7f1d1d", text: "#f87171", label: "Alerte" },
-}
-
-const logs = [
-  "SENSOR_KAOLACK: paludisme +3 cas confirmés",
-  "SYNC_DAKAR_CHU: données reçues — 847 patients",
-  "ALERT_THIÈS: cluster dengue en investigation",
-  "REPORT_OMS: transmission hebdomadaire OK",
-  "SENSOR_TAMBACOUNDA: surveillance active",
-  "AI_MODEL: prédiction flux → normal dans 48h",
-  "SYNC_MINISTERE: indicateurs nationaux transmis",
-  "ALERT_KAOLACK: paludisme — seuil épidémique",
-  "LAB_RESULTS: 12 frottis positifs Plasmodium",
-  "WEATHER_CORR: précipitations +40mm → risque ↑",
+const REGIONS = [
+  { nom: "Touba / Diourbel", statut: "ALERTE", cas: 487, color: "#ef4444" },
+  { nom: "Dakar", statut: "VIGILANCE", cas: 234, color: "#f59e0b" },
+  { nom: "Thiès", statut: "NORMAL", cas: 67, color: "#10b981" },
+  { nom: "Saint-Louis", statut: "ALERTE", cas: 89, color: "#ef4444" },
+  { nom: "Ziguinchor", statut: "NORMAL", cas: 23, color: "#10b981" },
+  { nom: "Kaolack", statut: "VIGILANCE", cas: 56, color: "#f59e0b" },
 ]
 
-export default function EpidémioWatch() {
-  const [heure, setHeure] = useState("")
-  const [logIndex, setLogIndex] = useState(3)
-  const [alerteVisible, setAlerteVisible] = useState(true)
+const COLOR = "#ef4444"
 
-  useEffect(() => {
-    const tick = () => setHeure(new Date().toLocaleTimeString("fr-FR"))
-    tick()
-    const t = setInterval(tick, 1000)
-    return () => clearInterval(t)
-  }, [])
-
-  useEffect(() => {
-    const t = setInterval(() => {
-      setLogIndex(i => (i + 1) % logs.length)
-    }, 3000)
-    return () => clearInterval(t)
-  }, [])
-
+export default function EpidemioPage() {
   return (
     <>
       <style>{`
-        body { margin:0; background:#050a14; color:#e2e8f0; font-family:'Inter',system-ui,sans-serif; }
-        .pulse { animation:pulse 2s infinite; }
-        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
-        .blink { animation:blink 1s step-end infinite; }
-        @keyframes blink { 50%{opacity:0} }
-        .log-line { animation:logFade 0.5s ease-out; }
-        @keyframes logFade { from{opacity:0;transform:translateX(-10px)} to{opacity:1;transform:translateX(0)} }
-        .card-dark { background:rgba(10,15,30,0.8); border:1px solid rgba(255,255,255,0.06); border-radius:12px; }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes pulse { 0%,100%{opacity:.6} 50%{opacity:1} }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+        .fade{animation:fadeUp .5s both} .pulse{animation:pulse 2s infinite}
+        .blink{animation:blink 1s infinite}
+        .row{transition:background .2s} .row:hover{background:rgba(255,255,255,0.04) !important}
       `}</style>
-
-      {/* HEADER */}
-      <div style={{ background: "linear-gradient(135deg,#1a0000,#3b0d0d)" }} className="px-6 py-4 border-b border-red-900/40">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-red-900/50 rounded-xl flex items-center justify-center text-xl">🦠</div>
-            <div>
-              <h1 className="text-xl font-black text-white">Épidémio-Watch <span className="font-light text-red-300">Ndamatou — Sénégal</span></h1>
-              <p className="text-red-400 text-xs">Système de surveillance épidémiologique en temps réel</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="text-gray-400 text-sm font-mono">{heure}</span>
-            <div className="flex items-center gap-2 bg-green-900/30 border border-green-700/40 px-3 py-1.5 rounded-full">
-              <span className="w-2 h-2 bg-green-400 rounded-full pulse"></span>
-              <span className="text-green-400 text-xs font-bold">Surveillance Active</span>
-            </div>
-          </div>
+      <div style={{ minHeight:"100vh", background:"#0a1628", color:"#fff", fontFamily:"system-ui,sans-serif" }}>
+        <div style={{ background:"#7f1d1d", padding:"10px 1.5rem", textAlign:"center" }}>
+          <p className="blink" style={{ fontSize:13, fontWeight:700, color:"#fecaca", margin:0 }}>
+            🚨 ALERTE ACTIVE : Cas de paludisme en hausse de 23% — Région de Touba / Diourbel
+          </p>
         </div>
-      </div>
-
-      {/* ALERTE BANNIÈRE */}
-      {alerteVisible && (
-        <div className="bg-red-900/40 border-b border-red-700/50 px-6 py-2.5 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4 text-red-400 pulse" />
-            <span className="text-red-300 text-sm font-semibold">
-              ⚠️ ALERTE — Cluster Paludisme détecté — Région de Kaolack — <strong>+47 cas en 48h</strong> — Seuil épidémique atteint
-            </span>
-          </div>
-          <button onClick={() => setAlerteVisible(false)} className="text-red-500 hover:text-red-300 text-lg">×</button>
-        </div>
-      )}
-
-      <div className="max-w-7xl mx-auto px-6 py-6 space-y-6">
-
-        {/* CARTE SÉNÉGAL + MALADIES */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-          {/* CARTE STYLISÉE */}
-          <div className="card-dark p-5">
-            <h2 className="font-bold text-white mb-4 flex items-center gap-2"><Globe className="w-4 h-4 text-blue-400" />Carte Épidémique — Sénégal</h2>
-            <div className="relative" style={{ height: 280 }}>
-              {/* Carte CSS stylisée */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <svg viewBox="0 0 300 250" className="w-full h-full">
-                  {/* Forme simplifiée Sénégal */}
-                  <path d="M 20 40 L 80 20 L 160 15 L 230 30 L 260 60 L 250 110 L 230 140 L 200 160 L 170 170 L 140 165 L 100 155 L 60 140 L 30 110 L 15 70 Z" fill="#0f172a" stroke="#1e293b" strokeWidth="2"/>
-                  {regions.map((r, i) => {
-                    const pos = [[160,85],[120,95],[165,115],[100,70],[60,50],[120,165],[220,90]]
-                    const c = niveauCouleur[r.niveau]
-                    return (
-                      <g key={i}>
-                        <circle cx={pos[i][0]} cy={pos[i][1]} r={r.niveau === "alerte" ? 14 : 10} fill={c.bg} stroke={c.text} strokeWidth={r.niveau === "alerte" ? 2 : 1} />
-                        {r.niveau === "alerte" && <circle cx={pos[i][0]} cy={pos[i][1]} r={18} fill="none" stroke={c.text} strokeWidth="1" opacity="0.4" className="pulse" />}
-                        <text x={pos[i][0]} y={pos[i][1]+1} textAnchor="middle" dominantBaseline="middle" fontSize="7" fill={c.text} fontWeight="bold">{r.cas}</text>
-                        <text x={pos[i][0]} y={pos[i][1]+16} textAnchor="middle" fontSize="6" fill="#94a3b8">{r.nom.split("/")[0]}</text>
-                      </g>
-                    )
-                  })}
-                </svg>
-              </div>
-            </div>
-            {/* Légende */}
-            <div className="flex gap-4 mt-2 justify-center">
-              {Object.entries(niveauCouleur).map(([k, v]) => (
-                <div key={k} className="flex items-center gap-1.5">
-                  <div className="w-3 h-3 rounded-full" style={{ background: v.text }}></div>
-                  <span className="text-xs text-gray-400">{v.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* MALADIES */}
-          <div className="card-dark p-5">
-            <h2 className="font-bold text-white mb-4 flex items-center gap-2"><Activity className="w-4 h-4 text-purple-400" />Maladies Surveillées — Cette semaine</h2>
-            <div className="space-y-3">
-              {maladies.map((m, i) => (
-                <div key={i} className="flex items-center justify-between p-3 rounded-lg" style={{ background: "rgba(255,255,255,0.03)" }}>
-                  <div className="flex items-center gap-3">
-                    <div className="w-3 h-3 rounded-full" style={{ background: m.couleur }}></div>
-                    <span className="font-semibold text-gray-200 text-sm">{m.nom}</span>
-                    {m.alerte && <span className="text-xs bg-red-900/50 text-red-400 px-2 py-0.5 rounded-full pulse">ALERTE</span>}
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="font-black text-white text-lg">{m.cas}</span>
-                    <span className="text-xs">cas/sem</span>
-                    <div className="flex items-center gap-1" style={{ color: m.trend === "up" ? "#ef4444" : m.trend === "down" ? "#22c55e" : "#94a3b8" }}>
-                      {m.trend === "up" ? <TrendingUp className="w-4 h-4" /> : m.trend === "down" ? <TrendingDown className="w-4 h-4" /> : <Minus className="w-4 h-4" />}
-                      <span className="text-xs font-bold">{m.variation}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* TERMINAL + RAPPORT */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-          {/* TERMINAL LIVE */}
-          <div className="lg:col-span-2 card-dark p-5">
-            <h2 className="font-bold text-white mb-3 flex items-center gap-2">
-              <span className="w-3 h-3 bg-green-500 rounded-full pulse"></span>
-              Terminal de surveillance — Données live
-            </h2>
-            <div className="font-mono text-xs" style={{ background: "#000", borderRadius: 8, padding: "12px 16px", minHeight: 180 }}>
-              {logs.slice(logIndex > 5 ? logIndex - 5 : 0, logIndex + 1).map((l, i) => (
-                <div key={i} className={i === (logIndex > 5 ? 5 : logIndex) ? "log-line" : ""}>
-                  <span style={{ color: "#4ade80" }}>[{new Date().toLocaleTimeString("fr-FR")}] </span>
-                  <span style={{ color: "#93c5fd" }}>{l}</span>
-                </div>
-              ))}
-              <span style={{ color: "#4ade80" }} className="blink">█</span>
-            </div>
-          </div>
-
-          {/* RAPPORT OMS */}
-          <div className="card-dark p-5 flex flex-col gap-4">
-            <h2 className="font-bold text-white flex items-center gap-2"><FileText className="w-4 h-4 text-blue-400" />Rapport OMS</h2>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-gray-400">Dernière transmission</span>
-                <span className="text-green-400 font-semibold">18 Juin 2026</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-400">Prochaine</span>
-                <span className="text-white font-semibold">25 Juin 2026</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-400">Statut Ministère</span>
-                <span className="text-green-400 font-semibold">✅ À jour</span>
-              </div>
-            </div>
-            <button className="w-full bg-blue-700 hover:bg-blue-600 text-white py-2.5 rounded-lg text-sm font-bold transition">
-              📄 Générer rapport hebdomadaire
-            </button>
-            <div className="border-t border-white/5 pt-4">
-              <h3 className="text-xs text-gray-500 font-semibold mb-3 uppercase tracking-wide">Corrélations détectées</h3>
-              <div className="space-y-2 text-xs text-gray-400">
-                <div>🌧️ Pluies +40mm → Paludisme ↑ 23%</div>
-                <div>📅 Grand Magal J-60 → Préparer surge</div>
-                <div>🚌 Mobilité élevée → Dengue stable</div>
+        <header style={{ background:"rgba(10,22,40,0.95)", borderBottom:"1px solid rgba(239,68,68,0.2)", backdropFilter:"blur(20px)", position:"sticky", top:0, zIndex:50 }}>
+          <div style={{ maxWidth:1280, margin:"0 auto", padding:"0 1.5rem", height:64, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+            <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+              <div style={{ width:40, height:40, borderRadius:12, background:"linear-gradient(135deg,#ef4444,#991b1b)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20 }}>🦠</div>
+              <div>
+                <p style={{ fontSize:15, fontWeight:800, color:"#fff", margin:0 }}>Épidémio<span style={{color:COLOR}}>-Watch</span></p>
+                <p style={{ fontSize:9, color:"rgba(239,68,68,0.7)", fontWeight:600, letterSpacing:"0.12em", textTransform:"uppercase", margin:0 }}>Surveillance Épidémique · Sénégal</p>
               </div>
             </div>
           </div>
-        </div>
-
-        {/* ALERTES FLUX */}
-        <div className="card-dark p-5">
-          <h2 className="font-bold text-white mb-4 flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-yellow-400" />Flux d'alertes en temps réel</h2>
-          <div className="space-y-2">
-            {[
-              { region: "Kaolack", type: "Paludisme", gravite: "Élevée", action: "Déploiement équipe mobile", time: "Il y a 2h", color: "border-red-500 bg-red-900/10" },
-              { region: "Thiès", type: "Dengue", gravite: "Modérée", action: "Investigation en cours", time: "Il y a 5h", color: "border-yellow-500 bg-yellow-900/10" },
-              { region: "Tambacounda", type: "Paludisme", gravite: "Faible", action: "Surveillance renforcée", time: "Il y a 12h", color: "border-yellow-500 bg-yellow-900/10" },
-              { region: "National", type: "Surveillance COVID", gravite: "Minimale", action: "Monitoring passif", time: "Il y a 24h", color: "border-gray-600 bg-gray-900/10" },
-            ].map((a, i) => (
-              <div key={i} className={`border-l-2 ${a.color} pl-4 py-2 rounded-r-lg flex flex-col md:flex-row justify-between gap-2`}>
-                <div>
-                  <span className="font-bold text-white text-sm">{a.region} — {a.type}</span>
-                  <span className="text-gray-400 text-xs ml-3">Gravité : {a.gravite}</span>
-                  <p className="text-gray-500 text-xs mt-1">→ {a.action}</p>
-                </div>
-                <span className="text-xs text-gray-600 whitespace-nowrap">{a.time}</span>
+        </header>
+        <main style={{ maxWidth:1280, margin:"0 auto", padding:"2rem 1.5rem" }}>
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))", gap:16, marginBottom:"2rem" }}>
+            {STATS.map((s, i) => (
+              <div key={s.label} className="fade" style={{ animationDelay:`${i*0.1}s`, background:"rgba(255,255,255,0.03)", border:`1px solid ${s.color}30`, borderRadius:16, padding:"1.5rem" }}>
+                <p style={{ fontSize:11, color:"rgba(255,255,255,0.45)", textTransform:"uppercase", letterSpacing:"0.1em", margin:0 }}>{s.label}</p>
+                <p style={{ fontSize:32, fontWeight:800, color:s.color, margin:"8px 0 0" }}>{s.value}</p>
               </div>
             ))}
           </div>
-        </div>
+          <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:20, overflow:"hidden", marginBottom:"2rem" }}>
+            <div style={{ padding:"1.5rem", borderBottom:"1px solid rgba(255,255,255,0.06)" }}>
+              <h2 style={{ fontSize:18, fontWeight:800, margin:0 }}>Tableau de surveillance par maladie</h2>
+            </div>
+            <table style={{ width:"100%", borderCollapse:"collapse" }}>
+              <thead><tr style={{ background:"rgba(255,255,255,0.03)" }}>
+                {["Maladie","Cas / semaine","Tendance","Gravité","Régions"].map(h => (
+                  <th key={h} style={{ padding:"12px 16px", textAlign:"left", fontSize:11, color:"rgba(255,255,255,0.4)", textTransform:"uppercase", letterSpacing:"0.08em", fontWeight:700 }}>{h}</th>
+                ))}
+              </tr></thead>
+              <tbody>
+                {MALADIES.map(m => (
+                  <tr key={m.nom} className="row" style={{ borderTop:"1px solid rgba(255,255,255,0.04)" }}>
+                    <td style={{ padding:"14px 16px", fontSize:14, fontWeight:700, color:"#fff" }}>{m.nom}</td>
+                    <td style={{ padding:"14px 16px", fontSize:16, fontWeight:800, color: m.cas > 100 ? "#ef4444" : m.cas > 0 ? "#f59e0b" : "#10b981" }}>{m.cas.toLocaleString()}</td>
+                    <td style={{ padding:"14px 16px", fontSize:13, fontWeight:600, color: m.up ? "#ef4444" : "#10b981" }}>{m.tendance}</td>
+                    <td style={{ padding:"14px 16px" }}>
+                      <span style={{ background: m.gravite==="critique" ? "#ef444418" : m.gravite==="élevée" ? "#f59e0b18" : m.gravite==="modérée" ? "#0ea5e918" : m.gravite==="surveillée" ? "#6366f118" : "#10b98118", color: m.gravite==="critique" ? "#ef4444" : m.gravite==="élevée" ? "#f59e0b" : m.gravite==="modérée" ? "#0ea5e9" : m.gravite==="surveillée" ? "#6366f1" : "#10b981", padding:"3px 10px", borderRadius:100, fontSize:11, fontWeight:700 }}>{m.gravite}</span>
+                    </td>
+                    <td style={{ padding:"14px 16px", fontSize:13, color:"rgba(255,255,255,0.5)" }}>{m.region}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <h2 style={{ fontSize:18, fontWeight:800, margin:"0 0 1rem" }}>Statut par région</h2>
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(200px, 1fr))", gap:12 }}>
+            {REGIONS.map(r => (
+              <div key={r.nom} className="fade" style={{ background:"rgba(255,255,255,0.02)", border:`1px solid ${r.color}30`, borderRadius:12, padding:"1rem" }}>
+                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:8 }}>
+                  <span style={{ fontSize:14, fontWeight:700, color:"#fff" }}>{r.nom}</span>
+                  <span style={{ background:`${r.color}18`, color:r.color, padding:"2px 8px", borderRadius:100, fontSize:10, fontWeight:700 }}>{r.statut}</span>
+                </div>
+                <p style={{ fontSize:24, fontWeight:800, color:r.color, margin:0 }}>{r.cas} <span style={{ fontSize:12, fontWeight:500, color:"rgba(255,255,255,0.35)" }}>cas</span></p>
+              </div>
+            ))}
+          </div>
+        </main>
       </div>
     </>
   )

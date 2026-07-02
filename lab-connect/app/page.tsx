@@ -1,218 +1,107 @@
 "use client"
-import { useState } from "react"
-import { FlaskConical, AlertTriangle, Clock, CheckCircle, ChevronRight, Search, Download, Zap } from "lucide-react"
-
-const analyses = [
-  { id: "LAB-2847", patient: "Awa Diop", type: "Numération Formule Sanguine", resultat: "Hémoglobine 9.2 g/dL", normal: "12-16 g/dL", statut: "Anormal", medecin: "Dr. Ndiaye", urgence: true },
-  { id: "LAB-2846", patient: "Moussa Sow", type: "Glycémie à Jeun", resultat: "1.87 g/L", normal: "0.70-1.10 g/L", statut: "Critique", medecin: "Dr. Ba", urgence: true },
-  { id: "LAB-2845", patient: "Fatou Fall", type: "Créatinine Sanguine", resultat: "8.2 mg/L", normal: "6-12 mg/L", statut: "Normal", medecin: "Dr. Diallo", urgence: false },
-  { id: "LAB-2844", patient: "Ibrahima Ly", type: "Transaminases ALAT", resultat: "187 UI/L", normal: "7-56 UI/L", statut: "Critique", medecin: "Dr. Ndiaye", urgence: true },
-  { id: "LAB-2843", patient: "Mariama Gueye", type: "PCR Paludisme", resultat: "Positif — Plasmodium falciparum", normal: "Négatif", statut: "Anormal", medecin: "Dr. Seck", urgence: true },
-  { id: "LAB-2842", patient: "Cheikh Mbaye", type: "Cholestérol Total", resultat: "1.95 g/L", normal: "<2.00 g/L", statut: "Normal", medecin: "Dr. Ba", urgence: false },
-  { id: "LAB-2841", patient: "Rokhaya Cissé", type: "Groupe Sanguin + Rhésus", resultat: "B Rhésus Négatif", normal: "—", statut: "Normal", medecin: "Dr. Diallo", urgence: false },
-  { id: "LAB-2840", patient: "Omar Sarr", type: "Protéine C-Réactive (CRP)", resultat: "142 mg/L", normal: "<5 mg/L", statut: "Critique", medecin: "Dr. Ndiaye", urgence: true },
+const STATS = [
+  { label: "Analyses en attente", value: "342", icon: "⏳", color: "#f59e0b" },
+  { label: "Résultats prêts", value: "89", icon: "✅", color: "#10b981" },
+  { label: "Automates connectés", value: "12", icon: "🔬", color: "#0ea5e9" },
+  { label: "Délai moyen", value: "4.2h", icon: "⏱️", color: "#6366f1" },
 ]
 
-const enCours = [
-  { id: "LAB-2848", patient: "Aissatou Barry", type: "Bilan Rénal Complet", etape: 3, total: 5, debut: "09:15" },
-  { id: "LAB-2849", patient: "Lamine Diagne", type: "Sérologie VIH", etape: 2, total: 5, debut: "09:42" },
-  { id: "LAB-2850", patient: "Ndèye Thiam", type: "Test de Grossesse Sérique", etape: 4, total: 5, debut: "10:05" },
-  { id: "LAB-2851", patient: "Aliou Koné", type: "Ionogramme Sanguin", etape: 1, total: 5, debut: "10:30" },
+const ANALYSES = [
+  { num: "PRE-4827", patient: "Mame Diarra Seck", type: "NFS complète", automate: "Sysmex XN-550", priorite: "Normale", temps: "45 min", statut: "En cours" },
+  { num: "PRE-4828", patient: "Ibrahima Koné", type: "Biochimie", automate: "Cobas c311", priorite: "Urgente", temps: "20 min", statut: "En cours" },
+  { num: "PRE-4829", patient: "Sokhna Mbaye", type: "Sérologie VIH/VHB", automate: "Architect i1000", priorite: "Normale", temps: "2h", statut: "En attente" },
+  { num: "PRE-4830", patient: "Oumar Ndiaye", type: "Bactériologie (ECBU)", automate: "BacT/ALERT", priorite: "Normale", temps: "24h", statut: "En culture" },
+  { num: "PRE-4831", patient: "Fatou Diallo", type: "Glycémie à jeun", automate: "Cobas c311", priorite: "Normale", temps: "—", statut: "Résultat prêt" },
+  { num: "PRE-4832", patient: "Cheikh Tidiane Sy", type: "Bilan rénal complet", automate: "Cobas c311", priorite: "Urgente", temps: "15 min", statut: "En cours" },
+  { num: "PRE-4833", patient: "Aminata Touré", type: "TSH / T3 / T4", automate: "Architect i1000", priorite: "Normale", temps: "3h", statut: "En attente" },
 ]
 
-const etapes = ["Prélèvement", "Centrifugation", "Analyse", "Validation", "Transmission"]
+const CRITIQUES = [
+  { patient: "Ibrahima Koné", analyse: "Créatinine", valeur: "487 µmol/L", ref: "60-110", gravite: "CRITIQUE" },
+  { patient: "Cheikh T. Sy", analyse: "Kaliémie", valeur: "6.8 mmol/L", ref: "3.5-5.0", gravite: "DANGER" },
+  { patient: "Ousmane Faye", analyse: "Hémoglobine", valeur: "5.2 g/dL", ref: "12-17", gravite: "CRITIQUE" },
+]
 
-export default function LabConnect() {
-  const [onglet, setOnglet] = useState<"resultats" | "encours" | "critiques" | "historique">("resultats")
-  const [recherche, setRecherche] = useState("")
+const COLOR = "#0369a1"
 
-  const critiques = analyses.filter(a => a.statut === "Critique")
-  const filtres = analyses.filter(a =>
-    a.patient.toLowerCase().includes(recherche.toLowerCase()) ||
-    a.type.toLowerCase().includes(recherche.toLowerCase())
-  )
-
+export default function LabPage() {
   return (
     <>
       <style>{`
-        body { margin:0; background:#f0f7ff; color:#1e293b; font-family:'Inter',system-ui,sans-serif; }
-        .pulse { animation: pulse 2s infinite; }
-        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
-        .fade { animation: fade 0.4s ease-out; }
-        @keyframes fade { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-        .progress-bar { transition: width 0.6s ease; }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes pulse { 0%,100%{opacity:.6} 50%{opacity:1} }
+        .fade{animation:fadeUp .5s both} .pulse{animation:pulse 2s infinite}
+        .row{transition:background .2s} .row:hover{background:rgba(255,255,255,0.04)!important}
       `}</style>
-
-      {/* HEADER */}
-      <div style={{ background: "linear-gradient(135deg,#1d4ed8,#0ea5e9)" }} className="text-white px-6 py-5">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex justify-between items-center mb-5">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-                <FlaskConical className="w-6 h-6" />
-              </div>
+      <div style={{ minHeight:"100vh", background:"#0a1628", color:"#fff", fontFamily:"system-ui,sans-serif" }}>
+        <header style={{ background:"rgba(10,22,40,0.95)", borderBottom:"1px solid rgba(3,105,161,0.3)", backdropFilter:"blur(20px)", position:"sticky", top:0, zIndex:50 }}>
+          <div style={{ maxWidth:1280, margin:"0 auto", padding:"0 1.5rem", height:64, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+            <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+              <div style={{ width:40, height:40, borderRadius:12, background:"linear-gradient(135deg,#0369a1,#075985)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20 }}>🧪</div>
               <div>
-                <h1 className="text-xl font-black tracking-tight">Lab Connect <span className="font-light">Ndamatou</span></h1>
-                <p className="text-blue-200 text-xs">Laboratoire d'analyses connecté en temps réel</p>
+                <p style={{ fontSize:15, fontWeight:800, color:"#fff", margin:0 }}>Lab <span style={{color:COLOR}}>Connect</span></p>
+                <p style={{ fontSize:9, color:"rgba(3,105,161,0.8)", fontWeight:600, letterSpacing:"0.12em", textTransform:"uppercase", margin:0 }}>Laboratoire Connecté · Hôpital Ndamatou</p>
               </div>
             </div>
-            <div className="flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-full">
-              <span className="w-2 h-2 bg-green-400 rounded-full pulse"></span>
-              <span className="text-sm font-semibold">Système Actif</span>
-            </div>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {[
-              { label: "En cours", val: "47", color: "bg-blue-500/30" },
-              { label: "Résultats prêts", val: "12", color: "bg-green-500/30" },
-              { label: "Alertes critiques", val: "4", color: "bg-red-500/30" },
-              { label: "Délai moyen", val: "2h15", color: "bg-purple-500/30" },
-            ].map((s, i) => (
-              <div key={i} className={`${s.color} backdrop-blur-sm rounded-xl p-3 text-center`}>
-                <div className="text-2xl font-black">{s.val}</div>
-                <div className="text-xs text-blue-100">{s.label}</div>
+        </header>
+        <main style={{ maxWidth:1280, margin:"0 auto", padding:"2rem 1.5rem" }}>
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))", gap:16, marginBottom:"2rem" }}>
+            {STATS.map((s, i) => (
+              <div key={s.label} className="fade" style={{ animationDelay:`${i*0.1}s`, background:"rgba(255,255,255,0.03)", border:`1px solid ${s.color}30`, borderRadius:16, padding:"1.5rem" }}>
+                <p style={{ fontSize:11, color:"rgba(255,255,255,0.45)", textTransform:"uppercase", letterSpacing:"0.1em", margin:0 }}>{s.label}</p>
+                <p style={{ fontSize:32, fontWeight:800, color:s.color, margin:"8px 0 0" }}>{s.value}</p>
               </div>
             ))}
           </div>
-        </div>
-      </div>
-
-      {/* ONGLETS */}
-      <div className="max-w-7xl mx-auto px-6 mt-6">
-        <div className="flex gap-2 mb-6 flex-wrap">
-          {(["resultats", "encours", "critiques", "historique"] as const).map(t => (
-            <button key={t} onClick={() => setOnglet(t)}
-              className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${onglet === t ? "bg-blue-600 text-white" : "bg-white text-gray-600 hover:bg-blue-50"}`}>
-              {t === "resultats" && "📋 Résultats prêts"}
-              {t === "encours" && "⏳ En cours (47)"}
-              {t === "critiques" && <span className="flex items-center gap-1"><AlertTriangle className="w-4 h-4 text-red-500" />Critiques ({critiques.length})</span>}
-              {t === "historique" && "📁 Historique"}
-            </button>
-          ))}
-        </div>
-
-        {/* RÉSULTATS */}
-        {onglet === "resultats" && (
-          <div className="fade">
-            <div className="mb-4 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <input value={recherche} onChange={e => setRecherche(e.target.value)}
-                placeholder="Rechercher patient ou type d'examen..."
-                className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-lg bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          {CRITIQUES.length > 0 && (
+            <div className="fade" style={{ animationDelay:"0.4s", background:"rgba(239,68,68,0.06)", border:"1px solid rgba(239,68,68,0.2)", borderRadius:16, padding:"1.5rem", marginBottom:"2rem" }}>
+              <h3 style={{ fontSize:14, fontWeight:700, color:"#ef4444", margin:"0 0 12px" }}>🚨 Résultats critiques à valider</h3>
+              {CRITIQUES.map(c => (
+                <div key={c.patient+c.analyse} style={{ display:"flex", justifyContent:"space-between", alignItems:"center", padding:"8px 0", borderBottom:"1px solid rgba(239,68,68,0.1)" }}>
+                  <div>
+                    <span style={{ fontSize:13, fontWeight:700, color:"#fff" }}>{c.patient}</span>
+                    <span style={{ fontSize:12, color:"rgba(255,255,255,0.4)", marginLeft:8 }}>{c.analyse}</span>
+                  </div>
+                  <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+                    <span style={{ fontSize:14, fontWeight:800, color:"#ef4444" }}>{c.valeur}</span>
+                    <span style={{ fontSize:11, color:"rgba(255,255,255,0.3)" }}>réf: {c.ref}</span>
+                    <span style={{ background:"#ef444418", color:"#ef4444", padding:"2px 8px", borderRadius:100, fontSize:10, fontWeight:700 }}>{c.gravite}</span>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-              <table className="w-full text-sm">
-                <thead className="bg-gray-50 border-b border-gray-100">
-                  <tr>
-                    {["ID", "Patient", "Examen", "Résultat", "Valeurs Normales", "Statut", "Médecin", "Action"].map(h => (
-                      <th key={h} className="text-left px-4 py-3 text-xs font-bold text-gray-500 uppercase tracking-wide">{h}</th>
-                    ))}
+          )}
+          <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:20, overflow:"hidden" }}>
+            <div style={{ padding:"1.5rem", borderBottom:"1px solid rgba(255,255,255,0.06)" }}>
+              <h2 style={{ fontSize:18, fontWeight:800, margin:0 }}>Analyses en cours</h2>
+            </div>
+            <table style={{ width:"100%", borderCollapse:"collapse" }}>
+              <thead><tr style={{ background:"rgba(255,255,255,0.03)" }}>
+                {["N° Prélèvement","Patient","Type","Automate","Priorité","Temps","Statut"].map(h => (
+                  <th key={h} style={{ padding:"12px 16px", textAlign:"left", fontSize:11, color:"rgba(255,255,255,0.4)", textTransform:"uppercase", letterSpacing:"0.08em", fontWeight:700 }}>{h}</th>
+                ))}
+              </tr></thead>
+              <tbody>
+                {ANALYSES.map(a => (
+                  <tr key={a.num} className="row" style={{ borderTop:"1px solid rgba(255,255,255,0.04)" }}>
+                    <td style={{ padding:"14px 16px", fontSize:12, fontWeight:600, color:COLOR, fontFamily:"monospace" }}>{a.num}</td>
+                    <td style={{ padding:"14px 16px", fontSize:14, fontWeight:700, color:"#fff" }}>{a.patient}</td>
+                    <td style={{ padding:"14px 16px", fontSize:13, color:"rgba(255,255,255,0.6)" }}>{a.type}</td>
+                    <td style={{ padding:"14px 16px", fontSize:12, color:"rgba(255,255,255,0.45)" }}>{a.automate}</td>
+                    <td style={{ padding:"14px 16px" }}>
+                      <span style={{ background: a.priorite==="Urgente" ? "#ef444418" : "rgba(255,255,255,0.04)", color: a.priorite==="Urgente" ? "#ef4444" : "rgba(255,255,255,0.5)", padding:"3px 10px", borderRadius:100, fontSize:11, fontWeight:700 }}>{a.priorite}</span>
+                    </td>
+                    <td style={{ padding:"14px 16px", fontSize:13, color:"rgba(255,255,255,0.5)" }}>{a.temps}</td>
+                    <td style={{ padding:"14px 16px" }}>
+                      <span style={{ background: a.statut==="Résultat prêt" ? "#10b98118" : a.statut.includes("cours") ? "#0ea5e918" : a.statut==="En culture" ? "#8b5cf618" : "#f59e0b18", color: a.statut==="Résultat prêt" ? "#10b981" : a.statut.includes("cours") ? "#0ea5e9" : a.statut==="En culture" ? "#8b5cf6" : "#f59e0b", padding:"3px 10px", borderRadius:100, fontSize:11, fontWeight:700 }}>{a.statut}</span>
+                    </td>
                   </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-50">
-                  {filtres.map((a, i) => (
-                    <tr key={i} className="hover:bg-blue-50/30 transition">
-                      <td className="px-4 py-3 font-mono text-xs text-gray-500">{a.id}</td>
-                      <td className="px-4 py-3 font-semibold">{a.patient}</td>
-                      <td className="px-4 py-3 text-gray-600">{a.type}</td>
-                      <td className="px-4 py-3">
-                        <span className={`font-semibold ${a.statut === "Critique" ? "text-red-600" : a.statut === "Anormal" ? "text-orange-600" : "text-green-600"}`}>
-                          {a.resultat}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-gray-400 text-xs">{a.normal}</td>
-                      <td className="px-4 py-3">
-                        <span className={`px-2 py-1 rounded-full text-xs font-bold ${a.statut === "Critique" ? "bg-red-100 text-red-700" : a.statut === "Anormal" ? "bg-orange-100 text-orange-700" : "bg-green-100 text-green-700"}`}>
-                          {a.statut === "Critique" && "🚨 "}{a.statut}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-gray-600">{a.medecin}</td>
-                      <td className="px-4 py-3">
-                        <button className="text-blue-600 hover:underline text-xs font-semibold flex items-center gap-1">
-                          Transmettre <ChevronRight className="w-3 h-3" />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                ))}
+              </tbody>
+            </table>
           </div>
-        )}
-
-        {/* EN COURS */}
-        {onglet === "encours" && (
-          <div className="fade space-y-4">
-            {enCours.map((a, i) => (
-              <div key={i} className="bg-white rounded-xl border border-gray-100 p-5 shadow-sm">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <span className="font-mono text-xs text-gray-400">{a.id}</span>
-                    <h3 className="font-bold text-gray-900">{a.patient}</h3>
-                    <p className="text-sm text-gray-500">{a.type}</p>
-                  </div>
-                  <div className="flex items-center gap-1 text-gray-400 text-xs">
-                    <Clock className="w-3 h-3" /> Début {a.debut}
-                  </div>
-                </div>
-                <div className="flex gap-1 mb-2">
-                  {etapes.map((e, j) => (
-                    <div key={j} className="flex-1 text-center">
-                      <div className={`h-2 rounded-full mb-1 ${j < a.etape ? "bg-blue-500" : j === a.etape ? "bg-blue-300 pulse" : "bg-gray-100"}`}></div>
-                      <span className="text-xs text-gray-400 hidden md:block">{e}</span>
-                    </div>
-                  ))}
-                </div>
-                <p className="text-xs text-blue-600 font-semibold">Étape {a.etape}/{a.total} — {etapes[a.etape - 1]}</p>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* CRITIQUES */}
-        {onglet === "critiques" && (
-          <div className="fade space-y-3">
-            <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-center gap-3 mb-4">
-              <AlertTriangle className="w-5 h-5 text-red-600 flex-shrink-0" />
-              <p className="text-red-700 text-sm font-semibold">{critiques.length} résultats critiques nécessitent une action immédiate</p>
-            </div>
-            {critiques.map((a, i) => (
-              <div key={i} className="bg-white border-l-4 border-red-500 rounded-xl p-5 shadow-sm">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <span className="text-xs font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded-full">🚨 CRITIQUE</span>
-                    <h3 className="font-bold text-gray-900 mt-2">{a.patient} — {a.type}</h3>
-                    <p className="text-red-600 font-semibold text-sm mt-1">{a.resultat}</p>
-                    <p className="text-gray-400 text-xs">Valeur normale : {a.normal}</p>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <button className="bg-red-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-red-700 transition">Appeler {a.medecin}</button>
-                    <button className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-xs font-semibold hover:bg-gray-200 transition">Voir dossier</button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* HISTORIQUE */}
-        {onglet === "historique" && (
-          <div className="fade bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="font-bold text-gray-900">Historique des analyses</h3>
-              <button className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition">
-                <Download className="w-4 h-4" /> Exporter
-              </button>
-            </div>
-            <div className="text-center py-12 text-gray-400">
-              <Zap className="w-10 h-10 mx-auto mb-3 text-gray-200" />
-              <p className="font-semibold">Historique — 3,847 analyses archivées</p>
-              <p className="text-sm mt-1">Utilisez la recherche ci-dessus pour filtrer par patient ou période</p>
-            </div>
-          </div>
-        )}
-
-        <div className="h-10"></div>
+        </main>
       </div>
     </>
   )

@@ -1,292 +1,123 @@
 "use client"
-import { useState } from "react"
-import Navbar from "@/components/Navbar"
+import { useState, useEffect } from "react"
 
-const modules = [
-  {
-    id: "cardio",
-    icon: "🫀",
-    title: "Cardiologie",
-    subtitle: "Analyse ECG",
-    description: "Détection d'arythmies, infarctus, anomalies cardiaques via analyse d'électrocardiogrammes.",
-    precision: "96.1%",
-    color: "#ef4444",
-    bg: "rgba(239,68,68,0.08)",
-    border: "rgba(239,68,68,0.25)",
-  },
-  {
-    id: "ophta",
-    icon: "👁️",
-    title: "Ophtalmologie",
-    subtitle: "Fond d'œil",
-    description: "Analyse de rétinopathie diabétique, glaucome et DMLA sur clichés de fond d'œil.",
-    precision: "94.7%",
-    color: "#8b5cf6",
-    bg: "rgba(139,92,246,0.08)",
-    border: "rgba(139,92,246,0.25)",
-  },
-  {
-    id: "bio",
-    icon: "🧪",
-    title: "Biologie",
-    subtitle: "Bilans sanguins",
-    description: "Interprétation automatisée des bilans biologiques avec détection de valeurs critiques.",
-    precision: "93.8%",
-    color: "#06b6d4",
-    bg: "rgba(6,182,212,0.08)",
-    border: "rgba(6,182,212,0.25)",
-  },
-  {
-    id: "neuro",
-    icon: "🧠",
-    title: "Neurologie",
-    subtitle: "IRM cérébrale",
-    description: "Détection de tumeurs, AVC, lésions démyélinisantes sur images IRM cérébrales.",
-    precision: "92.5%",
-    color: "#f59e0b",
-    bg: "rgba(245,158,11,0.08)",
-    border: "rgba(245,158,11,0.25)",
-  },
+const STATS = [
+  { label: "Analyses aujourd'hui", value: "1 240", icon: "🧠", color: "#7c3aed" },
+  { label: "Précision IA", value: "94.7%", icon: "🎯", color: "#10b981" },
+  { label: "Temps moyen", value: "3.2s", icon: "⚡", color: "#f59e0b" },
+  { label: "Modèles IA actifs", value: "8", icon: "🤖", color: "#0ea5e9" },
 ]
 
-const recentAnalyses = [
-  { id: "ANA-2024-1247", patient: "Ibrahima Diallo", module: "Cardiologie", date: "20/06/2026 09:14", statut: "alerte", resultat: "Fibrillation auriculaire détectée — Consultation urgente" },
-  { id: "ANA-2024-1246", patient: "Fatou Ndiaye", module: "Biologie", date: "20/06/2026 08:47", statut: "termine", resultat: "Bilan normal — Aucune anomalie significative" },
-  { id: "ANA-2024-1245", patient: "Moussa Sarr", module: "Ophtalmologie", date: "20/06/2026 08:31", statut: "surveillance", resultat: "Rétinopathie stade 1 — Surveillance recommandée dans 3 mois" },
-  { id: "ANA-2024-1244", patient: "Aissatou Ba", module: "Neurologie", date: "20/06/2026 07:55", statut: "termine", resultat: "IRM sans particularité — Résultat normal" },
-  { id: "ANA-2024-1243", patient: "Oumar Fall", module: "Cardiologie", date: "19/06/2026 17:22", statut: "en_cours", resultat: "Analyse en cours..." },
+const ANALYSES = [
+  { patient: "Ousmane Diop", type: "Radio thoracique", resultat: "Pneumonie suspectée", confiance: 89, medecin: "Dr. Ndiaye", statut: "validé" },
+  { patient: "Aïssatou Fall", type: "ECG 12 dérivations", resultat: "Rythme sinusal normal", confiance: 97, medecin: "Dr. Mbaye", statut: "validé" },
+  { patient: "Amadou Ndour", type: "IRM cérébrale", resultat: "Micro-anévrisme détecté", confiance: 92, medecin: "Pr. Diallo", statut: "en attente" },
+  { patient: "Sokhna Mbaye", type: "Dermatoscopie", resultat: "Lésion bénigne", confiance: 85, medecin: "Dr. Sow", statut: "validé" },
+  { patient: "Ibrahima Sy", type: "Fond d'œil", resultat: "Rétinopathie diabétique stade 2", confiance: 91, medecin: "Dr. Fall", statut: "en attente" },
+  { patient: "Mariama Bâ", type: "Radio thoracique", resultat: "Normal — RAS", confiance: 98, medecin: "Dr. Ndiaye", statut: "validé" },
 ]
 
-const statutConfig: Record<string, { label: string; color: string; bg: string }> = {
-  alerte: { label: "Alerte", color: "#ef4444", bg: "rgba(239,68,68,0.15)" },
-  termine: { label: "Terminé", color: "#22c55e", bg: "rgba(34,197,94,0.15)" },
-  surveillance: { label: "Surveillance", color: "#f59e0b", bg: "rgba(245,158,11,0.15)" },
-  en_cours: { label: "En cours", color: "#6366f1", bg: "rgba(99,102,241,0.15)" },
-}
+const MODELES = [
+  { nom: "ChestXpert v3", domaine: "Radiologie thoracique", precision: "94.2%", maj: "28/06/2026" },
+  { nom: "CardioNet-SN", domaine: "ECG & cardiologie", precision: "96.1%", maj: "15/06/2026" },
+  { nom: "NeuroScan-AI", domaine: "IRM cérébrale", precision: "92.8%", maj: "01/07/2026" },
+  { nom: "DermaScope-ML", domaine: "Dermatologie", precision: "88.5%", maj: "20/06/2026" },
+  { nom: "RetinAI", domaine: "Ophtalmologie", precision: "91.3%", maj: "10/06/2026" },
+  { nom: "BioMarker-Detect", domaine: "Analyses biologiques", precision: "95.7%", maj: "25/06/2026" },
+  { nom: "PathFinder v2", domaine: "Anatomopathologie", precision: "89.4%", maj: "05/06/2026" },
+  { nom: "MalarIA", domaine: "Détection paludisme", precision: "97.3%", maj: "30/06/2026" },
+]
 
-const secondAvisReponse = `**Second Avis IA — Analyse des symptômes**
+const COLOR = "#7c3aed"
 
-Basé sur les symptômes décrits, voici mon analyse différentielle :
-
-**Probabilités diagnostiques :**
-1. Insuffisance cardiaque congestive (68%) — Dyspnée d'effort + oedèmes
-2. Embolie pulmonaire (18%) — À exclure en urgence
-3. Pneumopathie infectieuse (14%) — Fièvre associée possible
-
-**Recommandations immédiates :**
-- ECG + Troponines urgentes
-- BNP / NT-proBNP
-- Radiographie thoracique
-- SpO2 continue
-
-**Niveau d'urgence : ÉLEVÉ** — Consultation cardiologue dans les 2h.
-
-*Cette analyse est un support décisionnel — le diagnostic final reste de la compétence du médecin.*`
-
-export default function IADiagnosticPage() {
-  const [activeModule, setActiveModule] = useState<string | null>(null)
-  const [symptomes, setSymptomes] = useState("")
-  const [secondAvis, setSecondAvis] = useState<string | null>(null)
-  const [loadingAvis, setLoadingAvis] = useState(false)
-  const [analyseActive, setAnalyseActive] = useState<string | null>(null)
-
-  function handleSecondAvis() {
-    if (!symptomes.trim()) return
-    setLoadingAvis(true)
-    setSecondAvis(null)
-    setTimeout(() => {
-      setLoadingAvis(false)
-      setSecondAvis(secondAvisReponse)
-    }, 2000)
-  }
-
-  function handleAnalyser(moduleId: string) {
-    setAnalyseActive(moduleId)
-    setTimeout(() => setAnalyseActive(null), 3000)
-  }
-
-  const bg = "#0a0f1e"
-  const card = "rgba(255,255,255,0.04)"
-  const border = "rgba(255,255,255,0.08)"
+export default function IADiagPage() {
+  const [progress, setProgress] = useState(0)
+  useEffect(() => {
+    const t = setInterval(() => setProgress(p => p < 100 ? p + 2 : 100), 150)
+    return () => clearInterval(t)
+  }, [])
 
   return (
-    <div style={{ background: bg, minHeight: "100vh", color: "white" }}>
-      {/* Scanlines overlay */}
-      <div style={{
-        position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0,
-        backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(99,102,241,0.015) 2px, rgba(99,102,241,0.015) 4px)"
-      }} />
-      <div style={{ position: "relative", zIndex: 1 }}>
-        <Navbar />
-
-        {/* Stats Header */}
-        <div style={{ background: "rgba(99,102,241,0.06)", borderBottom: "1px solid rgba(99,102,241,0.15)" }}
-          className="px-6 py-4">
-          <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { label: "Total Analyses", value: "1 247", icon: "📊", color: "#6366f1" },
-              { label: "Alertes Critiques", value: "3", icon: "🚨", color: "#ef4444", pulse: true },
-              { label: "Précision Moyenne", value: "94.2%", icon: "🎯", color: "#22c55e" },
-              { label: "Temps Moyen", value: "2.3 min", icon: "⚡", color: "#f59e0b" },
-            ].map((s) => (
-              <div key={s.label} style={{ background: card, border: `1px solid ${border}`, borderRadius: 12 }}
-                className="px-4 py-3 flex items-center gap-3">
-                <div className="text-2xl">{s.icon}</div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xl font-bold" style={{ color: s.color }}>{s.value}</span>
-                    {s.pulse && <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse inline-block" />}
-                  </div>
-                  <div className="text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>{s.label}</div>
-                </div>
+    <>
+      <style>{`
+        @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes pulse { 0%,100%{opacity:.6} 50%{opacity:1} }
+        @keyframes scan { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
+        .fade{animation:fadeUp .5s both} .pulse{animation:pulse 2s infinite}
+        .row{transition:background .2s} .row:hover{background:rgba(255,255,255,0.04)!important}
+        .scanbar{background:linear-gradient(90deg,transparent,#7c3aed,transparent);background-size:200% 100%;animation:scan 2s linear infinite}
+      `}</style>
+      <div style={{ minHeight:"100vh", background:"#0a1628", color:"#fff", fontFamily:"system-ui,sans-serif" }}>
+        <header style={{ background:"rgba(10,22,40,0.95)", borderBottom:"1px solid rgba(124,58,237,0.2)", backdropFilter:"blur(20px)", position:"sticky", top:0, zIndex:50 }}>
+          <div style={{ maxWidth:1280, margin:"0 auto", padding:"0 1.5rem", height:64, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+            <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+              <div style={{ width:40, height:40, borderRadius:12, background:"linear-gradient(135deg,#7c3aed,#5b21b6)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, boxShadow:"0 0 20px rgba(124,58,237,0.3)" }}>🧠</div>
+              <div>
+                <p style={{ fontSize:15, fontWeight:800, color:"#fff", margin:0 }}>Ndamatou <span style={{color:COLOR}}>IA</span></p>
+                <p style={{ fontSize:9, color:"rgba(124,58,237,0.7)", fontWeight:600, letterSpacing:"0.12em", textTransform:"uppercase", margin:0 }}>Intelligence Artificielle Médicale · Touba</p>
+              </div>
+            </div>
+          </div>
+        </header>
+        <main style={{ maxWidth:1280, margin:"0 auto", padding:"2rem 1.5rem" }}>
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))", gap:16, marginBottom:"2rem" }}>
+            {STATS.map((s, i) => (
+              <div key={s.label} className="fade" style={{ animationDelay:`${i*0.1}s`, background:"rgba(255,255,255,0.03)", border:`1px solid ${s.color}30`, borderRadius:16, padding:"1.5rem" }}>
+                <p style={{ fontSize:11, color:"rgba(255,255,255,0.45)", textTransform:"uppercase", letterSpacing:"0.1em", margin:0 }}>{s.label}</p>
+                <p style={{ fontSize:32, fontWeight:800, color:s.color, margin:"8px 0 0" }}>{s.value}</p>
               </div>
             ))}
           </div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-6 py-6 space-y-6">
-
-          {/* Modules de diagnostic */}
-          <div>
-            <h2 className="text-lg font-semibold mb-4" style={{ color: "rgba(255,255,255,0.85)" }}>
-              Modules de Diagnostic IA
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {modules.map((m) => (
-                <div key={m.id}
-                  onClick={() => setActiveModule(activeModule === m.id ? null : m.id)}
-                  style={{
-                    background: activeModule === m.id ? m.bg : card,
-                    border: `1px solid ${activeModule === m.id ? m.color : border}`,
-                    borderRadius: 16, cursor: "pointer",
-                    transition: "all 0.2s",
-                    boxShadow: activeModule === m.id ? `0 0 20px ${m.color}22` : "none"
-                  }}
-                  className="p-5 space-y-3 hover:border-opacity-60">
-                  <div className="flex items-start justify-between">
-                    <div className="text-3xl">{m.icon}</div>
-                    <div className="text-xs px-2 py-1 rounded-full font-medium"
-                      style={{ background: `${m.color}22`, color: m.color, border: `1px solid ${m.color}44` }}>
-                      {m.precision} précision
-                    </div>
-                  </div>
-                  <div>
-                    <div className="font-semibold text-white">{m.title}</div>
-                    <div className="text-xs font-medium mt-0.5" style={{ color: m.color }}>{m.subtitle}</div>
-                  </div>
-                  <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>{m.description}</p>
-                  <button
-                    onClick={(e) => { e.stopPropagation(); handleAnalyser(m.id) }}
-                    style={{
-                      background: analyseActive === m.id ? m.color : `${m.color}22`,
-                      color: analyseActive === m.id ? "#fff" : m.color,
-                      border: `1px solid ${m.color}`,
-                      borderRadius: 8, width: "100%", padding: "8px 0",
-                      fontSize: 13, fontWeight: 600, cursor: "pointer",
-                      transition: "all 0.2s"
-                    }}>
-                    {analyseActive === m.id ? "⚡ Analyse en cours..." : "Analyser"}
-                  </button>
-                </div>
-              ))}
+          <div className="fade" style={{ animationDelay:"0.4s", background:"rgba(124,58,237,0.06)", border:"1px solid rgba(124,58,237,0.2)", borderRadius:16, padding:"1.5rem", marginBottom:"2rem" }}>
+            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12 }}>
+              <p style={{ fontSize:14, fontWeight:700, color:"#fff", margin:0 }}>🔬 Analyse IRM en cours — Patient: Amadou Ndour</p>
+              <span style={{ fontSize:16, fontWeight:800, color:COLOR }}>{progress}%</span>
             </div>
+            <div style={{ height:6, background:"rgba(255,255,255,0.06)", borderRadius:100, overflow:"hidden" }}>
+              <div style={{ width:`${progress}%`, height:"100%", borderRadius:100, transition:"width 0.15s" }} className="scanbar" />
+            </div>
+            <p style={{ fontSize:11, color:"rgba(255,255,255,0.35)", margin:"8px 0 0" }}>{progress < 100 ? "Analyse des coupes axiales, sagittales et coronales..." : "✅ Analyse terminée — Résultats transmis au Pr. Diallo"}</p>
           </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Analyses récentes */}
-            <div className="lg:col-span-2" style={{ background: card, border: `1px solid ${border}`, borderRadius: 16 }}>
-              <div className="px-5 py-4 border-b" style={{ borderColor: border }}>
-                <h3 className="font-semibold text-white">Analyses Récentes</h3>
-                <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>5 dernières analyses effectuées</p>
-              </div>
-              <div className="divide-y" style={{ divideColor: border }}>
-                {recentAnalyses.map((a) => {
-                  const s = statutConfig[a.statut]
-                  return (
-                    <div key={a.id} className="px-5 py-4 space-y-1.5">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs font-mono" style={{ color: "rgba(255,255,255,0.4)" }}>{a.id}</span>
-                          <span className="w-1 h-1 rounded-full inline-block" style={{ background: "rgba(255,255,255,0.2)" }} />
-                          <span className="text-xs font-medium" style={{ color: "#6366f1" }}>{a.module}</span>
-                        </div>
-                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium"
-                          style={{ background: s.bg, color: s.color }}>
-                          {a.statut === "alerte" && <span className="w-1.5 h-1.5 rounded-full inline-block animate-pulse" style={{ background: s.color }} />}
-                          {s.label}
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium text-white text-sm">{a.patient}</span>
-                        <span className="text-xs" style={{ color: "rgba(255,255,255,0.35)" }}>{a.date}</span>
-                      </div>
-                      <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.55)" }}>{a.resultat}</p>
-                    </div>
-                  )
-                })}
-              </div>
+          <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:20, overflow:"hidden", marginBottom:"2rem" }}>
+            <div style={{ padding:"1.5rem", borderBottom:"1px solid rgba(255,255,255,0.06)" }}>
+              <h2 style={{ fontSize:18, fontWeight:800, margin:0 }}>Analyses récentes</h2>
             </div>
-
-            {/* Second Avis IA */}
-            <div style={{ background: card, border: `1px solid ${border}`, borderRadius: 16 }}>
-              <div className="px-5 py-4 border-b" style={{ borderColor: border }}>
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded flex items-center justify-center text-xs"
-                    style={{ background: "rgba(99,102,241,0.2)", color: "#6366f1" }}>🤖</div>
-                  <h3 className="font-semibold text-white">Second Avis IA</h3>
-                </div>
-                <p className="text-xs mt-1" style={{ color: "rgba(255,255,255,0.4)" }}>Décrivez les symptômes pour obtenir une analyse différentielle</p>
-              </div>
-              <div className="p-5 space-y-3">
-                <textarea
-                  value={symptomes}
-                  onChange={(e) => setSymptomes(e.target.value)}
-                  placeholder="Ex: Patient de 58 ans, dyspnée d'effort, oedèmes des membres inférieurs, tension 150/95, antécédents HTA..."
-                  rows={5}
-                  style={{
-                    background: "rgba(255,255,255,0.05)",
-                    border: `1px solid ${border}`,
-                    borderRadius: 10, color: "white",
-                    fontSize: 13, padding: "10px 12px",
-                    width: "100%", resize: "none", outline: "none",
-                    fontFamily: "inherit"
-                  }}
-                />
-                <button
-                  onClick={handleSecondAvis}
-                  disabled={loadingAvis || !symptomes.trim()}
-                  style={{
-                    background: loadingAvis ? "rgba(99,102,241,0.3)" : "linear-gradient(135deg,#6366f1,#8b5cf6)",
-                    color: "white", border: "none", borderRadius: 10,
-                    padding: "10px 16px", width: "100%", fontSize: 13,
-                    fontWeight: 600, cursor: loadingAvis ? "not-allowed" : "pointer",
-                    transition: "all 0.2s"
-                  }}>
-                  {loadingAvis ? "⚡ Analyse en cours..." : "🤖 Obtenir second avis IA"}
-                </button>
-
-                {secondAvis && (
-                  <div style={{
-                    background: "rgba(99,102,241,0.08)",
-                    border: "1px solid rgba(99,102,241,0.25)",
-                    borderRadius: 10, padding: "12px 14px",
-                    fontSize: 12, lineHeight: 1.7,
-                    color: "rgba(255,255,255,0.75)",
-                    maxHeight: 300, overflowY: "auto"
-                  }}>
-                    {secondAvis.split("\n").map((line, i) => (
-                      <p key={i} className={line.startsWith("**") ? "font-semibold" : ""} style={{ color: line.startsWith("**") ? "#a5b4fc" : undefined }}>
-                        {line.replace(/\*\*/g, "")}
-                      </p>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
+            <table style={{ width:"100%", borderCollapse:"collapse" }}>
+              <thead><tr style={{ background:"rgba(255,255,255,0.03)" }}>
+                {["Patient","Type","Résultat IA","Confiance","Médecin","Statut"].map(h => (
+                  <th key={h} style={{ padding:"12px 16px", textAlign:"left", fontSize:11, color:"rgba(255,255,255,0.4)", textTransform:"uppercase", letterSpacing:"0.08em", fontWeight:700 }}>{h}</th>
+                ))}
+              </tr></thead>
+              <tbody>
+                {ANALYSES.map(a => (
+                  <tr key={a.patient+a.type} className="row" style={{ borderTop:"1px solid rgba(255,255,255,0.04)" }}>
+                    <td style={{ padding:"14px 16px", fontSize:14, fontWeight:700, color:"#fff" }}>{a.patient}</td>
+                    <td style={{ padding:"14px 16px", fontSize:13, color:"rgba(255,255,255,0.6)" }}>{a.type}</td>
+                    <td style={{ padding:"14px 16px", fontSize:13, fontWeight:600, color: a.resultat.includes("Normal") || a.resultat.includes("bénigne") ? "#10b981" : "#f59e0b" }}>{a.resultat}</td>
+                    <td style={{ padding:"14px 16px" }}><span style={{ fontSize:14, fontWeight:800, color: a.confiance > 90 ? "#10b981" : "#f59e0b" }}>{a.confiance}%</span></td>
+                    <td style={{ padding:"14px 16px", fontSize:13, color:"rgba(255,255,255,0.5)" }}>{a.medecin}</td>
+                    <td style={{ padding:"14px 16px" }}>
+                      <span style={{ background: a.statut==="validé" ? "#10b98118" : "#f59e0b18", color: a.statut==="validé" ? "#10b981" : "#f59e0b", padding:"3px 10px", borderRadius:100, fontSize:11, fontWeight:700 }}>{a.statut}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-
-        </div>
+          <h2 style={{ fontSize:18, fontWeight:800, margin:"0 0 1rem" }}>Modèles IA déployés</h2>
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))", gap:12 }}>
+            {MODELES.map(m => (
+              <div key={m.nom} className="fade" style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.06)", borderRadius:12, padding:"1rem" }}>
+                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                  <p style={{ fontSize:14, fontWeight:700, color:"#fff", margin:0 }}>{m.nom}</p>
+                  <span style={{ fontSize:13, fontWeight:800, color:"#10b981" }}>{m.precision}</span>
+                </div>
+                <p style={{ fontSize:12, color:"rgba(255,255,255,0.45)", margin:"4px 0 0" }}>{m.domaine} · Mis à jour le {m.maj}</p>
+              </div>
+            ))}
+          </div>
+        </main>
       </div>
-    </div>
+    </>
   )
 }
