@@ -1,7 +1,37 @@
 "use client"
 import Link from "next/link"
+import { useState } from "react"
+
+type Lang = "fr" | "wo"
+
+const t = {
+  fr: {
+    desc: "L'application centrale pour tous les patients de l'hôpital Ndamatou de Touba.",
+    statPatients: "Patients Actifs", statDispo: "Disponibilité", statSecu: "Sécurisé",
+    features: "Fonctionnalités Clés",
+    rdvTitle: "Prise de RDV", rdvDesc: "Consultations en ligne",
+    resTitle: "Résultats", resDesc: "Analyses et radiologies",
+    teleTitle: "Téléconsultation", teleDesc: "Vidéo avec les médecins",
+    payTitle: "Paiement", payDesc: "Factures en ligne",
+    upcoming: "Prochains Rendez-vous",
+    thPatient: "Patient", thMedecin: "Médecin", thService: "Service", thDate: "Date & Heure", thStatut: "Statut",
+  },
+  wo: {
+    desc: "Aplikasioŋ bi gën a am solo ci pasyaŋ yépp bu opitaal Ndamatu Tuubaa.",
+    statPatients: "Pasyaŋ yu Dox", statDispo: "Am na Ndoo", statSecu: "Kaaraange 100%",
+    features: "Jumtukaay yu Ci Am Solo",
+    rdvTitle: "Jël Randevu", rdvDesc: "Konsultasioŋ ci Internet",
+    resTitle: "Rezilta yi", resDesc: "Analiis ak Radiyoloji",
+    teleTitle: "Telekonsultasioŋ", teleDesc: "Wideyo ak Doktoor yi",
+    payTitle: "Fey", payDesc: "Fakti ci Internet",
+    upcoming: "Randevu yiy Ñëw",
+    thPatient: "Pasyaŋ", thMedecin: "Doktoor", thService: "Sarwiis", thDate: "Bis ak Waxtu", thStatut: "Sax",
+  },
+}
 
 export default function NdamatouConnectPage() {
+  const [lang, setLang] = useState<Lang>("fr")
+  const L = t[lang]
   return (
     <>
       <style>{`
@@ -21,9 +51,21 @@ export default function NdamatouConnectPage() {
       {/* Header */}
       <header style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(10,22,40,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "0 1.5rem", height: 60, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <Link href="/#applications" className="back-btn">← Retour au Portail Ndamatou</Link>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#2563eb" }} />
-          <span style={{ fontSize: 12, color: "#2563eb", fontWeight: 700, letterSpacing: "0.1em" }}>SYSTÈME ACTIF</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <div style={{ display: "flex", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 20, padding: 3 }}>
+            {(["fr", "wo"] as Lang[]).map(l => (
+              <button key={l} onClick={() => setLang(l)} style={{
+                border: "none", borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, cursor: "pointer",
+                background: lang === l ? "#2563eb" : "transparent", color: lang === l ? "#fff" : "rgba(255,255,255,0.5)"
+              }}>
+                {l === "fr" ? "🇫🇷 Français" : "Wolof"}
+              </button>
+            ))}
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#2563eb" }} />
+            <span style={{ fontSize: 12, color: "#2563eb", fontWeight: 700, letterSpacing: "0.1em" }}>SYSTÈME ACTIF</span>
+          </div>
         </div>
       </header>
 
@@ -46,7 +88,7 @@ export default function NdamatouConnectPage() {
               </span>
             </h1>
             <p style={{ fontSize: "clamp(0.95rem, 2vw, 1.15rem)", color: "rgba(255,255,255,0.55)", lineHeight: 1.7, maxWidth: 600 }}>
-              L'application centrale pour tous les patients de l'hôpital Ndamatou de Touba.
+              {L.desc}
             </p>
           </div>
         </div>
@@ -55,62 +97,62 @@ export default function NdamatouConnectPage() {
         <div className="au2" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 12, marginBottom: "3rem" }}>
           <div className="stat-card">
             <p style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", fontWeight: 900, color: "#2563eb", marginBottom: 4 }}>10K+</p>
-            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>Patients Actifs</p>
+            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>{L.statPatients}</p>
           </div>
           <div className="stat-card">
             <p style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", fontWeight: 900, color: "#2563eb", marginBottom: 4 }}>24/7</p>
-            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>Disponibilité</p>
+            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>{L.statDispo}</p>
           </div>
           <div className="stat-card">
             <p style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", fontWeight: 900, color: "#2563eb", marginBottom: 4 }}>100%</p>
-            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>Sécurisé</p>
+            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>{L.statSecu}</p>
           </div>
         </div>
 
         {/* FEATURES */}
         <div className="au3" style={{ marginBottom: "3rem" }}>
-          <h2 style={{ fontSize: "clamp(1.3rem, 2.5vw, 1.8rem)", fontWeight: 800, marginBottom: "1.5rem" }}>Fonctionnalités Clés</h2>
+          <h2 style={{ fontSize: "clamp(1.3rem, 2.5vw, 1.8rem)", fontWeight: 800, marginBottom: "1.5rem" }}>{L.features}</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: 12 }}>
             <div className="feat-card">
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
                 <div style={{ width: 40, height: 40, borderRadius: 10, background: "#2563eb18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>📅</div>
-                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>Prise de RDV</h3>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>{L.rdvTitle}</h3>
               </div>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>Consultations en ligne</p>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>{L.rdvDesc}</p>
             </div>
             <div className="feat-card">
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
                 <div style={{ width: 40, height: 40, borderRadius: 10, background: "#2563eb18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>📄</div>
-                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>Résultats</h3>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>{L.resTitle}</h3>
               </div>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>Analyses et radiologies</p>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>{L.resDesc}</p>
             </div>
             <div className="feat-card">
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
                 <div style={{ width: 40, height: 40, borderRadius: 10, background: "#2563eb18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>📞</div>
-                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>Téléconsultation</h3>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>{L.teleTitle}</h3>
               </div>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>Vidéo avec les médecins</p>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>{L.teleDesc}</p>
             </div>
             <div className="feat-card">
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
                 <div style={{ width: 40, height: 40, borderRadius: 10, background: "#2563eb18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>💳</div>
-                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>Paiement</h3>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>{L.payTitle}</h3>
               </div>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>Factures en ligne</p>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>{L.payDesc}</p>
             </div>
           </div>
         </div>
 
         {/* DONNÉES EN TEMPS RÉEL */}
         <div className="au3" style={{ marginBottom: "3rem" }}>
-          <h2 style={{ fontSize: "clamp(1.3rem, 2.5vw, 1.8rem)", fontWeight: 800, marginBottom: "1.5rem" }}>Prochains Rendez-vous</h2>
+          <h2 style={{ fontSize: "clamp(1.3rem, 2.5vw, 1.8rem)", fontWeight: 800, marginBottom: "1.5rem" }}>{L.upcoming}</h2>
           <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 16, overflow: "hidden" }}>
             <div style={{ overflowX: "auto" }}>
               <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
                 <thead>
                   <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                    {["Patient","Médecin","Service","Date & Heure","Statut"].map(h => (
+                    {[L.thPatient, L.thMedecin, L.thService, L.thDate, L.thStatut].map(h => (
                       <th key={h} style={{ padding: "10px 14px", textAlign: "left", color: "rgba(255,255,255,0.4)", fontWeight: 600, fontSize: 11, textTransform: "uppercase" }}>{h}</th>
                     ))}
                   </tr>

@@ -1,7 +1,25 @@
 "use client"
 import Link from "next/link"
+import { useState, useMemo } from "react"
 
 export default function MagalSurgePage() {
+  const [affluence, setAffluence] = useState(4200000)
+
+  const capacite = useMemo(() => {
+    const postesSante = Math.ceil(affluence / 40000)
+    const litsCrise = Math.ceil(affluence / 60000)
+    const ambulances = Math.ceil(affluence / 100000)
+    const personnel = Math.ceil(affluence / 8000)
+    const niveau = affluence < 3000000 ? "normal" : affluence < 5000000 ? "vigilance" : "critique"
+    return { postesSante, litsCrise, ambulances, personnel, niveau }
+  }, [affluence])
+
+  const niveauInfo: Record<string, { label: string; color: string }> = {
+    normal: { label: "Niveau normal", color: "#22c55e" },
+    vigilance: { label: "Vigilance renforcée", color: "#f59e0b" },
+    critique: { label: "Seuil critique — plan d'urgence", color: "#ef4444" },
+  }
+
   return (
     <>
       <style>{`
@@ -98,6 +116,46 @@ export default function MagalSurgePage() {
                 <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>Dashboard</h3>
               </div>
               <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>Vue temps réel de la situation</p>
+            </div>
+          </div>
+        </div>
+
+        {/* SIMULATEUR DE CAPACITÉ */}
+        <div className="au3" style={{ marginBottom: "3rem" }}>
+          <h2 style={{ fontSize: "clamp(1.3rem, 2.5vw, 1.8rem)", fontWeight: 800, marginBottom: 6 }}>Simulateur de Capacité</h2>
+          <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginBottom: "1.25rem" }}>
+            Estimez les besoins en ressources sanitaires selon l&apos;affluence prévue au Grand Magal.
+          </p>
+          <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 16, padding: "1.5rem" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 10, flexWrap: "wrap", gap: 8 }}>
+              <label style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", fontWeight: 600 }}>Affluence prévue (pèlerins)</label>
+              <span style={{ fontSize: "1.4rem", fontWeight: 900, color: "#7c3aed" }}>{affluence.toLocaleString()}</span>
+            </div>
+            <input
+              type="range" min={500000} max={6000000} step={100000} value={affluence}
+              onChange={e => setAffluence(Number(e.target.value))}
+              style={{ width: "100%", accentColor: "#7c3aed", marginBottom: "1.5rem" }}
+            />
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 8, padding: "5px 14px", borderRadius: 20, marginBottom: "1.5rem",
+              background: `${niveauInfo[capacite.niveau].color}18`, border: `1px solid ${niveauInfo[capacite.niveau].color}50`
+            }}>
+              <span style={{ width: 7, height: 7, borderRadius: "50%", background: niveauInfo[capacite.niveau].color }} />
+              <span style={{ fontSize: 12, fontWeight: 700, color: niveauInfo[capacite.niveau].color }}>{niveauInfo[capacite.niveau].label}</span>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 12 }}>
+              {[
+                { label: "Postes de santé avancés", val: capacite.postesSante, icon: "🏕️" },
+                { label: "Lits de crise requis", val: capacite.litsCrise, icon: "🛏️" },
+                { label: "Ambulances mobilisées", val: capacite.ambulances, icon: "🚑" },
+                { label: "Personnel médical requis", val: capacite.personnel, icon: "🩺" },
+              ].map(c => (
+                <div key={c.label} className="stat-card">
+                  <p style={{ fontSize: 22 }}>{c.icon}</p>
+                  <p style={{ fontSize: "clamp(1.3rem, 2.5vw, 1.7rem)", fontWeight: 900, color: "#7c3aed", margin: "4px 0" }}>{c.val}</p>
+                  <p style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>{c.label}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>

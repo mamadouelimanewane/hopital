@@ -57,11 +57,33 @@ const green = "#22c55e"
 const card = "#0a1628"
 const border = "rgba(255,255,255,0.06)"
 
+const moyensPaiement = [
+  { id: "wave", label: "Wave", icon: "🌊", couleur: "#00c2ff" },
+  { id: "orange_money", label: "Orange Money", icon: "🟠", couleur: "#ff7900" },
+  { id: "free_money", label: "Free Money", icon: "🔴", couleur: "#e2231a" },
+  { id: "carte", label: "Carte Bancaire", icon: "💳", couleur: "#6366f1" },
+]
+
 export default function FactuCarePage() {
   const [onglet, setOnglet] = useState<Onglet>("factures")
   const [showForm, setShowForm] = useState(false)
   const [formData, setFormData] = useState({ patient: "", actes: "", assurance: "" })
   const [montantCalc, setMontantCalc] = useState<number | null>(null)
+  const [payFacture, setPayFacture] = useState<{ num: string; patient: string; reste: number } | null>(null)
+  const [payMethod, setPayMethod] = useState<string | null>(null)
+  const [payStep, setPayStep] = useState<"choix" | "traitement" | "succes">("choix")
+
+  function lancerPaiement(methodId: string) {
+    setPayMethod(methodId)
+    setPayStep("traitement")
+    setTimeout(() => setPayStep("succes"), 1600)
+  }
+
+  function fermerPaiement() {
+    setPayFacture(null)
+    setPayMethod(null)
+    setPayStep("choix")
+  }
 
   function calculerMontant() {
     if (!formData.actes) return
@@ -223,8 +245,16 @@ export default function FactuCarePage() {
                         <td style={{ padding:"10px 14px", fontSize:12, fontWeight:600, color:"#e2e8f0" }}>{f.montant.toLocaleString()} FCFA</td>
                         <td style={{ padding:"10px 14px", fontSize:12, color:"#06b6d4" }}>{f.couverture.toLocaleString()} FCFA</td>
                         <td style={{ padding:"10px 14px", fontSize:12, fontWeight:600, color: f.reste > 0 ? "#f87171" : green }}>{f.reste.toLocaleString()} FCFA</td>
-                        <td style={{ padding:"10px 14px" }}>
+                        <td style={{ padding:"10px 14px", display:"flex", alignItems:"center", gap:8 }}>
                           <span style={{ background:s.bg, color:s.color, padding:"3px 10px", borderRadius:20, fontSize:11, fontWeight:700 }}>{s.label}</span>
+                          {f.reste > 0 && (
+                            <button onClick={() => setPayFacture({ num:f.num, patient:f.patient, reste:f.reste })} style={{
+                              background:"rgba(14,165,233,0.12)", color:"#38bdf8", border:"1px solid rgba(14,165,233,0.3)",
+                              borderRadius:20, padding:"3px 10px", fontSize:11, fontWeight:700, cursor:"pointer"
+                            }}>
+                              📲 Payer
+                            </button>
+                          )}
                         </td>
                       </tr>
                     )
@@ -369,6 +399,68 @@ export default function FactuCarePage() {
           </div>
         )}
       </div>
+
+      {/* Modale Paiement Mobile */}
+      {payFacture && (
+        <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.6)", backdropFilter:"blur(4px)", zIndex:300, display:"flex", alignItems:"center", justifyContent:"center", padding:16 }}>
+          <div style={{ background:"#0a1628", border:`1px solid ${border}`, borderRadius:20, padding:"1.5rem", width:"100%", maxWidth:420 }}>
+            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"1rem" }}>
+              <h3 style={{ margin:0, color:"#e2e8f0", fontWeight:800, fontSize:16 }}>Paiement mobile</h3>
+              <button onClick={fermerPaiement} style={{ background:"none", border:"none", color:"rgba(255,255,255,0.4)", fontSize:18, cursor:"pointer" }}>✕</button>
+            </div>
+
+            {payStep === "choix" && (
+              <>
+                <p style={{ fontSize:13, color:"rgba(255,255,255,0.5)", margin:"0 0 4px" }}>Facture {payFacture.num} — {payFacture.patient}</p>
+                <p style={{ fontSize:24, fontWeight:800, color:green, margin:"0 0 1.25rem" }}>{payFacture.reste.toLocaleString()} FCFA</p>
+                <p style={{ fontSize:12, color:"rgba(255,255,255,0.4)", margin:"0 0 10px" }}>Choisir un moyen de paiement :</p>
+                <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
+                  {moyensPaiement.map(m => (
+                    <button key={m.id} onClick={() => lancerPaiement(m.id)} style={{
+                      display:"flex", alignItems:"center", gap:8, background:"rgba(255,255,255,0.04)",
+                      border:`1px solid ${m.couleur}40`, borderRadius:12, padding:"12px", cursor:"pointer", color:"#e2e8f0"
+                    }}>
+                      <span style={{ fontSize:20 }}>{m.icon}</span>
+                      <span style={{ fontSize:13, fontWeight:600 }}>{m.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {payStep === "traitement" && (
+              <div style={{ textAlign:"center", padding:"2rem 0" }}>
+                <div style={{ fontSize:36, marginBottom:12, animation:"pulse 1s infinite" }}>
+                  {moyensPaiement.find(m => m.id === payMethod)?.icon}
+                </div>
+                <p style={{ color:"#e2e8f0", fontWeight:600, margin:0 }}>
+                  Transaction {moyensPaiement.find(m => m.id === payMethod)?.label} en cours…
+                </p>
+                <p style={{ fontSize:12, color:"rgba(255,255,255,0.4)", marginTop:6 }}>Confirmez sur votre téléphone</p>
+              </div>
+            )}
+
+            {payStep === "succes" && (
+              <div style={{ textAlign:"center", padding:"1.5rem 0" }}>
+                <div style={{ fontSize:40, marginBottom:10 }}>✅</div>
+                <p style={{ color:green, fontWeight:800, fontSize:16, margin:"0 0 6px" }}>Paiement confirmé</p>
+                <p style={{ fontSize:13, color:"rgba(255,255,255,0.5)", margin:"0 0 4px" }}>
+                  {payFacture.reste.toLocaleString()} FCFA via {moyensPaiement.find(m => m.id === payMethod)?.label}
+                </p>
+                <p style={{ fontSize:11, color:"rgba(255,255,255,0.35)", fontFamily:"monospace", margin:"0 0 20px" }}>
+                  Réf. TXN-{payFacture.num.replace("FAC-","")}-{payMethod?.slice(0,2).toUpperCase()}
+                </p>
+                <button onClick={fermerPaiement} style={{
+                  background:"linear-gradient(135deg,#16a34a,#15803d)", color:"white", border:"none",
+                  borderRadius:10, padding:"10px 20px", fontSize:13, fontWeight:700, cursor:"pointer"
+                }}>
+                  Fermer
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

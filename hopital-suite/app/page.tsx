@@ -65,7 +65,7 @@ const SECTIONS = [
       { id: "neuro",         name: "NeuroScan IA",      href: "/neuro",         icon: "🧬", desc: "Assistant Radiologique par IA",            hexColor: "#8b5cf6" },
       { id: "ia-diagnostic", name: "IA-Diagnostic",     href: "/ia-diagnostic", icon: "🔬", desc: "Diagnostic Multi-Pathologies IA",          hexColor: "#7c3aed" },
       { id: "predict",       name: "Predict IA",        href: "/predict",       icon: "🧠", desc: "Prédictions & Tableau de Bord IA",         hexColor: "#6366f1" },
-      { id: "ndamatou-academy",name: "Ndamatou Academy",    href: "/ndamatou-academy",icon: "🎓", desc: "Formation & Simulation Médicale",          hexColor: "#6d28d9" },
+      { id: "ndamatou-academy",name: "Ndamatou Academy",    href: "/chncak-academy",icon: "🎓", desc: "Formation & Simulation Médicale",          hexColor: "#6d28d9" },
       { id: "learn",         name: "MedLearn",          href: "/learn",         icon: "📚", desc: "E-Learning Médical & Certifications",      hexColor: "#f59e0b" },
     ],
   },
@@ -360,13 +360,13 @@ export default function Home() {
                 </h2>
                 <p style={{ fontSize: 15, color: "rgba(255,255,255,0.6)", lineHeight: 1.85 }}>
                   Le Ndamatou de Touba est le fleuron de la santé sénégalaise.
-                  Avec cet écosystème de <strong style={{ color: "#fff" }}>14 applications</strong>,
+                  Avec cet écosystème de <strong style={{ color: "#fff" }}>34 applications</strong>,
                   Processingenierie propulse l'hôpital au rang des établissements
                   hospitaliers les plus avancés technologiquement d'Afrique de l'Ouest.
                 </p>
               </div>
               <div style={{ textAlign: "center", padding: "0 1.5rem" }}>
-                <p style={{ fontSize: 52, fontWeight: 900, color: ACCENT, lineHeight: 1 }}>26</p>
+                <p style={{ fontSize: 52, fontWeight: 900, color: ACCENT, lineHeight: 1 }}>34</p>
                 <p style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginTop: 4,
                   letterSpacing: "0.1em", textTransform: "uppercase" }}>Applications</p>
               </div>
