@@ -1,7 +1,8 @@
 "use client"
 import { useState } from "react"
+import { manuelApps, categories, type CategorieId } from "./manuelData"
 
-type Onglet = "formations" | "simulations" | "certifications" | "staffs" | "ressources"
+type Onglet = "formations" | "simulations" | "certifications" | "staffs" | "ressources" | "manuel"
 
 const modules = [
   { titre: "Réanimation Cardio-Pulmonaire (RCP)", duree: "12h", niveau: "Tous niveaux", inscrits: 124, progression: 65, icone: "❤️", specialite: "Urgences" },
@@ -44,14 +45,23 @@ export default function NdamatouAcademy() {
   const [onglet, setOnglet] = useState<Onglet>("formations")
   const [simActive, setSimActive] = useState<number | null>(null)
   const [reponseSim, setReponseSim] = useState<number | null>(null)
+  const [manuelOuvert, setManuelOuvert] = useState<string | null>(null)
+  const [manuelFiltre, setManuelFiltre] = useState<CategorieId | "toutes">("toutes")
+  const [manuelRecherche, setManuelRecherche] = useState("")
 
   const tabs: { id: Onglet; label: string; icon: string }[] = [
     { id:"formations", label:"Formations", icon:"📚" },
     { id:"simulations", label:"Simulations", icon:"🖥️" },
     { id:"certifications", label:"Certifications", icon:"🏆" },
     { id:"staffs", label:"Staffs Virtuels", icon:"🎥" },
+    { id:"manuel", label:"Manuel Applications", icon:"📘" },
     { id:"ressources", label:"Ressources", icon:"📄" },
   ]
+
+  const manuelFiltres = manuelApps.filter(a =>
+    (manuelFiltre === "toutes" || a.categorie === manuelFiltre) &&
+    (manuelRecherche.trim() === "" || a.nom.toLowerCase().includes(manuelRecherche.toLowerCase()))
+  )
 
   return (
     <div style={{ background:"#050d1a", minHeight:"100vh", color:"#e2e8f0", fontFamily:"'Inter',system-ui,sans-serif" }}>
@@ -285,6 +295,108 @@ export default function NdamatouAcademy() {
                 </button>
               </div>
             ))}
+          </div>
+        )}
+
+        {/* MANUEL APPLICATIONS */}
+        {onglet === "manuel" && (
+          <div style={{ animation:"fadeUp 0.3s ease both" }}>
+            <p style={{ color:"#64748b", fontSize:13, marginBottom:16 }}>
+              Manuel de formation complet des 34 applications de l&apos;écosystème Ndamatou : objectif, rôles concernés, fonctionnalités clés et guide d&apos;utilisation pas à pas.
+            </p>
+
+            <div style={{ display:"flex", gap:10, flexWrap:"wrap", marginBottom:16 }}>
+              <input
+                value={manuelRecherche} onChange={e => setManuelRecherche(e.target.value)}
+                placeholder="Rechercher une application…"
+                style={{ background:card, border:`1px solid ${border}`, borderRadius:10, padding:"8px 14px", fontSize:13, color:"#e2e8f0", outline:"none", minWidth:220 }}
+              />
+              <button onClick={() => setManuelFiltre("toutes")} style={{
+                background: manuelFiltre === "toutes" ? "rgba(109,40,217,0.2)" : card,
+                color: manuelFiltre === "toutes" ? "#a78bfa" : "rgba(255,255,255,0.5)",
+                border:`1px solid ${manuelFiltre === "toutes" ? "rgba(109,40,217,0.5)" : border}`,
+                borderRadius:10, padding:"8px 14px", fontSize:12, fontWeight:600, cursor:"pointer"
+              }}>Toutes ({manuelApps.length})</button>
+              {(Object.keys(categories) as CategorieId[]).map(c => (
+                <button key={c} onClick={() => setManuelFiltre(c)} style={{
+                  background: manuelFiltre === c ? `${categories[c].couleur}25` : card,
+                  color: manuelFiltre === c ? categories[c].couleur : "rgba(255,255,255,0.5)",
+                  border:`1px solid ${manuelFiltre === c ? `${categories[c].couleur}70` : border}`,
+                  borderRadius:10, padding:"8px 14px", fontSize:12, fontWeight:600, cursor:"pointer"
+                }}>{categories[c].label} ({manuelApps.filter(a=>a.categorie===c).length})</button>
+              ))}
+            </div>
+
+            <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
+              {manuelFiltres.map(a => {
+                const ouvert = manuelOuvert === a.id
+                const coul = categories[a.categorie].couleur
+                return (
+                  <div key={a.id} style={{ background:card, border:`1px solid ${ouvert ? `${coul}60` : border}`, borderRadius:14, overflow:"hidden" }}>
+                    <button onClick={() => setManuelOuvert(ouvert ? null : a.id)} style={{
+                      width:"100%", display:"flex", alignItems:"center", justifyContent:"space-between", gap:12,
+                      padding:"1rem 1.25rem", background:"none", border:"none", cursor:"pointer", textAlign:"left"
+                    }}>
+                      <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+                        <span style={{ fontSize:24 }}>{a.icone}</span>
+                        <div>
+                          <div style={{ fontWeight:700, color:"#e2e8f0", fontSize:14 }}>{a.nom}</div>
+                          <div style={{ display:"flex", alignItems:"center", gap:8, marginTop:2 }}>
+                            <span style={{ background:`${coul}18`, color:coul, fontSize:10, fontWeight:700, padding:"2px 8px", borderRadius:10 }}>{categories[a.categorie].label}</span>
+                            <a href={a.route} onClick={e => e.stopPropagation()} style={{ fontSize:11, color:"rgba(255,255,255,0.35)" }}>{a.route} ↗</a>
+                          </div>
+                        </div>
+                      </div>
+                      <span style={{ color:"rgba(255,255,255,0.4)", fontSize:16, transform: ouvert ? "rotate(180deg)" : "none", transition:"transform 0.2s" }}>▾</span>
+                    </button>
+
+                    {ouvert && (
+                      <div style={{ padding:"0 1.25rem 1.25rem", borderTop:`1px solid ${border}`, display:"flex", flexDirection:"column", gap:14 }}>
+                        <p style={{ color:"rgba(255,255,255,0.7)", fontSize:13, lineHeight:1.6, margin:"14px 0 0" }}>{a.objectif}</p>
+
+                        <div>
+                          <div style={{ fontSize:11, fontWeight:700, color:coul, textTransform:"uppercase", letterSpacing:"0.05em", marginBottom:6 }}>Rôles concernés</div>
+                          <div style={{ display:"flex", gap:6, flexWrap:"wrap" }}>
+                            {a.roles.map(r => (
+                              <span key={r} style={{ background:"rgba(255,255,255,0.05)", color:"rgba(255,255,255,0.6)", fontSize:11, padding:"3px 10px", borderRadius:12 }}>{r}</span>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div>
+                          <div style={{ fontSize:11, fontWeight:700, color:coul, textTransform:"uppercase", letterSpacing:"0.05em", marginBottom:6 }}>Fonctionnalités clés</div>
+                          <ul style={{ margin:0, paddingLeft:18, color:"rgba(255,255,255,0.65)", fontSize:13, lineHeight:1.8 }}>
+                            {a.fonctionnalites.map((f, i) => <li key={i}>{f}</li>)}
+                          </ul>
+                        </div>
+
+                        <div>
+                          <div style={{ fontSize:11, fontWeight:700, color:coul, textTransform:"uppercase", letterSpacing:"0.05em", marginBottom:6 }}>Guide d&apos;utilisation pas à pas</div>
+                          <ol style={{ margin:0, paddingLeft:18, color:"rgba(255,255,255,0.65)", fontSize:13, lineHeight:1.8 }}>
+                            {a.guide.map((g, i) => <li key={i}>{g}</li>)}
+                          </ol>
+                        </div>
+
+                        <div style={{ background:`${coul}0f`, border:`1px solid ${coul}30`, borderRadius:10, padding:"10px 14px" }}>
+                          <div style={{ fontSize:11, fontWeight:700, color:coul, textTransform:"uppercase", letterSpacing:"0.05em", marginBottom:4 }}>💡 Bonnes pratiques</div>
+                          <ul style={{ margin:0, paddingLeft:16, color:"rgba(255,255,255,0.6)", fontSize:12, lineHeight:1.7 }}>
+                            {a.conseils.map((c, i) => <li key={i}>{c}</li>)}
+                          </ul>
+                        </div>
+
+                        <a href={a.route} style={{
+                          alignSelf:"flex-start", background:`${coul}25`, color:coul, border:`1px solid ${coul}60`, borderRadius:10,
+                          padding:"8px 16px", fontSize:12, fontWeight:700, textDecoration:"none"
+                        }}>Ouvrir {a.nom} →</a>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+              {manuelFiltres.length === 0 && (
+                <p style={{ color:"rgba(255,255,255,0.4)", fontSize:13, textAlign:"center", padding:"2rem 0" }}>Aucune application ne correspond à cette recherche.</p>
+              )}
+            </div>
           </div>
         )}
 
