@@ -330,7 +330,7 @@ export default function NdamatouAcademy() {
               {manuelFiltres.map(a => {
                 const coul = categories[a.categorie].couleur
                 return (
-                  <a key={a.id} href={`/chncak-academy/manuel/${a.id}`} style={{
+                  <a key={a.id} href={`/ndamatou-academy/manuel/${a.id}`} style={{
                     background:card, border:`1px solid ${border}`, borderRadius:14, padding:"1.1rem 1.25rem",
                     display:"flex", flexDirection:"column", gap:10, textDecoration:"none", transition:"border-color 0.2s"
                   }}>

@@ -23,7 +23,7 @@ export default async function ManuelAppPage({ params }: { params: Promise<{ id: 
     <div style={{ background:"#050d1a", minHeight:"100vh", color:"#e2e8f0", fontFamily:"'Inter',system-ui,sans-serif" }}>
       {/* BACK NAV */}
       <div style={{ position:"sticky", top:0, zIndex:200, background:"rgba(5,13,26,0.96)", backdropFilter:"blur(20px)", borderBottom:"1px solid rgba(14,165,233,0.12)", padding:"0 1.5rem", height:52, display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:8 }}>
-        <Link href="/chncak-academy" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.5)", textDecoration:"none", fontSize:13, fontWeight:600 }}>← Sommaire du Manuel</Link>
+        <Link href="/ndamatou-academy" style={{ display:"inline-flex", alignItems:"center", gap:8, color:"rgba(255,255,255,0.5)", textDecoration:"none", fontSize:13, fontWeight:600 }}>← Sommaire du Manuel</Link>
         <span style={{ fontSize:11, color:"rgba(255,255,255,0.3)", fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase" }}>Ndamatou Academy — Manuel de Formation</span>
       </div>
 
@@ -105,10 +105,10 @@ export default async function ManuelAppPage({ params }: { params: Promise<{ id: 
 
         {/* NAVIGATION PRÉCÉDENT / SUIVANT */}
         <div style={{ display:"flex", justifyContent:"space-between", gap:12, borderTop:`1px solid ${border}`, paddingTop:"1.5rem", flexWrap:"wrap" }}>
-          <Link href={`/chncak-academy/manuel/${precedent.id}`} style={{ color:"rgba(255,255,255,0.5)", textDecoration:"none", fontSize:13 }}>
+          <Link href={`/ndamatou-academy/manuel/${precedent.id}`} style={{ color:"rgba(255,255,255,0.5)", textDecoration:"none", fontSize:13 }}>
             ← {precedent.icone} {precedent.nom}
           </Link>
-          <Link href={`/chncak-academy/manuel/${suivant.id}`} style={{ color:"rgba(255,255,255,0.5)", textDecoration:"none", fontSize:13, textAlign:"right" }}>
+          <Link href={`/ndamatou-academy/manuel/${suivant.id}`} style={{ color:"rgba(255,255,255,0.5)", textDecoration:"none", fontSize:13, textAlign:"right" }}>
             {suivant.icone} {suivant.nom} →
           </Link>
         </div>

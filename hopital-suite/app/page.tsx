@@ -65,7 +65,7 @@ const SECTIONS = [
       { id: "neuro",         name: "NeuroScan IA",      href: "/neuro",         icon: "🧬", desc: "Assistant Radiologique par IA",            hexColor: "#8b5cf6" },
       { id: "ia-diagnostic", name: "IA-Diagnostic",     href: "/ia-diagnostic", icon: "🔬", desc: "Diagnostic Multi-Pathologies IA",          hexColor: "#7c3aed" },
       { id: "predict",       name: "Predict IA",        href: "/predict",       icon: "🧠", desc: "Prédictions & Tableau de Bord IA",         hexColor: "#6366f1" },
-      { id: "ndamatou-academy",name: "Ndamatou Academy",    href: "/chncak-academy",icon: "🎓", desc: "Formation & Simulation Médicale",          hexColor: "#6d28d9" },
+      { id: "ndamatou-academy",name: "Ndamatou Academy",    href: "/ndamatou-academy",icon: "🎓", desc: "Formation & Simulation Médicale",          hexColor: "#6d28d9" },
       { id: "learn",         name: "MedLearn",          href: "/learn",         icon: "📚", desc: "E-Learning Médical & Certifications",      hexColor: "#f59e0b" },
     ],
   },

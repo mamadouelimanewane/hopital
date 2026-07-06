@@ -428,7 +428,7 @@ export const manuelApps: ManuelApp[] = [
     conseils: ["Utiliser les prévisions pour préparer les arbitrages de ressources en amont, pas dans l'urgence."],
   },
   {
-    id: "chncak-academy", nom: "Ndamatou Academy", route: "/chncak-academy", icone: "🎓", categorie: "ia",
+    id: "ndamatou-academy", nom: "Ndamatou Academy", route: "/ndamatou-academy", icone: "🎓", categorie: "ia",
     objectif: "Centraliser la formation continue, les simulations cliniques et les certifications du personnel — y compris ce manuel de formation aux 34 applications.",
     roles: ["Tout le personnel médical et paramédical", "Responsable formation"],
     fonctionnalites: ["Modules de formation clinique", "Simulations de cas cliniques notées", "Suivi des certifications", "Staffs cliniques virtuels", "Manuel de formation des 34 applications (cet onglet)"],
