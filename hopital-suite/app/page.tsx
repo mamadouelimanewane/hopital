@@ -233,7 +233,7 @@ export default function Home() {
               fontSize: 16, fontWeight: 700, textDecoration: "none",
               boxShadow: "0 0 30px rgba(16,185,129,0.3)", transition: "all 0.2s",
             }}>
-              Découvrir les 44 applications ↓
+              Explorer les 44 applications →
             </a>
           </div>
 
@@ -274,7 +274,7 @@ export default function Home() {
               44 Applications Médicales d'État
             </h2>
             <p style={{ fontSize: 16, color: "rgba(255,255,255,0.45)", marginTop: 8 }}>
-              4 domaines · Du soin quotidien à l'intelligence artificielle
+              5 domaines · Du soin quotidien à la cybersécurité et l'intelligence artificielle
             </p>
           </div>
 
