@@ -69,6 +69,24 @@ const SECTIONS = [
       { id: "learn",         name: "MedLearn",          href: "/learn",         icon: "📚", desc: "E-Learning Médical & Certifications",      hexColor: "#f59e0b" },
     ],
   },
+  {
+    id: "extensions",
+    label: "Extensions Avancées",
+    desc: "Nouvelles propositions pour approfondir la couverture de l'écosystème",
+    icon: "🧩",
+    apps: [
+      { id: "bloc-operatoire", name: "Bloc Opératoire",  href: "/bloc-operatoire", icon: "🔪", desc: "Planning & Sécurité du Bloc Chirurgical",  hexColor: "#dc2626" },
+      { id: "urgences",       name: "Urgences SAU",      href: "/urgences",       icon: "🚨", desc: "Pilotage Temps Réel du Service d'Urgences", hexColor: "#f97316" },
+      { id: "imagerie",       name: "Imagerie PACS/RIS", href: "/imagerie",       icon: "🩻", desc: "Workflow Radiologie & Archivage d'Images",  hexColor: "#0891b2" },
+      { id: "ias-watch",      name: "IAS-Watch",         href: "/ias-watch",      icon: "🦠", desc: "Surveillance des Infections Nosocomiales", hexColor: "#65a30d" },
+      { id: "proches-aidants",name: "Proches-Aidants",   href: "/proches-aidants",icon: "👨‍👩‍👧", desc: "Suivi à Distance pour les Familles",       hexColor: "#ec4899" },
+      { id: "consentement",   name: "Consentement Éclairé",href: "/consentement", icon: "✍️", desc: "Consentement Électronique avant Acte",     hexColor: "#8b5cf6" },
+      { id: "bien-etre-soignant",name: "Bien-Être Soignant",href: "/bien-etre-soignant",icon: "🧘", desc: "Prévention du Burn-Out & Climat Social", hexColor: "#0d9488" },
+      { id: "sterilisation",  name: "Stérilisation",     href: "/sterilisation",  icon: "🧼", desc: "Traçabilité du Matériel Stérilisé",         hexColor: "#06b6d4" },
+      { id: "cyber-soc",      name: "Cyber-SOC",         href: "/cyber-soc",      icon: "🛡️", desc: "Centre de Sécurité Opérationnelle Cyber",  hexColor: "#e11d48" },
+      { id: "maintenance-batiment",name: "Maintenance Bâtiment",href: "/maintenance-batiment",icon: "🏗️", desc: "Maintenance Générale des Infrastructures", hexColor: "#78716c" },
+    ],
+  },
 ]
 
 const APPS = SECTIONS.flatMap(s => s.apps)
@@ -215,7 +233,7 @@ export default function Home() {
               fontSize: 16, fontWeight: 700, textDecoration: "none",
               boxShadow: "0 0 30px rgba(16,185,129,0.3)", transition: "all 0.2s",
             }}>
-              Découvrir les 34 applications ↓
+              Découvrir les 44 applications ↓
             </a>
           </div>
 
@@ -230,7 +248,7 @@ export default function Home() {
             </p>
             <p style={{ fontSize: "clamp(1rem, 2vw, 1.2rem)", color: "rgba(255,255,255,0.7)", lineHeight: 1.8 }}>
               Le Système d'information de l'hôpital Ndamatou de Touba est une infrastructure de référence nationale.
-              Cet écosystème digital de <strong style={{ color: "#fff" }}>34 applications d'avant-garde</strong> place
+              Cet écosystème digital de <strong style={{ color: "#fff" }}>44 applications d'avant-garde</strong> place
               l'excellence médicale au cœur de la transformation numérique sénégalaise.
             </p>
           </div>
@@ -253,7 +271,7 @@ export default function Home() {
               — Portail d'accès —
             </p>
             <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.5rem)", fontWeight: 800, color: "#fff" }}>
-              34 Applications Médicales d'État
+              44 Applications Médicales d'État
             </h2>
             <p style={{ fontSize: 16, color: "rgba(255,255,255,0.45)", marginTop: 8 }}>
               4 domaines · Du soin quotidien à l'intelligence artificielle
@@ -267,7 +285,7 @@ export default function Home() {
                 <div style={{ width: 36, height: 36, borderRadius: 10, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18 }}>{section.icon}</div>
                 <div>
                   <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                    <span style={{ fontSize: 11, color: ACCENT, fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase" }}>Étape {si + 1} / 4</span>
+                    <span style={{ fontSize: 11, color: ACCENT, fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase" }}>Étape {si + 1} / {SECTIONS.length}</span>
                     <span style={{ width: 4, height: 4, borderRadius: "50%", background: "rgba(255,255,255,0.2)", display: "inline-block" }} />
                     <span style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", fontWeight: 600 }}>{section.apps.length} applications</span>
                   </div>
@@ -360,13 +378,13 @@ export default function Home() {
                 </h2>
                 <p style={{ fontSize: 15, color: "rgba(255,255,255,0.6)", lineHeight: 1.85 }}>
                   Le Ndamatou de Touba est le fleuron de la santé sénégalaise.
-                  Avec cet écosystème de <strong style={{ color: "#fff" }}>34 applications</strong>,
+                  Avec cet écosystème de <strong style={{ color: "#fff" }}>44 applications</strong>,
                   Processingenierie propulse l'hôpital au rang des établissements
                   hospitaliers les plus avancés technologiquement d'Afrique de l'Ouest.
                 </p>
               </div>
               <div style={{ textAlign: "center", padding: "0 1.5rem" }}>
-                <p style={{ fontSize: 52, fontWeight: 900, color: ACCENT, lineHeight: 1 }}>34</p>
+                <p style={{ fontSize: 52, fontWeight: 900, color: ACCENT, lineHeight: 1 }}>44</p>
                 <p style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginTop: 4,
                   letterSpacing: "0.1em", textTransform: "uppercase" }}>Applications</p>
               </div>
