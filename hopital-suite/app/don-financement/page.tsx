@@ -77,7 +77,7 @@ export default function DonFinancement() {
             <span style={{ fontSize: "0.8em" }}>🌍</span>
           </h1>
           <p style={{ fontSize: 20, color: "#9ca3af", marginBottom: 8 }}>
-            Centre Hospitalier National Cheikh Ahmad Tidiane Sy Al Maktoum — Touba, Sénégal
+            Centre Hospitalier National Ndamatou — Touba, Sénégal
           </p>
           <p style={{ fontSize: 17, color: "#d97706", fontStyle: "italic", marginBottom: 32 }}>
             "Sëgël sa dëkk" — Construis ton pays
