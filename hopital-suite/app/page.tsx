@@ -35,7 +35,7 @@ const SECTIONS = [
       { id: "organes",       name: "DonOrganes",        href: "/organes",       icon: "❤️", desc: "Registre National Don d'Organes",         hexColor: "#e11d48" },
       { id: "epidemio-watch",name: "Épidémio-Watch",    href: "/epidemio-watch",icon: "🦠", desc: "Surveillance Épidémique Sénégal",         hexColor: "#991b1b" },
       { id: "don-financement",name: "Don & Diaspora",   href: "/don-financement",icon:"🌍", desc: "Financement & Dons Diaspora",             hexColor: "#b45309" },
-      { id: "gmao",          name: "GMAO-Track",        href: "/gmao",          icon: "🔧", desc: "Maintenance des Équipements",           hexColor: "#64748b" },
+      { id: "gmao",          name: "GMAO-Track",        href: "https://ndamatou-gmao.vercel.app/dashboard", icon: "🔧", desc: "Maintenance des Équipements — Application complète", hexColor: "#64748b" },
       { id: "supply",        name: "Supply-Chain",      href: "/supply",        icon: "📦", desc: "Logistique & Fournisseurs",             hexColor: "#eab308" },
       { id: "dmp",           name: "DMP-Gateway",       href: "/dmp",           icon: "🌍", desc: "Interopérabilité HL7/FHIR",             hexColor: "#10b981" },
     ],
@@ -298,6 +298,8 @@ export default function Home() {
             {section.apps.map((app) => (
               <Link key={app.id} href={app.href}
                 className="card-hover"
+                target={app.href.startsWith("http") ? "_blank" : undefined}
+                rel={app.href.startsWith("http") ? "noopener noreferrer" : undefined}
                 onMouseEnter={() => setHovered(app.id)}
                 onMouseLeave={() => setHovered(null)}
                 style={{
@@ -344,13 +346,13 @@ export default function Home() {
                     <div style={{ width: 5, height: 5, borderRadius: "50%",
                       background: app.hexColor, animation: "pulse-dot 2s infinite" }} />
                     <span style={{ fontSize: 11, color: "rgba(255,255,255,0.25)", fontFamily: "monospace" }}>
-                      ndamatou/{app.id}
+                      {app.href.startsWith("http") ? new URL(app.href).hostname : `ndamatou/${app.id}`}
                     </span>
                   </div>
                   <span style={{ fontSize: 13, fontWeight: 700,
                     color: hovered === app.id ? app.hexColor : "rgba(255,255,255,0.2)",
                     transition: "color 0.3s" }}>
-                    Ouvrir →
+                    {app.href.startsWith("http") ? "Ouvrir ↗" : "Ouvrir →"}
                   </span>
                 </div>
               </Link>
