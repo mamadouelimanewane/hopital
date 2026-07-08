@@ -193,7 +193,7 @@ export default function Home() {
               <span style={{ fontSize: 13 }}>🇸🇳</span>
               <span style={{ fontSize: 11, color: ACCENT, fontWeight: 700,
                 letterSpacing: "0.12em", textTransform: "uppercase" }}>
-                République du Sénégal · MSAS
+                République du Sénégal · MSHP
               </span>
             </div>
           </div>
