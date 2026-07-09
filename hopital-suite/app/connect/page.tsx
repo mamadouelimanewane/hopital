@@ -15,6 +15,9 @@ const t = {
     payTitle: "Paiement", payDesc: "Factures en ligne",
     upcoming: "Prochains Rendez-vous",
     thPatient: "Patient", thMedecin: "Médecin", thService: "Service", thDate: "Date & Heure", thStatut: "Statut",
+    resModalTitle: "Mes résultats", resDispo: "Disponible", resAttente: "En attente", resTelecharger: "📄 Télécharger",
+    teleConnexion: "Connexion à la téléconsultation…", teleConnecte: "En consultation avec",
+    teleTerminer: "Terminer l'appel", teleFerme: "Fermer",
   },
   wo: {
     desc: "Aplikasioŋ bi gën a am solo ci pasyaŋ yépp bu opitaal Ndamatu Tuubaa.",
@@ -26,12 +29,33 @@ const t = {
     payTitle: "Fey", payDesc: "Fakti ci Internet",
     upcoming: "Randevu yiy Ñëw",
     thPatient: "Pasyaŋ", thMedecin: "Doktoor", thService: "Sarwiis", thDate: "Bis ak Waxtu", thStatut: "Sax",
+    resModalTitle: "Sama rezilta yi", resDispo: "Am na", resAttente: "Ñu ngi xaar", resTelecharger: "📄 Yeksi",
+    teleConnexion: "Jokkoo ci telekonsultasioŋ bi…", teleConnecte: "Ci konsultasioŋ ak",
+    teleTerminer: "Jeexal woote bi", teleFerme: "Tëj",
   },
 }
+
+const RESULTATS = [
+  { patient: "Mamadou Diop", examen: "ECG + Bilan lipidique", date: "20/06/2026", statut: "Disponible" },
+  { patient: "Aïssatou Ndour", examen: "Radiographie thoracique", date: "22/06/2026", statut: "Disponible" },
+  { patient: "Cheikh Fall", examen: "Fond d'œil", date: "26/06/2026", statut: "En attente" },
+  { patient: "Rokhaya Sy", examen: "Bilan sanguin complet", date: "27/06/2026", statut: "Disponible" },
+]
 
 export default function NdamatouConnectPage() {
   const [lang, setLang] = useState<Lang>("fr")
   const L = t[lang]
+
+  const [resultatsOuvert, setResultatsOuvert] = useState(false)
+  const [teleOuvert, setTeleOuvert] = useState(false)
+  const [teleEtape, setTeleEtape] = useState<"connexion" | "connecte">("connexion")
+
+  function demarrerTele() {
+    setTeleOuvert(true)
+    setTeleEtape("connexion")
+    setTimeout(() => setTeleEtape("connecte"), 1400)
+  }
+
   return (
     <>
       <style>{`
@@ -120,20 +144,20 @@ export default function NdamatouConnectPage() {
               </div>
               <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>{L.rdvDesc}</p>
             </div>
-            <div className="feat-card">
+            <button onClick={() => setResultatsOuvert(true)} className="feat-card" style={{ textAlign: "left", cursor: "pointer", border: "1px solid rgba(255,255,255,0.05)", background: "rgba(255,255,255,0.02)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
                 <div style={{ width: 40, height: 40, borderRadius: 10, background: "#2563eb18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>📄</div>
                 <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>{L.resTitle}</h3>
               </div>
               <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>{L.resDesc}</p>
-            </div>
-            <div className="feat-card">
+            </button>
+            <button onClick={demarrerTele} className="feat-card" style={{ textAlign: "left", cursor: "pointer", border: "1px solid rgba(255,255,255,0.05)", background: "rgba(255,255,255,0.02)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
                 <div style={{ width: 40, height: 40, borderRadius: 10, background: "#2563eb18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>📞</div>
                 <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>{L.teleTitle}</h3>
               </div>
               <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>{L.teleDesc}</p>
-            </div>
+            </button>
             <div className="feat-card">
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
                 <div style={{ width: 40, height: 40, borderRadius: 10, background: "#2563eb18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>💳</div>
@@ -202,6 +226,68 @@ export default function NdamatouConnectPage() {
       <footer style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "1.5rem", marginTop: "3rem", textAlign: "center" }}>
         <p style={{ fontSize: 11, color: "rgba(255,255,255,0.3)" }}>Développé par <span style={{ color: "#2563eb", fontWeight: 700 }}>Processingenierie</span> · Hôpital Ndamatou Touba 🇸🇳</p>
       </footer>
+
+      {/* MODALE RÉSULTATS */}
+      {resultatsOuvert && (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)", zIndex: 300, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
+          <div style={{ background: "#0a1628", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, padding: "1.5rem", width: "100%", maxWidth: 520 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
+              <h3 style={{ fontSize: 16, fontWeight: 800, color: "#fff" }}>📄 {L.resModalTitle}</h3>
+              <button onClick={() => setResultatsOuvert(false)} style={{ background: "none", border: "none", color: "rgba(255,255,255,0.4)", fontSize: 18, cursor: "pointer" }}>✕</button>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {RESULTATS.map((r, i) => (
+                <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 10, padding: "12px 16px", flexWrap: "wrap", gap: 10 }}>
+                  <div>
+                    <div style={{ fontWeight: 600, color: "#fff", fontSize: 13 }}>{r.examen}</div>
+                    <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)" }}>{r.patient} · {r.date}</div>
+                  </div>
+                  {r.statut === "Disponible" ? (
+                    <button style={{ background: "rgba(37,99,235,0.15)", color: "#60a5fa", border: "1px solid #2563eb44", borderRadius: 8, padding: "6px 12px", fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
+                      {L.resTelecharger}
+                    </button>
+                  ) : (
+                    <span style={{ background: "rgba(245,158,11,0.12)", color: "#fcd34d", border: "1px solid rgba(245,158,11,0.3)", borderRadius: 20, padding: "3px 10px", fontSize: 11, fontWeight: 700 }}>
+                      {L.resAttente}
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODALE TÉLÉCONSULTATION */}
+      {teleOuvert && (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.75)", backdropFilter: "blur(6px)", zIndex: 300, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
+          <div style={{ background: "#0a1628", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, padding: "1.5rem", width: "100%", maxWidth: 480 }}>
+            {teleEtape === "connexion" ? (
+              <div style={{ textAlign: "center", padding: "2.5rem 0" }}>
+                <div style={{ fontSize: 36, marginBottom: 12 }}>📞</div>
+                <p style={{ color: "#e5e7eb", fontWeight: 600 }}>{L.teleConnexion}</p>
+              </div>
+            ) : (
+              <div>
+                <div style={{ textAlign: "center", padding: "1.5rem 0" }}>
+                  <div style={{ width: 64, height: 64, borderRadius: "50%", background: "#2563eb", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px", fontWeight: 800, fontSize: 22 }}>
+                    AS
+                  </div>
+                  <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 12, marginBottom: 2 }}>{L.teleConnecte}</p>
+                  <p style={{ color: "#fff", fontWeight: 700, fontSize: 16 }}>Dr. Aminata Sarr — Cardiologie</p>
+                  <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(34,197,94,0.1)", border: "1px solid rgba(34,197,94,0.3)", borderRadius: 20, padding: "4px 12px", marginTop: 12 }}>
+                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e" }} />
+                    <span style={{ fontSize: 12, color: "#86efac", fontWeight: 600 }}>🎙️ 📹 Connecté</span>
+                  </div>
+                </div>
+                <button onClick={() => setTeleOuvert(false)} style={{ width: "100%", background: "#ef4444", color: "#fff", border: "none", borderRadius: 8, padding: "12px", fontSize: 14, fontWeight: 700, cursor: "pointer" }}>
+                  {L.teleTerminer}
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </>
   )
 }
