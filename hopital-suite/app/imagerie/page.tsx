@@ -4,16 +4,18 @@ import Link from "next/link"
 const COUL = "#0891b2"
 
 const EXAMENS = [
-  { examen: "Scanner Cérébral", patient: "Abdoulaye Diop", modalite: "Scanner", statut: "Compte-rendu prêt", radiologue: "Dr. Seydou Camara" },
-  { examen: "IRM Genou Droit", patient: "Aminata Sall", modalite: "IRM", statut: "En lecture", radiologue: "Dr. Khady Fall" },
-  { examen: "Radio Thorax Face", patient: "Moussa Sène", modalite: "Radio", statut: "Compte-rendu prêt", radiologue: "Dr. Seydou Camara" },
-  { examen: "Échographie Abdominale", patient: "Fatou Kane", modalite: "Écho", statut: "En attente de lecture", radiologue: "—" },
-  { examen: "Scanner Thoraco-Abdominal", patient: "Oumar Ndiaye", modalite: "Scanner", statut: "En attente de lecture", radiologue: "—" },
+  { num: "RAD-2026-0841", patient: "Ousmane Diop",    type: "Radio Thorax",        modalite: "RX Numérique", statut: "CR Validé",         radiologue: "Dr. Amadou Ndiaye" },
+  { num: "RAD-2026-0842", patient: "Fatou Mbaye",     type: "Scanner Abdo-Pelvien", modalite: "TDM 128 cou.",  statut: "En cours de lecture", radiologue: "Dr. Sokhna Fall" },
+  { num: "RAD-2026-0843", patient: "Cheikh Tidiane",  type: "IRM Genou Gauche",    modalite: "IRM 1.5T",     statut: "Images reçues",     radiologue: "En attente d'attribution" },
+  { num: "RAD-2026-0844", patient: "Mame Diarra Fall",type: "Echographie Foetale", modalite: "Echographie",  statut: "CR Validé",         radiologue: "Dr. Aminata Sarr" },
+  { num: "RAD-2026-0845", patient: "Ibrahima Sow",    type: "Radio de Cheville",   modalite: "RX Numérique", statut: "En attente d'examen", radiologue: "—" },
 ]
 
-const statutCouleur: Record<string, string> = { "Compte-rendu prêt": "#22c55e", "En lecture": "#f59e0b", "En attente de lecture": "#ef4444" }
+const statutCoul: Record<string, string> = {
+  "CR Validé": "#22c55e", "En cours de lecture": "#f59e0b", "Images reçues": "#0ea5e9", "En attente d'examen": "#94a3b8"
+}
 
-export default function ImageriePage() {
+export default function ImagériePage() {
   return (
     <>
       <style>{`
@@ -45,20 +47,20 @@ export default function ImageriePage() {
           <div>
             <span style={{ fontSize: 11, color: COUL, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", background: `${COUL}15`, padding: "3px 10px", borderRadius: 6, border: `1px solid ${COUL}30` }}>Application Hospitalière</span>
             <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 900, lineHeight: 1.1, margin: "10px 0" }}>
-              <span style={{ background: `linear-gradient(135deg, #fff, ${COUL})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Imagerie PACS/RIS</span>
+              <span style={{ background: `linear-gradient(135deg, #fff, ${COUL})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>PACS / RIS Généraliste</span>
             </h1>
             <p style={{ fontSize: "clamp(0.95rem, 2vw, 1.15rem)", color: "rgba(255,255,255,0.55)", lineHeight: 1.7, maxWidth: 600 }}>
-              Workflow complet de radiologie : réception des demandes, visualisation DICOM, compte-rendu et archivage.
+              Système complet d'archivage et de communication des images médicales (PACS) et de gestion du workflow radiologique (RIS) pour tous les services.
             </p>
           </div>
         </div>
 
         <div className="au2" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 12, marginBottom: "3rem" }}>
           {[
-            { val: "87", label: "Examens du Jour" },
-            { val: "4h12", label: "Délai Moyen de Compte-Rendu" },
-            { val: "99.2%", label: "Disponibilité des Équipements" },
-            { val: "12", label: "En Attente de Lecture" },
+            { val: "112", label: "Examens du Jour" },
+            { val: "85", label: "CR Validés" },
+            { val: "4", label: "Modalités Connectées" },
+            { val: "14 To", label: "Archive DICOM" },
           ].map((s, i) => (
             <div key={i} className="stat-card">
               <p style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", fontWeight: 900, color: COUL, marginBottom: 4 }}>{s.val}</p>
@@ -71,10 +73,10 @@ export default function ImageriePage() {
           <h2 style={{ fontSize: "clamp(1.3rem, 2.5vw, 1.8rem)", fontWeight: 800, marginBottom: "1.5rem" }}>Fonctionnalités Clés</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: 12 }}>
             {[
-              { icon: "📥", titre: "Réception des Demandes", desc: "Prescriptions d'imagerie depuis les services" },
-              { icon: "🖥️", titre: "Visualisation DICOM", desc: "Consultation des images en ligne" },
-              { icon: "📝", titre: "Compte-Rendu Structuré", desc: "Modèles par type d'examen et pathologie" },
-              { icon: "🔗", titre: "Archivage & Interopérabilité", desc: "Connexion au Dossier Médical Partagé (DMP-Gateway)" },
+              { icon: "🖼️", titre: "Visualiseur DICOM HD", desc: "Fenêtrage, mesures, annotations et fusion multi-modalités en un clic" },
+              { icon: "🎙️", titre: "Dictée Vocale IA", desc: "Reconnaissance vocale intégrée pour la rédaction rapide des comptes rendus" },
+              { icon: "📋", titre: "Workflow de Validation", desc: "Circuit de validation électronique des CR avec signature numérique du radiologue" },
+              { icon: "🔗", titre: "Intégration DMP", desc: "Envoi automatique des images et CR vers le Dossier Médical Partagé du patient" },
             ].map((f, i) => (
               <div key={i} className="feat-card">
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
@@ -88,13 +90,13 @@ export default function ImageriePage() {
         </div>
 
         <div className="au3" style={{ marginBottom: "3rem" }}>
-          <h2 style={{ fontSize: "clamp(1.3rem, 2.5vw, 1.8rem)", fontWeight: 800, marginBottom: "1.5rem" }}>Examens Récents</h2>
+          <h2 style={{ fontSize: "clamp(1.3rem, 2.5vw, 1.8rem)", fontWeight: 800, marginBottom: "1.5rem" }}>File de Travail Radiologie — En Direct</h2>
           <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 16, overflow: "hidden" }}>
             <div style={{ overflowX: "auto" }}>
               <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
                 <thead>
                   <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                    {["Examen", "Patient", "Modalité", "Radiologue", "Statut"].map(h => (
+                    {["N° Examen", "Patient", "Type d'Examen", "Modalité", "Radiologue", "Statut"].map(h => (
                       <th key={h} style={{ padding: "10px 14px", textAlign: "left", color: "rgba(255,255,255,0.4)", fontWeight: 600, fontSize: 11, textTransform: "uppercase" }}>{h}</th>
                     ))}
                   </tr>
@@ -102,12 +104,13 @@ export default function ImageriePage() {
                 <tbody>
                   {EXAMENS.map((e, i) => (
                     <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-                      <td style={{ padding: "10px 14px", fontWeight: 600, color: "#fff" }}>{e.examen}</td>
-                      <td style={{ padding: "10px 14px", color: "rgba(255,255,255,0.6)" }}>{e.patient}</td>
-                      <td style={{ padding: "10px 14px", color: "rgba(255,255,255,0.6)" }}>{e.modalite}</td>
-                      <td style={{ padding: "10px 14px", color: "rgba(255,255,255,0.6)" }}>{e.radiologue}</td>
+                      <td style={{ padding: "10px 14px", fontWeight: 700, color: "#fff", fontFamily: "monospace", fontSize: 12 }}>{e.num}</td>
+                      <td style={{ padding: "10px 14px", color: "rgba(255,255,255,0.8)", fontWeight: 600 }}>{e.patient}</td>
+                      <td style={{ padding: "10px 14px", color: "rgba(255,255,255,0.6)" }}>{e.type}</td>
+                      <td style={{ padding: "10px 14px", color: "rgba(255,255,255,0.5)", fontSize: 12 }}>{e.modalite}</td>
+                      <td style={{ padding: "10px 14px", color: "rgba(255,255,255,0.5)", fontSize: 12 }}>{e.radiologue}</td>
                       <td style={{ padding: "10px 14px" }}>
-                        <span style={{ background: `${statutCouleur[e.statut]}22`, color: statutCouleur[e.statut], padding: "3px 10px", borderRadius: 20, fontSize: 11, fontWeight: 700 }}>{e.statut}</span>
+                        <span style={{ background: `${statutCoul[e.statut]}22`, color: statutCoul[e.statut], padding: "3px 10px", borderRadius: 20, fontSize: 11, fontWeight: 700 }}>{e.statut}</span>
                       </td>
                     </tr>
                   ))}
@@ -120,10 +123,10 @@ export default function ImageriePage() {
         <div className="au4" style={{ background: `${COUL}10`, border: `1px solid ${COUL}25`, borderRadius: 16, padding: "2rem", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "1.5rem" }}>
           <div>
             <h3 style={{ fontSize: "clamp(1.1rem, 2vw, 1.4rem)", fontWeight: 800, marginBottom: 8 }}>Prêt à intégrer ce module ?</h3>
-            <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)" }}>Contactez Processingenierie pour déployer le module Imagerie PACS/RIS dans votre infrastructure.</p>
+            <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)" }}>Contactez Processingenierie pour déployer le PACS/RIS dans votre infrastructure.</p>
           </div>
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <a href="mailto:contact@processingenierie.sn" style={{ background: COUL, color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}>✉️ Nous contacter</a>
+            <a href="mailto:contact@processingenierie.sn" style={{ background: COUL, color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none" }}>✉️ Nous contacter</a>
             <Link href="/#applications" style={{ background: "rgba(255,255,255,0.05)", color: "#fff", padding: "12px 24px", borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: "none", border: "1px solid rgba(255,255,255,0.1)" }}>← Retour Portail</Link>
           </div>
         </div>
