@@ -584,4 +584,17 @@ export const manuelApps: ManuelApp[] = [
     ],
     conseils: ["Traiter les pannes touchant le bloc opératoire ou la réanimation avec la priorité la plus élevée, quel que soit le type de panne."],
   },
+  {
+    id: "reunions", nom: "Réunions & Communication", route: "/reunions", icone: "🗓️", categorie: "evenementiel",
+    objectif: "Centraliser la planification des réunions institutionnelles, leurs comptes-rendus et la communication interne de l'hôpital.",
+    roles: ["Direction", "Chefs de service", "Secrétariat général", "Tout le personnel (communication interne)"],
+    fonctionnalites: ["Planification & invitations", "Comptes-rendus partagés", "Communication interne (annonces, notes de service)", "Visioconférence intégrée"],
+    guide: [
+      "Créer la réunion, choisir les participants et envoyer les invitations.",
+      "Rejoindre la réunion en présentiel ou à distance via la visioconférence intégrée.",
+      "Rédiger et diffuser le compte-rendu aux participants et services concernés.",
+      "Publier une annonce ou une note de service depuis le module communication.",
+    ],
+    conseils: ["Diffuser les comptes-rendus dans les 48h suivant la réunion pour garder leur pertinence."],
+  },
 ]

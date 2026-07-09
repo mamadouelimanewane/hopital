@@ -71,6 +71,7 @@ const SECTIONS = [
       { id: "sterilisation",  name: "Stérilisation",     href: "/sterilisation",  icon: "🧼", desc: "Traçabilité du Matériel Stérilisé",         hexColor: "#06b6d4" },
       { id: "cyber-soc",      name: "Cyber-SOC",         href: "/cyber-soc",      icon: "🛡️", desc: "Centre de Sécurité Opérationnelle Cyber",  hexColor: "#e11d48" },
       { id: "maintenance-batiment",name: "Maintenance Bâtiment",href: "/maintenance-batiment",icon: "🏗️", desc: "Maintenance Générale des Infrastructures", hexColor: "#78716c" },
+      { id: "reunions",       name: "Réunions & Communication",href: "/reunions",  icon: "🗓️", desc: "Planification, Comptes-Rendus & Communication", hexColor: "#a855f7" },
     ],
   },
   {
@@ -233,7 +234,7 @@ export default function Home() {
               fontSize: 16, fontWeight: 700, textDecoration: "none",
               boxShadow: "0 0 30px rgba(16,185,129,0.3)", transition: "all 0.2s",
             }}>
-              Explorer les 44 applications →
+              Explorer les 45 applications →
             </a>
           </div>
 
@@ -248,7 +249,7 @@ export default function Home() {
             </p>
             <p style={{ fontSize: "clamp(1rem, 2vw, 1.2rem)", color: "rgba(255,255,255,0.7)", lineHeight: 1.8 }}>
               Le Système d'information de l'hôpital Ndamatou de Touba est une infrastructure de référence nationale.
-              Cet écosystème digital de <strong style={{ color: "#fff" }}>44 applications d'avant-garde</strong> place
+              Cet écosystème digital de <strong style={{ color: "#fff" }}>45 applications d'avant-garde</strong> place
               l'excellence médicale au cœur de la transformation numérique sénégalaise.
             </p>
           </div>
@@ -271,7 +272,7 @@ export default function Home() {
               — Portail d'accès —
             </p>
             <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.5rem)", fontWeight: 800, color: "#fff" }}>
-              44 Applications Médicales d'État
+              45 Applications Médicales d'État
             </h2>
             <p style={{ fontSize: 16, color: "rgba(255,255,255,0.45)", marginTop: 8 }}>
               5 domaines · Du soin quotidien à la cybersécurité et l'intelligence artificielle
@@ -380,13 +381,13 @@ export default function Home() {
                 </h2>
                 <p style={{ fontSize: 15, color: "rgba(255,255,255,0.6)", lineHeight: 1.85 }}>
                   Le Ndamatou de Touba est le fleuron de la santé sénégalaise.
-                  Avec cet écosystème de <strong style={{ color: "#fff" }}>44 applications</strong>,
+                  Avec cet écosystème de <strong style={{ color: "#fff" }}>45 applications</strong>,
                   Processingenierie propulse l'hôpital au rang des établissements
                   hospitaliers les plus avancés technologiquement d'Afrique de l'Ouest.
                 </p>
               </div>
               <div style={{ textAlign: "center", padding: "0 1.5rem" }}>
-                <p style={{ fontSize: 52, fontWeight: 900, color: ACCENT, lineHeight: 1 }}>44</p>
+                <p style={{ fontSize: 52, fontWeight: 900, color: ACCENT, lineHeight: 1 }}>45</p>
                 <p style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginTop: 4,
                   letterSpacing: "0.1em", textTransform: "uppercase" }}>Applications</p>
               </div>
