@@ -147,6 +147,30 @@ facture — l'examen et son contraste, dans la même transaction.
 
 **Pharmacie.** Le plateau le plus éloigné des deux autres : une ligne
 de prescription engendre plusieurs administrations, donc plusieurs
+lignes de facture.
+
+- rien ne sort sans **analyse pharmaceutique** favorable ; un refus
+  arrête les lignes et devient infranchissable ;
+- le **stock** est une contrainte, pas un compteur indicatif : on ne
+  dispense pas ce qu'on n'a pas, et chaque mouvement est tracé ;
+- c'est l'**administration au lit** qui facture, pas la dispensation.
+  Ce qui est dispensé puis rendu n'a jamais été consommé par le
+  patient : le retour recrédite le stock et ne coûte rien.
+
+**Hébergement.** La seule facturation sans geste soignant — elle court
+pendant que le patient dort.
+
+- on compte des **nuitées**, pas des jours : entrer et sortir le même
+  jour ne produit aucune journée, cela relève de l'ambulatoire ;
+- chaque nuit est facturée au **tarif de l'unité où elle a été
+  passée** : un patient transféré de réanimation en chambre commune
+  ne paie pas la réanimation pour ses nuits en chambre commune ;
+- le calcul est **rejouable** — la clé (mouvement, nuit) interdit de
+  facturer deux fois. On peut le lancer chaque matin et à la clôture
+  sans se demander ce qui a déjà été fait.
+
+**Pharmacie.** Le plateau le plus éloigné des deux autres : une ligne
+de prescription engendre plusieurs administrations, donc plusieurs
 lignes de facture. Trois règles le structurent :
 
 - rien ne sort de la pharmacie sans **avis pharmaceutique favorable** ;

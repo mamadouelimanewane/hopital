@@ -40,7 +40,8 @@ const empreinteTest = () => (_empreinte ??= hacher(MOT_DE_PASSE_TEST))
    changer le prix vu par les suivants. Seuls les comptes du personnel
    survivent — aucun test ne les modifie. */
 const TABLES_A_VIDER = [
-  "journal", "reglement", "facture", "ligne_facture", "resultat", "acte",
+  "journal", "reglement", "facture", "ligne_facture", "journee_hebergement",
+  "resultat", "acte",
   "prescription", "mouvement", "sejour", "couverture", "patient",
   "tarif", "catalogue_acte", "compteur",
 ]

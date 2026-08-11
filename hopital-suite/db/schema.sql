@@ -282,6 +282,18 @@ CREATE TABLE IF NOT EXISTS resultat (
 );
 CREATE INDEX IF NOT EXISTS resultat_acte_idx ON resultat (acte_id);
 
+-- ── Journées d'hébergement ───────────────────────────────────────
+-- Une ligne par nuitée effectivement passée, rattachée au mouvement
+-- qui l'a produite. La clé primaire garantit qu'une même nuit ne peut
+-- être facturée deux fois, même si le calcul est relancé.
+CREATE TABLE IF NOT EXISTS journee_hebergement (
+  mouvement_id  INTEGER NOT NULL REFERENCES mouvement(id) ON DELETE CASCADE,
+  nuit_du       DATE NOT NULL,
+  acte_id       INTEGER REFERENCES acte(id) ON DELETE CASCADE,
+  categorie     TEXT NOT NULL,
+  PRIMARY KEY (mouvement_id, nuit_du)
+);
+
 -- ── Ligne de facture ─────────────────────────────────────────────
 -- Créée au moment de la validation de l'acte, jamais reconstituée à
 -- la sortie. Elle fige le tarif et le taux appliqués : c'est ce qui

@@ -259,6 +259,14 @@ export async function cloturerEtFacturer(
   options: { forcer?: boolean; acteur?: string } = {},
 ): Promise<{ facture: { id: number; numero: string; total: string; total_patient: string }; anomalies: Anomalie[] }> {
   const acteur = options.acteur || "admission"
+
+  /* Les nuitées sont facturées avant tout contrôle : elles ne
+     dépendent d'aucun geste soignant, donc rien ne les déclenche
+     autrement. Import différé — hebergement.ts dépend d'emettreLigne,
+     et le charger au sommet créerait un cycle. */
+  const { facturerJournees } = await import("./hebergement")
+  await facturerJournees(sejourId, { acteur })
+
   const anomalies = await controlerCoherence(sejourId)
 
   const bloquantes = anomalies.filter((a) => a.type === "acte_non_facture")
