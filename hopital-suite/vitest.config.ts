@@ -3,20 +3,21 @@ import path from "path"
 
 export default defineConfig({
   test: {
-    environment: "jsdom",
+    // Le socle est du code serveur : pas besoin de DOM.
+    environment: "node",
     globals: true,
-    setupFiles: ["./vitest.setup.ts"],
-    include: [
-      "mediawatch/**/*.test.ts",
-      "mediabase/**/*.test.ts",
-      "antideep/**/*.test.ts",
-      "edumedia/**/*.test.ts",
-      "citoyen/**/*.test.ts",
-    ],
+    include: ["tests/**/*.test.ts"],
+    testTimeout: 30_000,
+    // Le démarrage d'un Postgres WASM par test dépasse le défaut.
+    hookTimeout: 30_000,
+    // Chaque test instancie un Postgres compilé en WebAssembly.
+    // Les exécuter en parallèle sature la machine et rend les
+    // résultats intermittents : on sérialise.
+    fileParallelism: false,
     coverage: {
       provider: "v8",
-      reporter: ["text", "html"],
-      include: ["**/lib/utils.ts", "**/components/**/*.tsx"],
+      reporter: ["text"],
+      include: ["lib/**/*.ts"],
       exclude: ["**/node_modules/**", "**/.next/**"],
     },
   },
