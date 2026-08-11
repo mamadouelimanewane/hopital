@@ -23,6 +23,9 @@ const COMPTES: Array<[string, Role, string]> = [
   ["biologiste", "biologiste", "Dr. Fatou Mbaye"],
   ["manipulateur", "manipulateur", "Moussa Dieng"],
   ["radiologue", "radiologue", "Dr. Cheikh Sy"],
+  ["chirurgien", "chirurgien", "Dr. Papa Gueye"],
+  ["anesthesiste", "anesthesiste", "Dr. Coumba Faye"],
+  ["bloc", "bloc", "IBODE Seynabou Ba"],
   ["pharmacien", "pharmacien", "Dr. Awa Diagne"],
   ["facturation", "facturation", "Cheikh Ndoye"],
   ["admin", "admin", "Administrateur"],
@@ -42,6 +45,7 @@ const empreinteTest = () => (_empreinte ??= hacher(MOT_DE_PASSE_TEST))
 const TABLES_A_VIDER = [
   "journal", "reglement", "facture", "ligne_facture", "journee_hebergement",
   "resultat", "acte",
+  "implant", "verification_bloc", "intervention", "consentement",
   "prescription", "mouvement", "sejour", "couverture", "patient",
   "tarif", "catalogue_acte", "compteur",
 ]

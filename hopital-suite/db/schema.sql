@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS utilisateur (
   role           TEXT NOT NULL CHECK (role IN (
                    'accueil', 'infirmier', 'technicien', 'medecin',
                    'biologiste', 'manipulateur', 'radiologue',
+                   'chirurgien', 'anesthesiste', 'bloc',
                    'pharmacien', 'facturation', 'admin')),
   unite          TEXT DEFAULT '',
   actif          BOOLEAN NOT NULL DEFAULT true,
@@ -281,6 +282,75 @@ CREATE TABLE IF NOT EXISTS resultat (
   saisi_le      TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 CREATE INDEX IF NOT EXISTS resultat_acte_idx ON resultat (acte_id);
+
+-- ── Consentement éclairé ─────────────────────────────────────────
+-- Document opposable : il doit pouvoir être présenté des années plus
+-- tard, avec la date et la personne qui l'a signé.
+CREATE TABLE IF NOT EXISTS consentement (
+  id           SERIAL PRIMARY KEY,
+  sejour_id    INTEGER NOT NULL REFERENCES sejour(id) ON DELETE CASCADE,
+  objet        TEXT NOT NULL,
+  signe_par    TEXT NOT NULL,
+  qualite      TEXT NOT NULL DEFAULT 'patient'
+               CHECK (qualite IN ('patient', 'representant_legal', 'parent')),
+  recueilli_par TEXT NOT NULL,
+  signe_le     TIMESTAMPTZ NOT NULL DEFAULT now(),
+  revoque_le   TIMESTAMPTZ
+);
+CREATE INDEX IF NOT EXISTS consentement_sejour_idx ON consentement (sejour_id);
+
+-- ── Bloc opératoire ──────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS intervention (
+  id             SERIAL PRIMARY KEY,
+  sejour_id      INTEGER NOT NULL REFERENCES sejour(id) ON DELETE CASCADE,
+  code_acte      TEXT NOT NULL REFERENCES catalogue_acte(code),
+
+  chirurgien     TEXT DEFAULT '',
+  anesthesiste   TEXT DEFAULT '',
+  salle          TEXT DEFAULT '',
+
+  consentement_id INTEGER REFERENCES consentement(id),
+  consultation_anesthesie_id INTEGER REFERENCES acte(id),
+
+  programmee_le  TIMESTAMPTZ,
+  induction_le   TIMESTAMPTZ,
+  incision_le    TIMESTAMPTZ,
+  fin_le         TIMESTAMPTZ,
+
+  compte_rendu   TEXT DEFAULT '',
+  statut         TEXT NOT NULL DEFAULT 'programmee'
+                 CHECK (statut IN ('programmee', 'induite', 'en_cours',
+                                   'terminee', 'facturee', 'annulee')),
+  cree_le        TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS intervention_sejour_idx ON intervention (sejour_id);
+
+-- Liste de vérification en trois temps. Chaque temps est une barrière :
+-- on ne franchit pas l'étape suivante sans lui.
+CREATE TABLE IF NOT EXISTS verification_bloc (
+  intervention_id INTEGER NOT NULL REFERENCES intervention(id) ON DELETE CASCADE,
+  temps           TEXT NOT NULL
+                  CHECK (temps IN ('avant_induction', 'avant_incision', 'avant_sortie')),
+  points          JSONB NOT NULL DEFAULT '{}'::jsonb,
+  validee_par     TEXT NOT NULL,
+  validee_le      TIMESTAMPTZ NOT NULL DEFAULT now(),
+  PRIMARY KEY (intervention_id, temps)
+);
+
+-- Dispositifs implantables : la traçabilité lot ↔ patient est une
+-- obligation, et doit survivre au séjour.
+CREATE TABLE IF NOT EXISTS implant (
+  id              SERIAL PRIMARY KEY,
+  intervention_id INTEGER NOT NULL REFERENCES intervention(id) ON DELETE CASCADE,
+  code_acte       TEXT NOT NULL REFERENCES catalogue_acte(code),
+  numero_lot      TEXT NOT NULL,
+  peremption      DATE,
+  quantite        NUMERIC(10,2) NOT NULL DEFAULT 1 CHECK (quantite > 0),
+  acte_id         INTEGER REFERENCES acte(id),
+  pose_le         TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS implant_intervention_idx ON implant (intervention_id);
+CREATE INDEX IF NOT EXISTS implant_lot_idx ON implant (numero_lot);
 
 -- ── Journées d'hébergement ───────────────────────────────────────
 -- Une ligne par nuitée effectivement passée, rattachée au mouvement

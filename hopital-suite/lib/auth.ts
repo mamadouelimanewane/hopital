@@ -18,6 +18,7 @@ import { one, query, journaliser } from "./db"
 export type Role =
   | "accueil" | "infirmier" | "technicien" | "medecin"
   | "biologiste" | "manipulateur" | "radiologue"
+  | "chirurgien" | "anesthesiste" | "bloc"
   | "pharmacien" | "facturation" | "admin"
 
 export interface Session {
@@ -124,6 +125,7 @@ export const PERMISSIONS: Record<string, Role[]> = {
   // dispenser un médicament sans voir le dossier n'a pas de sens.
   "sejour.consulter":   ["accueil", "medecin", "infirmier", "technicien",
                          "biologiste", "manipulateur", "radiologue",
+                         "chirurgien", "anesthesiste", "bloc",
                          "pharmacien", "facturation"],
   "labo.prescrire":     ["medecin"],
   "labo.prelever":      ["infirmier", "technicien"],
@@ -146,6 +148,19 @@ export const PERMISSIONS: Record<string, Role[]> = {
   "pharma.administrer": ["infirmier"],
   "pharma.retourner":   ["pharmacien", "infirmier"],
   "pharma.arreter":     ["medecin"],
+
+  // Bloc : le consentement et la programmation reviennent au
+  // chirurgien, l'induction à l'anesthésiste. La liste de
+  // vérification est validée par qui est en salle — c'est un geste
+  // d'équipe, pas une signature hiérarchique.
+  "bloc.consentement":  ["chirurgien", "medecin"],
+  "bloc.anesthesie":    ["anesthesiste"],
+  "bloc.programmer":    ["chirurgien"],
+  "bloc.verifier":      ["chirurgien", "anesthesiste", "bloc", "infirmier"],
+  "bloc.induire":       ["anesthesiste"],
+  "bloc.inciser":       ["chirurgien"],
+  "bloc.implant":       ["chirurgien"],
+  "bloc.sortie":        ["chirurgien"],
 
   "sejour.cloturer":    ["facturation"],
 }

@@ -34,7 +34,10 @@ compte réellement connecté.
 | `technicien` | prélever, saisir un résultat |
 | `biologiste` | saisir un résultat, **valider** — donc déclencher la facturation |
 | `manipulateur` | programmer et réaliser un examen d'imagerie |
+| `chirurgien` | consentement, programmation, incision, implants, sortie de salle |
+| `anesthesiste` | consultation d'anesthésie, induction |
 | `radiologue` | interpréter et **signer** un compte rendu — donc facturer |
+| `bloc` | valider la liste de vérification — geste d'équipe, pas signature hiérarchique |
 | `pharmacien` | viser une prescription, dispenser, enregistrer un retour |
 | `facturation` | clôturer et facturer |
 | `admin` | tout, mais tracé sous son identité réelle |
@@ -88,9 +91,9 @@ pas rester dans l'historique du shell.
 
 ```
 db/
-  schema.sql          18 tables : personnel, patient, séjour, mouvement,
+  schema.sql          23 tables : personnel, patient, séjour, mouvement,
                       actes, stock, facturation, journal
-  catalogue.mjs       45 actes tarifés et le stock pharmaceutique initial
+  catalogue.mjs       50 actes tarifés et le stock pharmaceutique initial
   migrate.mjs         application du schéma
   creer-utilisateur.mjs  création d'un compte du personnel
   serveur-test.mjs    Postgres jetable pour le développement
@@ -104,10 +107,12 @@ lib/
   laboratoire.ts      prescription → prélèvement → résultat → validation
   imagerie.ts         demande → programmation → réalisation → compte rendu → signature
   pharmacie.ts        prescription → analyse → dispensation → administration
+  bloc.ts             consentement → programmation → 3 vérifications → sortie de salle
+  hebergement.ts      nuitées, tarif par catégorie, calcul rejouable
 
 app/api/socle/        routes HTTP
 app/socle/            écran de travail
-tests/                140 assertions sur un vrai Postgres
+tests/                193 assertions sur un vrai Postgres
 ```
 
 ## Ce qui est couvert
@@ -157,6 +162,24 @@ lignes de facture.
   Ce qui est dispensé puis rendu n'a jamais été consommé par le
   patient : le retour recrédite le stock et ne coûte rien.
 
+**Bloc opératoire.** Le seul plateau dont l'enjeu premier n'est pas la
+facturation mais la sécurité. Cinq barrières, qui bloquent réellement :
+
+- **consentement éclairé** signé et non révoqué,
+- **consultation d'anesthésie** réalisée,
+- puis la liste de vérification en **trois temps** — avant induction,
+  avant incision, avant sortie de salle. Une liste partiellement
+  remplie est refusée en nommant les points manquants : l'accepter
+  reviendrait à en faire une formalité.
+
+Les **implants** sont tracés au numéro de lot, et `porteursDuLot()`
+retrouve les patients concernés — c'est ce qu'exige un rappel de
+dispositif, des années après.
+
+La facturation est composite : acte chirurgical, anesthésie,
+occupation de salle à l'heure entamée, surveillance
+post-interventionnelle, et chaque implant posé.
+
 **Hébergement.** La seule facturation sans geste soignant — elle court
 pendant que le patient dort.
 
@@ -187,7 +210,7 @@ lignes de facture. Trois règles le structurent :
 npm test
 ```
 
-140 assertions, dont les trois plateaux de bout en bout et le contrôle
+193 assertions, dont les quatre plateaux de bout en bout et le contrôle
 d'accès rôle par rôle, exécutées sur un véritable Postgres compilé en
 WebAssembly — schéma, transactions et contraintes réellement éprouvés,
 aucun serveur requis. La suite tourne en une quarantaine de secondes.

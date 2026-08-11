@@ -54,6 +54,12 @@ export const ACTES = [
   ["CHIR-CES", "Césarienne",                               "chirurgie", "acte",     200000],
   ["ANEST-GEN","Anesthésie générale",                      "anesthesie", "acte",     60000],
   ["BLOC-SALLE","Occupation de salle d'opération",         "forfait", "heure",       40000],
+  ["CHIR-HERN","Cure de hernie inguinale",                 "chirurgie", "acte",     120000],
+  ["ANEST-LOC","Anesthésie locorégionale",                 "anesthesie", "acte",     35000],
+  ["ANEST-SSPI","Surveillance post-interventionnelle",     "forfait", "acte",        18000],
+  ["DMI-PLAQ", "Plaque d'ostéosynthèse",                   "produit", "unite",      180000],
+  ["DMI-PROTH","Prothèse de hanche",                       "produit", "unite",      850000],
+  ["DMI-FILET","Filet de renfort pariétal",                "produit", "unite",       65000],
 
   // ── Médicaments (prix unitaire par prise) ──
   ["MED-PARA",  "Paracétamol 1 g",                         "produit", "prise",         300],
