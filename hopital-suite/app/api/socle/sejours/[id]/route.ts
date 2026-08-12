@@ -3,6 +3,8 @@ import { one } from "@/lib/db"
 import { examensDuSejour } from "@/lib/laboratoire"
 import { examensImagerie, doseCumulee } from "@/lib/imagerie"
 import { traitementDuSejour } from "@/lib/pharmacie"
+import { interventionsDuSejour } from "@/lib/bloc"
+import { journeesDuSejour } from "@/lib/hebergement"
 import { compteurSejour, controlerCoherence } from "@/lib/facturation"
 import { exiger, ErreurAcces } from "@/lib/auth"
 
@@ -33,18 +35,24 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ id: string 
     )
     if (!sejour) return NextResponse.json({ erreur: "Séjour introuvable" }, { status: 404 })
 
-    const [examens, imagerie, traitement, compteur, anomalies] = await Promise.all([
-      examensDuSejour(sejourId),
-      examensImagerie(sejourId),
-      traitementDuSejour(sejourId),
-      compteurSejour(sejourId),
-      controlerCoherence(sejourId),
-    ])
+    const [examens, imagerie, traitement, interventions, journees, compteur, anomalies] =
+      await Promise.all([
+        examensDuSejour(sejourId),
+        examensImagerie(sejourId),
+        traitementDuSejour(sejourId),
+        interventionsDuSejour(sejourId),
+        journeesDuSejour(sejourId),
+        compteurSejour(sejourId),
+        controlerCoherence(sejourId),
+      ])
 
     // La dose cumulée se lit sur la vie du patient, pas sur le séjour.
     const dose = await doseCumulee(Number((sejour as { patient_id: number }).patient_id))
 
-    return NextResponse.json({ sejour, examens, imagerie, traitement, dose, compteur, anomalies })
+    return NextResponse.json({
+      sejour, examens, imagerie, traitement, interventions, journees,
+      dose, compteur, anomalies,
+    })
   } catch (e) {
     if (e instanceof ErreurAcces) {
       return NextResponse.json({ erreur: e.message }, { status: e.statut })

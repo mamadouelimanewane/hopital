@@ -163,6 +163,14 @@ export const PERMISSIONS: Record<string, Role[]> = {
   "bloc.sortie":        ["chirurgien"],
 
   "sejour.cloturer":    ["facturation"],
+
+  // Recouvrement : l'encaissement et le suivi des bordereaux
+  // relèvent du seul service de facturation. Le pilotage est ouvert
+  // à l'administration, qui décide sur ces chiffres.
+  "recouvrement.encaisser": ["facturation"],
+  "recouvrement.bordereau": ["facturation"],
+  "recouvrement.relancer":  ["facturation"],
+  "recouvrement.piloter":   ["facturation"],
 }
 
 export function autorise(session: Session | null, action: string): boolean {

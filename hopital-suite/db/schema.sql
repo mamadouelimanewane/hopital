@@ -407,8 +407,55 @@ CREATE TABLE IF NOT EXISTS reglement (
   montant     NUMERIC(12,2) NOT NULL CHECK (montant > 0),
   moyen       TEXT NOT NULL CHECK (moyen IN (
                 'especes', 'mobile_money', 'carte', 'virement', 'cheque', 'tiers_payant')),
+  -- Qui a payé : le patient sur son reste à charge, ou l'organisme
+  -- sur la part qu'il prend en charge. Les deux ne se confondent pas.
+  origine     TEXT NOT NULL DEFAULT 'patient'
+              CHECK (origine IN ('patient', 'organisme')),
   reference   TEXT DEFAULT '',
   regle_le    TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- ── Recouvrement ─────────────────────────────────────────────────
+-- La part organisme est réclamée par bordereau : un lot de factures
+-- envoyé à un payeur, dont on suit le retour ligne par ligne.
+CREATE TABLE IF NOT EXISTS bordereau (
+  id            SERIAL PRIMARY KEY,
+  numero        TEXT NOT NULL UNIQUE,
+  organisme     TEXT NOT NULL,
+  regime        TEXT NOT NULL,
+  montant_reclame NUMERIC(12,2) NOT NULL DEFAULT 0,
+  montant_regle   NUMERIC(12,2) NOT NULL DEFAULT 0,
+  statut        TEXT NOT NULL DEFAULT 'constitue'
+                CHECK (statut IN ('constitue', 'envoye', 'solde', 'partiel', 'annule')),
+  constitue_le  TIMESTAMPTZ NOT NULL DEFAULT now(),
+  envoye_le     TIMESTAMPTZ,
+  retour_le     TIMESTAMPTZ
+);
+CREATE INDEX IF NOT EXISTS bordereau_statut_idx ON bordereau (statut);
+
+CREATE TABLE IF NOT EXISTS bordereau_ligne (
+  id            SERIAL PRIMARY KEY,
+  bordereau_id  INTEGER NOT NULL REFERENCES bordereau(id) ON DELETE CASCADE,
+  facture_id    INTEGER NOT NULL REFERENCES facture(id),
+  montant_reclame NUMERIC(12,2) NOT NULL,
+  montant_regle   NUMERIC(12,2) NOT NULL DEFAULT 0,
+  statut        TEXT NOT NULL DEFAULT 'en_attente'
+                CHECK (statut IN ('en_attente', 'regle', 'rejete', 'partiel')),
+  motif_rejet   TEXT DEFAULT '',
+  UNIQUE (bordereau_id, facture_id)
+);
+CREATE INDEX IF NOT EXISTS bordereau_ligne_facture_idx ON bordereau_ligne (facture_id);
+
+-- Relances au patient sur son reste à charge.
+CREATE TABLE IF NOT EXISTS relance (
+  id          SERIAL PRIMARY KEY,
+  facture_id  INTEGER NOT NULL REFERENCES facture(id) ON DELETE CASCADE,
+  niveau      INTEGER NOT NULL CHECK (niveau BETWEEN 1 AND 3),
+  canal       TEXT NOT NULL DEFAULT 'courrier'
+              CHECK (canal IN ('courrier', 'sms', 'appel', 'email')),
+  montant_du  NUMERIC(12,2) NOT NULL,
+  envoyee_le  TIMESTAMPTZ NOT NULL DEFAULT now(),
+  UNIQUE (facture_id, niveau)
 );
 
 -- ── Journal ──────────────────────────────────────────────────────
